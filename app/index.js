@@ -1,10 +1,11 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
+import { ActivityIndicator } from 'react-native-paper'
 
 export default function Index() {
     return (
         <View style={styles.container}>
-            <Text>Edit app/index.js to edit this screen.</Text>
+            <ActivityIndicator animating={true} size="large" color="black" />
         </View>
     )
 }
