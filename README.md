@@ -1,50 +1,79 @@
-# Welcome to your Expo app 👋
+# Welcome to Meal Match Frontend
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This is a [JavaScript](https://en.wikipedia.org/wiki/JavaScript) application built with [React Native](https://reactnative.dev/) and [Expo](https://expo.dev) and created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
-## Get started
+## Get Started
+
+1. Clone the repository
+
+    ```
+    mkdir MealMatch
+    cd MealMatch
+    git clone https://github.com/meal-match/frontend
+    ```
 
 1. Install dependencies
 
-   ```bash
-   npm install
-   ```
+    ```bash
+    cd frontend
+    npm install
+    ```
 
-2. Start the app
+1. Install the following required extensions in Visual Studio Code
 
-   ```bash
-    npx expo start
-   ```
+    - SonarLint
+    - ESLint
+    - Prettier
+    - Prettier ESLint
+
+1. Optionally install the following additional extensions
+
+    - GitHub Copilot ([instructions for free student access](https://docs.github.com/en/copilot/managing-copilot/managing-copilot-as-an-individual-subscriber/managing-your-copilot-subscription/getting-free-access-to-copilot-as-a-student-teacher-or-maintainer)) **OR** Codeium
+    - GitLens
+
+1. Start the app
+
+    ```bash
+     npm run start
+    ```
 
 In the output, you'll find options to open the app in a
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+-   [development build](https://docs.expo.dev/develop/development-builds/introduction/)
+-   [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
+-   [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
+-   [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+You can start developing by editing the files inside the `app` directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
 
-## Get a fresh project
+## Development
 
-When you're ready, run:
+### Branching
+
+Before making changes, please create a new branch, since you will not be able to push directly to the main branch.
 
 ```bash
-npm run reset-project
+ git pull
+ git checkout -b your-new-branch
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+If you do happen to make changes on the main branch, you can easily move those changes to a new branch.
 
-## Learn more
+```bash
+ git stash
+ git checkout -b your-new-branch
+ git stash pop
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+Once you are ready to merge your changes, simply commit your changes, publish your branch, create a Pull Request, and notify the team to review your code.
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+### Pre-Commit Checks
 
-## Join the community
+When commiting your changes, please note that we use [Husky](https://github.com/typicode/husky) to perform Prettier formatting and ESLint code checks. If you have outstanding ESLint errors, this will prevent you from comitting. If you are using the VSCode Git GUI instead of the command line, you can find these errors in the "Ouput" tab at the bottom. The idea is that you resolve or (if necessary) [programmatically ignore](https://stackoverflow.com/questions/27732209/turning-off-eslint-rule-for-a-specific-line) ESLint errors before pushing to the code repo.
 
-Join our community of developers creating universal apps.
+## Learn More
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+To learn more about developing this project with Expo, look at the following resources:
+
+-   [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics [here](https://docs.expo.dev/guides).
+-   [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
