@@ -6,7 +6,7 @@ This is a [JavaScript](https://en.wikipedia.org/wiki/JavaScript) application bui
 
 1. Clone the repository
 
-    ```
+    ```bash
     mkdir MealMatch
     cd MealMatch
     git clone https://github.com/meal-match/frontend
@@ -44,7 +44,7 @@ In the output, you'll find options to open the app in a
 -   [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
 -   [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
 
-You can start developing by editing the files inside the `app` directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+You can start developing by editing the files inside the `app` directory.
 
 ## Development
 
@@ -70,6 +70,13 @@ Once you are ready to merge your changes, simply commit your changes, publish yo
 ### Pre-Commit Checks
 
 When commiting your changes, please note that we use [Husky](https://github.com/typicode/husky) to perform Prettier formatting and ESLint code checks. If you have outstanding ESLint errors, this will prevent you from comitting. If you are using the VSCode Git GUI instead of the command line, you can find these errors in the "Ouput" tab at the bottom. The idea is that you resolve or (if necessary) [programmatically ignore](https://stackoverflow.com/questions/27732209/turning-off-eslint-rule-for-a-specific-line) ESLint errors before pushing to the code repo.
+
+### Libraries
+
+Review the documentation of the following key libraries:
+
+-   [Expo Router](https://docs.expo.dev/router/introduction/) for navigation
+-   [React Native Paper](https://callstack.github.io/react-native-paper/) for components and theming
 
 ## Learn More
 
