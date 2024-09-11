@@ -3,9 +3,9 @@ import { Stack } from 'expo-router'
 import { PaperProvider } from 'react-native-paper'
 import { Provider } from 'react-redux'
 
-import { store } from '../store'
+import { store } from '@store'
 
-export default function RootLayout() {
+const RootLayout = () => {
     return (
         <Provider store={store}>
             <PaperProvider>
@@ -16,3 +16,5 @@ export default function RootLayout() {
         </Provider>
     )
 }
+
+export default RootLayout

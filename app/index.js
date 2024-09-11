@@ -1,19 +1,41 @@
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
-import { ActivityIndicator } from 'react-native-paper'
+import { Button, Text } from 'react-native-paper'
+import { StyleSheet } from 'react-native'
+import { useRouter } from 'expo-router'
 
-export default function Index() {
+import Page from '@components/Page'
+
+const Index = () => {
+    const router = useRouter()
+
+    const onBuyPress = () => {
+        router.replace('buy/')
+    }
+    const onSellPress = () => {
+        router.replace('sell/')
+    }
+
     return (
-        <View style={styles.container}>
-            <ActivityIndicator animating={true} size="large" color="black" />
-        </View>
+        <Page>
+            <div style={styles.buttonContainer}>
+                <Text>Would you like to...</Text>
+                <Button mode="contained" onPress={onBuyPress}>
+                    Buy
+                </Button>
+                <Button mode="contained" onPress={onSellPress}>
+                    Sell
+                </Button>
+            </div>
+        </Page>
     )
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center'
+    buttonContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '1rem'
     }
 })
+
+export default Index
