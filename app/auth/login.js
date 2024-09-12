@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Button } from 'react-native-paper'
+import { Button, Text } from 'react-native-paper'
 import { useRouter } from 'expo-router'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -24,7 +24,7 @@ const Login = () => {
 
     return (
         <AuthPage>
-            <span>Login Screen</span>
+            <Text>Login Screen</Text>
             <Button mode="contained" onPress={onLoginPress}>
                 Login
             </Button>
