@@ -1,11 +1,12 @@
 import React from 'react'
+import { Text } from 'react-native-paper'
 
 import Page from '@components/Page'
 
 const Buy = () => {
     return (
         <Page>
-            <p>Buy Page</p>
+            <Text>Buy Page</Text>
         </Page>
     )
 }

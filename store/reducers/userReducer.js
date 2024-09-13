@@ -1,4 +1,4 @@
-import { SET_USER_LOGIN } from '@constants'
+import { SET_USER_LOGIN, CREATE_USER } from '@constants'
 
 const initalState = {
     userName: null,
@@ -8,6 +8,11 @@ const initalState = {
 const userReducer = (state = initalState, action) => {
     switch (action.type) {
         case SET_USER_LOGIN:
+            return {
+                ...state,
+                isLoggedIn: true
+            }
+        case CREATE_USER:
             return {
                 ...state,
                 isLoggedIn: true

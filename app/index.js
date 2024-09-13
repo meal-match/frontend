@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button, Text } from 'react-native-paper'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { useRouter } from 'expo-router'
 
 import Page from '@components/Page'
@@ -17,7 +17,7 @@ const Index = () => {
 
     return (
         <Page>
-            <div style={styles.buttonContainer}>
+            <View style={styles.buttonContainer}>
                 <Text>Would you like to...</Text>
                 <Button mode="contained" onPress={onBuyPress}>
                     Buy
@@ -25,7 +25,7 @@ const Index = () => {
                 <Button mode="contained" onPress={onSellPress}>
                     Sell
                 </Button>
-            </div>
+            </View>
         </Page>
     )
 }
