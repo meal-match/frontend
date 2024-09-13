@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Button, Text, TextInput } from 'react-native-paper'
 import { useRouter } from 'expo-router'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { StyleSheet } from 'react-native'
 
 import AuthPage from '@components/AuthPage'
-import { userLogin, selectIsLoggedIn } from '@store'
+import { userLogin } from '@store'
 
 const Login = () => {
     const dispatch = useDispatch()
@@ -13,17 +14,16 @@ const Login = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-    const isLoggedIn = useSelector(selectIsLoggedIn)
-
     const onLoginPress = async () => {
         await dispatch(userLogin)
     }
 
-    useEffect(() => {
-        if (isLoggedIn) {
-            router.replace('/')
+    const styles = StyleSheet.create({
+        link: {
+            color: 'blue',
+            textDecorationLine: 'underline'
         }
-    }, [isLoggedIn])
+    })
 
     return (
         <AuthPage>
@@ -45,14 +45,14 @@ const Login = () => {
                 Login
             </Button>
             <Text
-                onPress={() => router.replace('/auth/forgot')}
-                style={{ color: 'blue', textDecorationLine: 'underline' }}
+                onPress={() => router.replace('/auth/forgotPassword')}
+                style={styles.link}
             >
                 Forgot Password?
             </Text>
             <Text
-                onPress={() => router.replace('/auth/create')}
-                style={{ color: 'blue', textDecorationLine: 'underline' }}
+                onPress={() => router.replace('/auth/createAccount')}
+                style={styles.link}
             >
                 Don&apos;t have an account?
             </Text>

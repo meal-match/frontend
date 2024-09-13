@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { Text, TextInput, HelperText, Button } from 'react-native-paper'
-import { useRouter } from 'expo-router'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 import AuthPage from '@components/AuthPage'
-import { createUser, selectIsLoggedIn } from '@store'
+import { createUser } from '@store'
 
 const CreateAccount = () => {
     const dispatch = useDispatch()
-    const router = useRouter()
 
     const [fName, setFName] = useState('')
     const [lName, setLName] = useState('')
@@ -19,8 +17,8 @@ const CreateAccount = () => {
     const [passwordsMatch, setPasswordsMatch] = useState(true)
 
     useEffect(() => {
-        const re = /^[\w-\\.]+@crimson.ua.edu$/
-        if (email.length > 0 && !re.test(email)) {
+        const emailRegex = /^[\w-\\.]+@crimson.ua.edu$/
+        if (email.length > 0 && !emailRegex.test(email)) {
             setBadEmail(true)
         } else {
             setBadEmail(false)
@@ -28,25 +26,25 @@ const CreateAccount = () => {
     }, [email])
 
     useEffect(() => {
-        if (passwordConfirm.length > 0 && passwordConfirm == password) {
+        if (passwordConfirm.length > 0 && passwordConfirm === password) {
             setPasswordsMatch(true)
         } else {
             setPasswordsMatch(false)
         }
-    }, [isLoggedIn])
+    }, [passwordConfirm])
 
     const onCreatePress = async () => {
         //TODO: form validation
         await dispatch(createUser)
     }
 
-    const isLoggedIn = useSelector(selectIsLoggedIn)
+    // const isLoggedIn = useSelector(selectIsLoggedIn)
 
-    useEffect(() => {
-        if (isLoggedIn) {
-            router.replace('/')
-        }
-    }, isLoggedIn)
+    // useEffect(() => {
+    //     if (isLoggedIn) {
+    //         router.replace('/')
+    //     }
+    // }, [isLoggedIn])
 
     return (
         <AuthPage>
@@ -71,9 +69,11 @@ const CreateAccount = () => {
                 onChangeText={setEmail}
                 style={{ width: 350 }}
             />
-            <HelperText type="error" visible={badEmail}>
-                Email must be your student crimson email address!
-            </HelperText>
+            {badEmail && (
+                <HelperText type="error" visible={badEmail}>
+                    Email must be your student crimson email address!
+                </HelperText>
+            )}
             <TextInput
                 label="Password"
                 value={password}
@@ -88,9 +88,11 @@ const CreateAccount = () => {
                 secureTextEntry={true}
                 style={{ width: 350 }}
             />
-            <HelperText type="error" visible={!passwordsMatch}>
-                Passwords must match!
-            </HelperText>
+            {!passwordsMatch && (
+                <HelperText type="error" visible={!passwordsMatch}>
+                    Passwords must match!
+                </HelperText>
+            )}
             <Button mode="contained" onPress={onCreatePress}>
                 Create
             </Button>
