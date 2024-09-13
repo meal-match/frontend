@@ -7,6 +7,13 @@ import { StyleSheet } from 'react-native'
 import AuthPage from '@components/AuthPage'
 import { userLogin } from '@store'
 
+const styles = StyleSheet.create({
+    link: {
+        color: 'blue',
+        textDecorationLine: 'underline'
+    }
+})
+
 const Login = () => {
     const dispatch = useDispatch()
     const router = useRouter()
@@ -17,13 +24,6 @@ const Login = () => {
     const onLoginPress = async () => {
         await dispatch(userLogin)
     }
-
-    const styles = StyleSheet.create({
-        link: {
-            color: 'blue',
-            textDecorationLine: 'underline'
-        }
-    })
 
     return (
         <AuthPage>

@@ -15,6 +15,7 @@
     "rules": {
         "no-console": "warn",
         "curly": "error",
-        "prefer-const": "error"
+        "prefer-const": "error",
+        "eqeqeq": "error"
     }
 }

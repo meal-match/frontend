@@ -26,12 +26,15 @@ const CreateAccount = () => {
     }, [email])
 
     useEffect(() => {
-        if (passwordConfirm.length > 0 && passwordConfirm === password) {
+        if (
+            (password.length > 0 || passwordConfirm.length > 0) &&
+            passwordConfirm === password
+        ) {
             setPasswordsMatch(true)
         } else {
             setPasswordsMatch(false)
         }
-    }, [passwordConfirm])
+    }, [passwordConfirm, password])
 
     const onCreatePress = async () => {
         //TODO: form validation
