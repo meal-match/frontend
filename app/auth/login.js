@@ -15,7 +15,7 @@ const Login = () => {
     const [password, setPassword] = useState('')
 
     const onLoginPress = async () => {
-        await dispatch(userLogin)
+        await dispatch(userLogin(email, password))
     }
 
     return (
@@ -33,7 +33,11 @@ const Login = () => {
                 secureTextEntry={true}
                 style={{ width: 350 }}
             />
-            <Button mode="contained" onPress={onLoginPress}>
+            <Button
+                mode="contained"
+                onPress={onLoginPress}
+                style={styles.loginButton}
+            >
                 Login
             </Button>
             <Text
@@ -55,7 +59,11 @@ const Login = () => {
 const styles = StyleSheet.create({
     link: {
         color: 'blue',
-        textDecorationLine: 'underline'
+        textDecorationLine: 'underline',
+        fontSize: 16
+    },
+    loginButton: {
+        width: 350
     }
 })
 

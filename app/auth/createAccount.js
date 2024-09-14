@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { TextInput, HelperText, Button } from 'react-native-paper'
+import { TextInput, HelperText, Button, Checkbox } from 'react-native-paper'
 import { useDispatch } from 'react-redux'
 
 import AuthPage from '@components/AuthPage'
@@ -12,9 +12,9 @@ const CreateAccount = () => {
     const [lName, setLName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [passwordConfirm, setPasswordConfirm] = useState('')
     const [badEmail, setBadEmail] = useState(false)
-    const [passwordsMatch, setPasswordsMatch] = useState(true)
+    const [showPassword, setShowPassword] = useState(false)
+    const [passwordRequirements, setPasswordRequirements] = useState([])
 
     useEffect(() => {
         const emailRegex = /^[\w-\\.]+@crimson.ua.edu$/
@@ -26,16 +26,12 @@ const CreateAccount = () => {
     }, [email])
 
     useEffect(() => {
-        if (
-            password.length === 0 ||
-            passwordConfirm.length === 0 ||
-            passwordConfirm === password
-        ) {
-            setPasswordsMatch(true)
-        } else {
-            setPasswordsMatch(false)
+        const requirements = []
+        if (password.length > 0 && password.length < 8) {
+            requirements.push('at least 8 characters')
         }
-    }, [passwordConfirm, password])
+        setPasswordRequirements(requirements)
+    }, [password])
 
     const onCreatePress = async () => {
         //TODO: form validation
@@ -71,21 +67,22 @@ const CreateAccount = () => {
                 label="Password"
                 value={password}
                 onChangeText={setPassword}
-                secureTextEntry={true}
+                secureTextEntry={!showPassword}
                 style={{ width: 350 }}
             />
-            <TextInput
-                label="Confirm Password"
-                value={passwordConfirm}
-                onChangeText={setPasswordConfirm}
-                secureTextEntry={true}
-                style={{ width: 350 }}
-            />
-            {!passwordsMatch && (
-                <HelperText type="error" visible={!passwordsMatch}>
-                    Passwords must match!
+            {passwordRequirements.length > 0 && (
+                <HelperText type="error">
+                    {passwordRequirements.join(', ')}
                 </HelperText>
             )}
+            <Checkbox.Item
+                status={showPassword ? 'checked' : 'unchecked'}
+                label={showPassword ? 'Hide Password' : 'Show Password'}
+                onPress={() => setShowPassword(!showPassword)}
+                position="leading"
+                style={{ width: 350 }}
+                labelStyle={{ textAlign: 'center' }}
+            />
             <Button mode="contained" onPress={onCreatePress}>
                 Create
             </Button>

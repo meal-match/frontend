@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { node, object, string } from 'prop-types'
 import { Redirect, useRootNavigationState } from 'expo-router'
 import { useSelector } from 'react-redux'
@@ -21,11 +21,15 @@ const AuthPage = ({ header, style, children }) => {
     }
 
     return (
-        <Container style={[style, styles.page]}>
-            <Text variant="displayMedium" style={{ color: 'black' }}>
-                {header}
-            </Text>
-            {children}
+        <Container>
+            <View style={styles.page}>
+                {header && (
+                    <View style={styles.header}>
+                        <Text style={styles.headerText}>{header}</Text>
+                    </View>
+                )}
+                <View style={[style, styles.content]}>{children}</View>
+            </View>
         </Container>
     )
 }
@@ -38,9 +42,28 @@ AuthPage.propTypes = {
 
 const styles = StyleSheet.create({
     page: {
+        flex: 1,
+        alignItems: 'center',
+        width: '100%'
+    },
+    content: {
         display: 'flex',
         flexDirection: 'column',
-        gap: 16
+        gap: 16,
+        alignItems: 'center'
+    },
+    header: {
+        marginTop: 8,
+        borderBottomColor: '#828A8F',
+        borderBottomWidth: 2,
+        marginBottom: 16,
+        width: '100%'
+    },
+    headerText: {
+        fontSize: 24,
+        color: '#404040',
+        textAlign: 'center',
+        marginBottom: 8
     }
 })
 
