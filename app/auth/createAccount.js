@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Text, TextInput, HelperText, Button } from 'react-native-paper'
+import { TextInput, HelperText, Button } from 'react-native-paper'
 import { useDispatch } from 'react-redux'
 
 import AuthPage from '@components/AuthPage'
@@ -27,7 +27,8 @@ const CreateAccount = () => {
 
     useEffect(() => {
         if (
-            (password.length > 0 || passwordConfirm.length > 0) &&
+            password.length === 0 ||
+            passwordConfirm.length === 0 ||
             passwordConfirm === password
         ) {
             setPasswordsMatch(true)
@@ -41,19 +42,8 @@ const CreateAccount = () => {
         await dispatch(createUser)
     }
 
-    // const isLoggedIn = useSelector(selectIsLoggedIn)
-
-    // useEffect(() => {
-    //     if (isLoggedIn) {
-    //         router.replace('/')
-    //     }
-    // }, [isLoggedIn])
-
     return (
-        <AuthPage>
-            <Text variant="displayMedium" style={{ color: 'black' }}>
-                Create Account
-            </Text>
+        <AuthPage header="Create Account">
             <TextInput
                 label="First Name"
                 value={fName}

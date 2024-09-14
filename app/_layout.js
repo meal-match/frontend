@@ -9,7 +9,9 @@ const RootLayout = () => {
     return (
         <Provider store={store}>
             <PaperProvider>
-                <Stack screenOptions={{ headerShown: false }}>
+                <Stack
+                    screenOptions={{ headerShown: false, animation: 'none' }}
+                >
                     <Stack.Screen name="index" />
                 </Stack>
             </PaperProvider>

@@ -7,13 +7,6 @@ import { StyleSheet } from 'react-native'
 import AuthPage from '@components/AuthPage'
 import { userLogin } from '@store'
 
-const styles = StyleSheet.create({
-    link: {
-        color: 'blue',
-        textDecorationLine: 'underline'
-    }
-})
-
 const Login = () => {
     const dispatch = useDispatch()
     const router = useRouter()
@@ -26,10 +19,9 @@ const Login = () => {
     }
 
     return (
-        <AuthPage>
-            <Text>Login Screen</Text>
+        <AuthPage header="Login">
             <TextInput
-                label="Username"
+                label="Email"
                 value={email}
                 onChangeText={(text) => setEmail(text)}
                 style={{ width: 350 }}
@@ -45,13 +37,13 @@ const Login = () => {
                 Login
             </Button>
             <Text
-                onPress={() => router.replace('/auth/forgotPassword')}
+                onPress={() => router.push('/auth/forgotPassword')}
                 style={styles.link}
             >
-                Forgot Password?
+                Forgot your password?
             </Text>
             <Text
-                onPress={() => router.replace('/auth/createAccount')}
+                onPress={() => router.push('/auth/createAccount')}
                 style={styles.link}
             >
                 Don&apos;t have an account?
@@ -59,5 +51,12 @@ const Login = () => {
         </AuthPage>
     )
 }
+
+const styles = StyleSheet.create({
+    link: {
+        color: 'blue',
+        textDecorationLine: 'underline'
+    }
+})
 
 export default Login
