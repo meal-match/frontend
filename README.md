@@ -50,14 +50,14 @@ You can start developing by editing the files inside the `app` directory.
 
 ### Branching
 
-Before making changes, please create a new branch, since you will not be able to push directly to the main branch.
+Before making changes, please create a new branch, since you will not be able to push directly to the `main` branch. Your new branch's name should be [kebab-case](https://www.theserverside.com/definition/Kebab-case).
 
 ```bash
  git pull
  git checkout -b your-new-branch
 ```
 
-If you do happen to make changes on the main branch, you can easily move those changes to a new branch.
+If you do happen to make changes on the `main` branch, you can easily move those changes to a new branch.
 
 ```bash
  git stash
@@ -65,7 +65,7 @@ If you do happen to make changes on the main branch, you can easily move those c
  git stash pop
 ```
 
-Once you are ready to merge your changes, simply commit your changes, publish your branch, create a Pull Request, and notify the team to review your code.
+Once you are ready to merge your changes, simply commit any remaining changes, publish your branch, create a Pull Request, and notify the team to review your code. Two people will need to approve your changes before they can be merged.
 
 ### Pre-Commit Checks
 
@@ -77,6 +77,8 @@ Review the documentation of the following key libraries:
 
 -   [Expo Router](https://docs.expo.dev/router/introduction/) for navigation
 -   [React Native Paper](https://callstack.github.io/react-native-paper/) for components and theming
+-   [React Redux](https://react-redux.js.org/) for state management
+-   [Expo Vector Icons](https://icons.expo.fyi/Index) and [Ionicons](https://ionic.io/ionicons) for icons
 
 ## Learn More
 

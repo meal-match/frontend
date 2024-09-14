@@ -9,10 +9,10 @@ const Index = () => {
     const router = useRouter()
 
     const onBuyPress = () => {
-        router.replace('buy/')
+        router.push('buy/')
     }
     const onSellPress = () => {
-        router.replace('sell/')
+        router.push('sell/')
     }
 
     return (
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     buttonContainer: {
         display: 'flex',
         flexDirection: 'column',
-        gap: '1rem'
+        gap: 16
     }
 })
 

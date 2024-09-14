@@ -1,9 +1,9 @@
 import React from 'react'
-import { node } from 'prop-types'
+import { arrayOf, node, object, oneOfType } from 'prop-types'
 import { StyleSheet, View } from 'react-native'
 
-const Container = ({ children }) => {
-    return <View style={styles.container}>{children}</View>
+const Container = ({ style, children }) => {
+    return <View style={[styles.container, style]}>{children}</View>
 }
 
 const styles = StyleSheet.create({
@@ -15,7 +15,8 @@ const styles = StyleSheet.create({
 })
 
 Container.propTypes = {
-    children: node.isRequired
+    children: node.isRequired,
+    style: oneOfType([object, arrayOf(object)])
 }
 
 export default Container

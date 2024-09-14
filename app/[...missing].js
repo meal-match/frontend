@@ -1,4 +1,5 @@
 import React from 'react'
+import { StyleSheet, Text } from 'react-native'
 import { useRouter } from 'expo-router'
 import { Button } from 'react-native-paper'
 
@@ -9,12 +10,20 @@ const NotFound = () => {
 
     return (
         <Container>
-            <h3>404 - Page Not Found</h3>
-            <Button mode="contained" onPress={() => router.push('/')}>
+            <Text style={styles.headerText}>404 - Page Not Found</Text>
+            <Button mode="contained" onPress={() => router.replace('/')}>
                 Go Home
             </Button>
         </Container>
     )
 }
+
+const styles = StyleSheet.create({
+    headerText: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 20
+    }
+})
 
 export default NotFound
