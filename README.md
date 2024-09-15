@@ -31,6 +31,8 @@ This is a [JavaScript](https://en.wikipedia.org/wiki/JavaScript) application bui
     - GitHub Copilot ([instructions for free student access](https://docs.github.com/en/copilot/managing-copilot/managing-copilot-as-an-individual-subscriber/managing-your-copilot-subscription/getting-free-access-to-copilot-as-a-student-teacher-or-maintainer)) **OR** Codeium
     - GitLens
 
+1. Create a `.env` file with a `EXPO_PUBLIC_API_URL` variable. All API requests to the backend will route through this URL.
+
 1. Start the app
 
     ```bash

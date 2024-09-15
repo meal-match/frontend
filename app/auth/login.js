@@ -1,22 +1,42 @@
-import React, { useState } from 'react'
-import { Button, Text, TextInput } from 'react-native-paper'
+import React, { useEffect, useState } from 'react'
+import { Button, HelperText, Text, TextInput } from 'react-native-paper'
 import { useRouter } from 'expo-router'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { StyleSheet } from 'react-native'
 
 import AuthPage from '@components/AuthPage'
-import { userLogin } from '@store'
+import { userLogin, selectAuthError, selectAuthLoading } from '@store'
 
 const Login = () => {
     const dispatch = useDispatch()
     const router = useRouter()
 
+    const loginError = useSelector(selectAuthError)
+    const isLoading = useSelector(selectAuthLoading)
+
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [errorText, setErrorText] = useState('')
 
     const onLoginPress = async () => {
-        await dispatch(userLogin(email, password))
+        if (!email.length || !password.length) {
+            setErrorText('Please fill out all fields')
+            return
+        }
+        await dispatch(userLogin({ email, password }))
     }
+
+    useEffect(() => {
+        if (errorText.length && email.length && password.length) {
+            setErrorText('')
+        }
+    }, [email, password])
+
+    useEffect(() => {
+        if (loginError) {
+            setErrorText(loginError)
+        }
+    }, [loginError])
 
     return (
         <AuthPage header="Login">
@@ -37,9 +57,14 @@ const Login = () => {
                 mode="contained"
                 onPress={onLoginPress}
                 style={styles.loginButton}
+                loading={isLoading}
+                disabled={isLoading}
             >
                 Login
             </Button>
+            {errorText.length > 0 && (
+                <HelperText type="error">{errorText}</HelperText>
+            )}
             <Text
                 onPress={() => router.push('/auth/forgotPassword')}
                 style={styles.link}
