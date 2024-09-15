@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 import React from 'react'
-import {StyleSheet, View, Button, Text, Dimensions, ScrollView } from 'react-native'
+import {StyleSheet, View, Text, Dimensions, ScrollView } from 'react-native'
 import { Link } from 'expo-router'
 
 import Page from '@components/Page'
@@ -85,9 +85,6 @@ const Sell = () => {
                                         {formatTimeWithIntl(option.time)}</Text>
                                     </View>
                                 </View>
-                                <View style={styles.buttonColumn}>
-                                    <Button title="Select" onPress={() => {/* Handle button press */}} />
-                                </View>
                             </Link>
                             {index < options.length - 1 && <View style={styles.divider} />}
                         </View>
@@ -108,9 +105,9 @@ const styles = StyleSheet.create({
     },
     scrollContainer: {
         flexGrow: 1,  // Allow the content to grow and be scrollable
-        // flexDirection: 'row',
-        // flexWrap: 'wrap',
-        // justifyContent: 'space-around',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-around',
         marginTop: screenWidth * 0.1 / 3,
         gap: screenWidth * 0.01,  // Optional: padding around the content
     },
@@ -126,17 +123,9 @@ const styles = StyleSheet.create({
     },
     rowContainer: {
         flexDirection: 'row',
-        
         justifyContent: 'space-between',
         alignItems: 'center',  // Ensures items in each row align properly
         width: '100%',
-    },
-    textColumn: {
-        flex: 1,  // Take up most of the width
-        justifyContent: 'center',
-    },
-
-    buttonColumn: {
     },
     divider: {
         width: '100%',  // Divider spans full width of the screen
