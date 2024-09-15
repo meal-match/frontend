@@ -42,12 +42,12 @@ const styles = StyleSheet.create({
         marginTop: 8,
         borderBottomColor: '#828A8F',
         borderBottomWidth: 2,
-        marginBottom: 16
     },
     headerText: {
         fontSize: 24,
         color: '#404040',
-        textAlign: 'center',
+        textAlign: 'left',
+        marginLeft: '4%',
         marginBottom: 8
     },
     content: {
