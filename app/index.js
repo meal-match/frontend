@@ -5,19 +5,13 @@ import { useRouter } from 'expo-router'
 import { useDispatch, useSelector } from 'react-redux'
 
 import Page from '@components/Page'
-import {
-    getProfile,
-    selectFirstName,
-    selectLastName,
-    selectIsLoggedIn
-} from '@store'
+import { getProfile, selectProfileData, selectIsLoggedIn } from '@store'
 
 const Index = () => {
     const dispatch = useDispatch()
     const router = useRouter()
 
-    const firstName = useSelector(selectFirstName)
-    const lastName = useSelector(selectLastName)
+    const profileData = useSelector(selectProfileData)
     const isLoggedIn = useSelector(selectIsLoggedIn)
 
     const onBuyPress = () => {
@@ -33,7 +27,9 @@ const Index = () => {
         }
     })
 
-    const name = firstName && lastName && `Hello ${firstName} ${lastName}. `
+    const name =
+        profileData.firstName &&
+        `Hello ${profileData.firstName} ${profileData.lastName}. `
 
     return (
         <Page>

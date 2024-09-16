@@ -7,14 +7,18 @@ import {
     PASSWORD_RESET
 } from '@constants'
 
-export const userLogin = (params) => async (dispatch) => {
+export const userLogin = (params) => async (dispatch, getState) => {
+    const { auth } = getState()
+    if (auth.authLoading || auth.isLoggedIn) {
+        return
+    }
+
     try {
         dispatch({
             type: AUTH_LOADING
         })
 
         const request = await fetch(
-            // eslint-disable-next-line no-undef
             process.env.EXPO_PUBLIC_API_URL + '/auth/login',
             {
                 method: 'POST',
@@ -45,14 +49,18 @@ export const userLogin = (params) => async (dispatch) => {
     }
 }
 
-export const createUser = (params) => async (dispatch) => {
+export const createUser = (params) => async (dispatch, getState) => {
+    const { auth } = getState()
+    if (auth.authLoading || auth.isLoggedIn) {
+        return
+    }
+
     try {
         dispatch({
             type: AUTH_LOADING
         })
 
         const request = await fetch(
-            // eslint-disable-next-line no-undef
             process.env.EXPO_PUBLIC_API_URL + '/auth/signup',
             {
                 method: 'POST',
@@ -83,14 +91,18 @@ export const createUser = (params) => async (dispatch) => {
     }
 }
 
-export const sendResetEmail = (email) => async (dispatch) => {
+export const sendResetEmail = (email) => async (dispatch, getState) => {
+    const { auth } = getState()
+    if (auth.authLoading || auth.isLoggedIn) {
+        return
+    }
+
     try {
         dispatch({
             type: AUTH_LOADING
         })
 
         const request = await fetch(
-            // eslint-disable-next-line no-undef
             process.env.EXPO_PUBLIC_API_URL + '/auth/send-reset',
             {
                 method: 'POST',
@@ -121,14 +133,18 @@ export const sendResetEmail = (email) => async (dispatch) => {
     }
 }
 
-export const resetPassword = (params) => async (dispatch) => {
+export const resetPassword = (params) => async (dispatch, getState) => {
+    const { auth } = getState()
+    if (auth.authLoading) {
+        return
+    }
+
     try {
         dispatch({
             type: AUTH_LOADING
         })
 
         const request = await fetch(
-            // eslint-disable-next-line no-undef
             process.env.EXPO_PUBLIC_API_URL + '/auth/reset-password',
             {
                 method: 'POST',

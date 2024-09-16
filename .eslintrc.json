@@ -17,5 +17,8 @@
         "curly": "error",
         "prefer-const": "error",
         "eqeqeq": "error"
+    },
+    "globals": {
+        "process": "readonly"
     }
 }

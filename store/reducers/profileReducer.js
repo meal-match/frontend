@@ -1,9 +1,7 @@
 import { PROFILE_LOADING, PROFILE_ERROR, SET_PROFILE } from '@constants'
 
 const initialState = {
-    firstName: null,
-    lastName: null,
-    email: null,
+    profileData: {},
     loading: false,
     error: null
 }
@@ -13,9 +11,7 @@ const profileReducer = (state = initialState, action) => {
         case SET_PROFILE:
             return {
                 ...state,
-                firstName: action.payload.firstName,
-                lastName: action.payload.lastName,
-                email: action.payload.email,
+                profileData: action.payload,
                 loading: false,
                 error: null
             }

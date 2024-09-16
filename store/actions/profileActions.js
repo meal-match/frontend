@@ -1,13 +1,20 @@
 import { PROFILE_LOADING, GET_PROFILE, PROFILE_ERROR } from '@constants'
 
-export const getProfile = async (dispatch) => {
+export const getProfile = async (dispatch, getState) => {
+    const { profile } = getState()
+    if (
+        profile.profileLoading ||
+        Object.keys(profile.profileData).length !== 0
+    ) {
+        return
+    }
+
     try {
         dispatch({
             type: PROFILE_LOADING
         })
 
         const request = await fetch(
-            // eslint-disable-next-line no-undef
             process.env.EXPO_PUBLIC_API_URL + '/profile',
             {
                 method: 'GET',
