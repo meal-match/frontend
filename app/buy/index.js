@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import React from 'react'
 import { Image, StyleSheet, View, Dimensions, ScrollView } from 'react-native'
 import { Link } from 'expo-router'
@@ -11,31 +10,31 @@ const Buy = () => {
     const options = [
         {
             label: 'Chick-fil-A',
-            image: require('./logos/chick.png')
+            image: require('@assets/images/logos/chick.png')
         },
         {
             label: 'Panda',
-            image: require('./logos/panda.png')
+            image: require('@assets/images/logos/panda.png')
         },
         {
             label: 'Dunkin',
-            image: require('./logos/dunkin.png')
+            image: require('@assets/images/logos/dunkin.png')
         },
         {
             label: 'Canes',
-            image: require('./logos/canes.png')
+            image: require('@assets/images/logos/canes.png')
         },
         {
             label: 'Pres-Deli',
-            image: require('./logos/pres.png')
+            image: require('@assets/images/logos/pres.png')
         },
         {
             label: 'Julias',
-            image: require('./logos/julia.png')
+            image: require('@assets/images/logos/julia.png')
         },
         {
             label: "Wendy's",
-            image: require('./logos/wendy.png')
+            image: require('@assets/images/logos/wendy.png')
         }
     ]
 
@@ -50,7 +49,6 @@ const Buy = () => {
                     >
                         <View style={styles.locationOption}>
                             <Image
-                                // eslint-disable-next-line no-undef
                                 source={option.image}
                                 style={styles.locationLogo}
                                 resizeMode="contain"
