@@ -84,7 +84,7 @@ const CreateAccount = () => {
             return
         }
         setErrorText('')
-        if (badEmail) {
+        if (badEmail || passwordRequirements.length) {
             return
         }
 
