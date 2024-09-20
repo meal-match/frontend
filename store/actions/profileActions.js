@@ -1,4 +1,4 @@
-import { PROFILE_LOADING, GET_PROFILE, PROFILE_ERROR } from '@constants'
+import { PROFILE_LOADING, SET_PROFILE, PROFILE_ERROR } from '@constants'
 
 export const getProfile = async (dispatch, getState) => {
     const { profile } = getState()
@@ -28,7 +28,7 @@ export const getProfile = async (dispatch, getState) => {
 
         if (response.status === 200) {
             dispatch({
-                type: GET_PROFILE,
+                type: SET_PROFILE,
                 payload: response
             })
         } else {
