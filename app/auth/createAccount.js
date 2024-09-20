@@ -29,7 +29,7 @@ const CreateAccount = () => {
     const [errorText, setErrorText] = useState('')
 
     useEffect(() => {
-        const emailRegex = /^[\w-\\.]+@crimson.ua.edu$/
+        const emailRegex = /^[\w-\\.]+@crimson\.ua\.edu$/
         if (email.length > 0 && !emailRegex.test(email)) {
             setBadEmail(true)
         } else {
