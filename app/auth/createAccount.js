@@ -82,6 +82,7 @@ const CreateAccount = () => {
                 position="leading"
                 style={{ width: 350 }}
                 labelStyle={{ textAlign: 'center' }}
+                mode="android"
             />
             <Button mode="contained" onPress={onCreatePress}>
                 Create
