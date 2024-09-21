@@ -66,7 +66,7 @@ const Login = () => {
                 <HelperText type="error">{errorText}</HelperText>
             )}
             <Text
-                onPress={() => router.push('/auth/forgotPassword')}
+                onPress={() => router.replace('/auth/forgotPassword')}
                 style={styles.link}
             >
                 Forgot your password?

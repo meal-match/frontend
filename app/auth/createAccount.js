@@ -69,7 +69,7 @@ const CreateAccount = () => {
 
     useEffect(() => {
         if (createAccountSuccess) {
-            router.push('/auth/login')
+            router.replace('/auth/login')
         }
     }, [createAccountSuccess])
 
@@ -148,6 +148,7 @@ const CreateAccount = () => {
                 onPress={onCreatePress}
                 loading={authLoading}
                 disabled={authLoading}
+                style={{ width: 350 }}
             >
                 Create
             </Button>
