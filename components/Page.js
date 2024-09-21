@@ -21,7 +21,7 @@ const Page = ({ style, header, children }) => {
         if (!isLoggedIn) {
             dispatch(checkAuthStatus)
         }
-    }, [isLoggedIn])
+    })
 
     useEffect(() => {
         if (checkAuthFail) {
