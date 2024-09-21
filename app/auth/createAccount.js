@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { TextInput, HelperText, Button, Checkbox } from 'react-native-paper'
 import { useDispatch, useSelector } from 'react-redux'
 import { useRouter } from 'expo-router'
@@ -10,6 +10,12 @@ import {
     selectAuthError,
     selectCreateAccount
 } from '@store'
+import {
+    ScrollView,
+    Platform,
+    StyleSheet,
+    KeyboardAvoidingView
+} from 'react-native'
 
 const CreateAccount = () => {
     const dispatch = useDispatch()
@@ -27,6 +33,8 @@ const CreateAccount = () => {
     const [showPassword, setShowPassword] = useState(false)
     const [passwordRequirements, setPasswordRequirements] = useState([])
     const [errorText, setErrorText] = useState('')
+
+    const scrollViewRef = useRef()
 
     useEffect(() => {
         const emailRegex = /^[\w-\\.]+@crimson\.ua\.edu$/
@@ -100,63 +108,90 @@ const CreateAccount = () => {
 
     return (
         <AuthPage header="Create Account">
-            <TextInput
-                label="First Name"
-                value={firstName}
-                onChangeText={setFirstName}
-                style={{ width: 350 }}
-            />
-            <TextInput
-                label="Last Name"
-                value={lastName}
-                onChangeText={setLastName}
-                style={{ width: 350 }}
-            />
-            <TextInput
-                label="Crimson Email"
-                value={email}
-                onChangeText={setEmail}
-                style={{ width: 350 }}
-            />
-            {badEmail && (
-                <HelperText type="error" visible={badEmail}>
-                    Email must be your student crimson email address!
-                </HelperText>
-            )}
-            {passwordRequirements.length > 0 && (
-                <HelperText type="error">
-                    {passwordRequirements.join('\n')}
-                </HelperText>
-            )}
-            <TextInput
-                label="Password"
-                value={password}
-                onChangeText={setPassword}
-                secureTextEntry={!showPassword}
-                style={{ width: 350 }}
-            />
-            <Checkbox.Item
-                status={showPassword ? 'checked' : 'unchecked'}
-                label={showPassword ? 'Hide Password' : 'Show Password'}
-                onPress={() => setShowPassword(!showPassword)}
-                position="leading"
-                style={{ width: 350 }}
-                labelStyle={{ textAlign: 'center' }}
-            />
-            <Button
-                mode="contained"
-                onPress={onCreatePress}
-                loading={authLoading}
-                disabled={authLoading}
-                style={{ width: 350 }}
+            <KeyboardAvoidingView
+                keyboardVerticalOffset={150}
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                style={{ flex: 1, flexDirection: 'column' }}
+                enabled
             >
-                Create
-            </Button>
-            {errorText.length > 0 && (
-                <HelperText type="error">{errorText}</HelperText>
-            )}
+                <ScrollView
+                    contentContainerStyle={styles.content}
+                    ref={scrollViewRef}
+                >
+                    <TextInput
+                        label="First Name"
+                        value={firstName}
+                        onChangeText={setFirstName}
+                        style={{ width: 350 }}
+                    />
+                    <TextInput
+                        label="Last Name"
+                        value={lastName}
+                        onChangeText={setLastName}
+                        style={{ width: 350 }}
+                    />
+                    <TextInput
+                        label="Crimson Email"
+                        value={email}
+                        onChangeText={setEmail}
+                        style={{ width: 350 }}
+                    />
+                    {badEmail && (
+                        <HelperText type="error" visible={badEmail}>
+                            Email must be your student crimson email address!
+                        </HelperText>
+                    )}
+                    <TextInput
+                        label="Password"
+                        value={password}
+                        onChangeText={setPassword}
+                        secureTextEntry={!showPassword}
+                        style={{ width: 350 }}
+                        onChange={() =>
+                            scrollViewRef.current.scrollToEnd({
+                                animated: false
+                            })
+                        }
+                    />
+                    {passwordRequirements.length > 0 && (
+                        <HelperText type="error">
+                            {passwordRequirements.join('\n')}
+                        </HelperText>
+                    )}
+                    <Checkbox.Item
+                        status={showPassword ? 'checked' : 'unchecked'}
+                        label={showPassword ? 'Hide Password' : 'Show Password'}
+                        onPress={() => setShowPassword(!showPassword)}
+                        position="leading"
+                        style={{ width: 350 }}
+                        mode="android"
+                        labelStyle={{ textAlign: 'center' }}
+                    />
+                    <Button
+                        mode="contained"
+                        onPress={onCreatePress}
+                        loading={authLoading}
+                        disabled={authLoading}
+                        style={{ width: 350 }}
+                    >
+                        Create
+                    </Button>
+                    {errorText.length > 0 && (
+                        <HelperText type="error">{errorText}</HelperText>
+                    )}
+                </ScrollView>
+            </KeyboardAvoidingView>
         </AuthPage>
     )
 }
+
+const styles = StyleSheet.create({
+    content: {
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 16,
+        alignItems: 'center'
+    }
+})
 
 export default CreateAccount
