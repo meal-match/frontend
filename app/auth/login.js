@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { Button, HelperText, Text, TextInput } from 'react-native-paper'
+import {
+    Button,
+    HelperText,
+    Text,
+    TextInput,
+    Checkbox
+} from 'react-native-paper'
 import { useRouter } from 'expo-router'
 import { useDispatch, useSelector } from 'react-redux'
 import { StyleSheet } from 'react-native'
@@ -11,12 +17,13 @@ const Login = () => {
     const dispatch = useDispatch()
     const router = useRouter()
 
-    const loginError = useSelector(selectAuthError)
+    const authError = useSelector(selectAuthError)
     const isLoading = useSelector(selectAuthLoading)
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [errorText, setErrorText] = useState('')
+    const [showPassword, setShowPassword] = useState(false)
 
     const onLoginPress = async () => {
         if (!email.length || !password.length) {
@@ -33,10 +40,10 @@ const Login = () => {
     }, [email, password])
 
     useEffect(() => {
-        if (loginError) {
-            setErrorText(loginError)
+        if (authError.type === 'userLogin') {
+            setErrorText(authError.message)
         }
-    }, [loginError])
+    }, [authError])
 
     return (
         <AuthPage header="Login">
@@ -45,13 +52,23 @@ const Login = () => {
                 value={email}
                 onChangeText={(text) => setEmail(text)}
                 style={{ width: 350 }}
+                inputMode="email"
             />
             <TextInput
                 label="Password"
                 value={password}
                 onChangeText={(text) => setPassword(text)}
-                secureTextEntry={true}
+                secureTextEntry={!showPassword}
                 style={{ width: 350 }}
+            />
+            <Checkbox.Item
+                status={showPassword ? 'checked' : 'unchecked'}
+                label={showPassword ? 'Hide Password' : 'Show Password'}
+                onPress={() => setShowPassword(!showPassword)}
+                position="leading"
+                style={{ width: 350 }}
+                labelStyle={{ textAlign: 'center' }}
+                mode="android"
             />
             <Button
                 mode="contained"

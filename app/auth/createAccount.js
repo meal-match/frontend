@@ -2,6 +2,12 @@ import React, { useState, useEffect, useRef } from 'react'
 import { TextInput, HelperText, Button, Checkbox } from 'react-native-paper'
 import { useDispatch, useSelector } from 'react-redux'
 import { useRouter } from 'expo-router'
+import {
+    ScrollView,
+    Platform,
+    StyleSheet,
+    KeyboardAvoidingView
+} from 'react-native'
 
 import AuthPage from '@components/AuthPage'
 import {
@@ -10,12 +16,7 @@ import {
     selectAuthError,
     selectCreateAccount
 } from '@store'
-import {
-    ScrollView,
-    Platform,
-    StyleSheet,
-    KeyboardAvoidingView
-} from 'react-native'
+import { checkPasswordRequirements } from '@utils'
 
 const CreateAccount = () => {
     const dispatch = useDispatch()
@@ -47,22 +48,7 @@ const CreateAccount = () => {
 
     useEffect(() => {
         if (password.length) {
-            const requirements = []
-            if (password.length > 0 && password.length < 8) {
-                requirements.push('At least 8 characters')
-            }
-            if (!password.match(/[0-9]/)) {
-                requirements.push('One number')
-            }
-            if (!password.match(/[A-Z]/)) {
-                requirements.push('One uppercase letter')
-            }
-            if (!password.match(/[a-z]/)) {
-                requirements.push('One lowercase letter')
-            }
-            if (!password.match(/[!@#$%^&*]/)) {
-                requirements.push('One special character - !@#$%^&*')
-            }
+            const requirements = checkPasswordRequirements(password)
             setPasswordRequirements(requirements)
         } else {
             setPasswordRequirements([])
@@ -70,8 +56,8 @@ const CreateAccount = () => {
     }, [password])
 
     useEffect(() => {
-        if (authError) {
-            setErrorText(authError)
+        if (authError.type === 'createUser') {
+            setErrorText(authError.message)
         }
     }, [authError])
 
@@ -135,6 +121,7 @@ const CreateAccount = () => {
                         value={email}
                         onChangeText={setEmail}
                         style={{ width: 350 }}
+                        inputMode="email"
                     />
                     {badEmail && (
                         <HelperText type="error" visible={badEmail}>

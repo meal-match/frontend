@@ -5,16 +5,23 @@ import {
     AUTH_LOADING,
     USER_LOGOUT,
     RESET_EMAIL_SENT,
-    PASSWORD_RESET
+    PASSWORD_RESET,
+    CHECK_AUTH_FAIL
 } from '@constants'
+
+const defaultAuthError = {
+    type: null,
+    message: null
+}
 
 const initialState = {
     isLoggedIn: false,
-    authError: null,
+    authError: defaultAuthError,
     authLoading: false,
     resetEmailSent: false,
     passwordReset: false,
-    createAccount: false
+    createAccount: false,
+    checkAuthFail: false
 }
 
 const authReducer = (state = initialState, action) => {
@@ -24,13 +31,14 @@ const authReducer = (state = initialState, action) => {
                 ...state,
                 isLoggedIn: true,
                 authLoading: false,
-                authError: null
+                authError: defaultAuthError,
+                checkAuthFail: false
             }
         case CREATE_USER:
             return {
                 ...state,
                 authLoading: false,
-                authError: null,
+                authError: defaultAuthError,
                 createAccount: true
             }
         case AUTH_ERROR:
@@ -44,7 +52,7 @@ const authReducer = (state = initialState, action) => {
             return {
                 ...state,
                 authLoading: true,
-                authError: null,
+                authError: defaultAuthError,
                 createAccount: false
             }
         case USER_LOGOUT:
@@ -54,7 +62,7 @@ const authReducer = (state = initialState, action) => {
                 ...state,
                 authLoading: false,
                 resetEmailSent: true,
-                authError: null
+                authError: defaultAuthError
             }
         case PASSWORD_RESET:
             return {
@@ -62,7 +70,12 @@ const authReducer = (state = initialState, action) => {
                 authLoading: false,
                 passwordReset: true,
                 isLoggedIn: false,
-                authError: null
+                authError: defaultAuthError
+            }
+        case CHECK_AUTH_FAIL:
+            return {
+                ...initialState,
+                checkAuthFail: true
             }
         default:
             return state
