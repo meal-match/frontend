@@ -42,6 +42,7 @@ const Buy = () => {
         <Page header="Select Location" style={styles.page}>
             <ScrollView contentContainerStyle={styles.scrollContainer}>
                 {options.map((option) => (
+                    // <View style={styles.location} key={option.label}>
                     <Link
                         key={option.label}
                         style={styles.locationLink}
@@ -55,6 +56,7 @@ const Buy = () => {
                             />
                         </View>
                     </Link>
+                    // </View>
                 ))}
             </ScrollView>
         </Page>
@@ -79,15 +81,21 @@ const styles = StyleSheet.create({
         width: screenWidth * 0.45,
         height: screenWidth * 0.45,
         borderWidth: 1,
-        borderRadius: 8,
-        padding: 4
+        borderRadius: 20,
+        overflow: 'hidden',
+        padding: 4,
+        backgroundColor: '#FFFFFF'
     },
     locationOption: {
-        // Adjust this to your preferred square size
         width: '100%',
         height: '100%',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        shadowColor: '#000000',
+        shadowOffset: { width: 2, height: 2 },
+        shadowOpacity: 0.3,
+        shadowRadius: 4,
+        elevation: 5
     },
     locationLogo: {
         flex: 0.8,
