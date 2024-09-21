@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { node, object, string } from 'prop-types'
-import { Redirect, useRootNavigationState } from 'expo-router'
+import { useRouter, useFocusEffect } from 'expo-router'
 import { useSelector } from 'react-redux'
 import { Text } from 'react-native-paper'
 
@@ -11,16 +11,14 @@ import BottomNavBar from '@components/BottomNavBar'
 import Container from '@components/Container'
 
 const Page = ({ style, header, children }) => {
-    const rootNavigationState = useRootNavigationState()
+    const router = useRouter()
     const isLoggedIn = useSelector(selectIsLoggedIn)
 
-    if (!rootNavigationState?.key) {
-        return null
-    }
-
-    if (!isLoggedIn) {
-        return <Redirect href="auth/login" />
-    }
+    useFocusEffect(() => {
+        if (!isLoggedIn) {
+            router.replace('/auth/login')
+        }
+    })
 
     return (
         <Container>

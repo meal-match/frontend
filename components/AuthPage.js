@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { node, object, string } from 'prop-types'
-import { Redirect, useRootNavigationState } from 'expo-router'
+import { useRouter, useFocusEffect } from 'expo-router'
 import { useSelector } from 'react-redux'
 import { Text } from 'react-native-paper'
 
@@ -9,16 +9,14 @@ import { selectIsLoggedIn } from '@store'
 import Container from '@components/Container'
 
 const AuthPage = ({ header, style, children }) => {
-    const rootNavigationState = useRootNavigationState()
+    const router = useRouter()
     const isLoggedIn = useSelector(selectIsLoggedIn)
 
-    if (!rootNavigationState?.key) {
-        return null
-    }
-
-    if (isLoggedIn) {
-        return <Redirect href="/" />
-    }
+    useFocusEffect(() => {
+        if (isLoggedIn) {
+            router.replace('/')
+        }
+    })
 
     return (
         <Container>
