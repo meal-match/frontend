@@ -50,7 +50,9 @@ const VerifyEmail = () => {
     return (
         <AuthPage header="Verify Email">
             {emailVerified && (
-                <Text style={{ color: 'green', width: 350 }}>
+                <Text
+                    style={{ color: 'green', width: 350, textAlign: 'center' }}
+                >
                     Email verified successfully!
                 </Text>
             )}
