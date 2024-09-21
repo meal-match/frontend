@@ -1,9 +1,16 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { TextInput, HelperText, Button, Checkbox } from 'react-native-paper'
 import { useDispatch } from 'react-redux'
+import {
+    KeyboardAvoidingView,
+    Platform,
+    StyleSheet,
+    ScrollView
+} from 'react-native'
 
 import AuthPage from '@components/AuthPage'
 import { createUser } from '@store'
+import {} from 'react-native-web'
 
 const CreateAccount = () => {
     const dispatch = useDispatch()
@@ -38,57 +45,86 @@ const CreateAccount = () => {
         await dispatch(createUser)
     }
 
+    const scrollViewRef = useRef()
+
     return (
         <AuthPage header="Create Account">
-            <TextInput
-                label="First Name"
-                value={fName}
-                onChangeText={setFName}
-                style={{ width: 350 }}
-            />
-            <TextInput
-                label="Last Name"
-                value={lName}
-                onChangeText={setLName}
-                style={{ width: 350 }}
-            />
-            <TextInput
-                label="Crimson Email"
-                value={email}
-                onChangeText={setEmail}
-                style={{ width: 350 }}
-            />
-            {badEmail && (
-                <HelperText type="error" visible={badEmail}>
-                    Email must be your student crimson email address!
-                </HelperText>
-            )}
-            <TextInput
-                label="Password"
-                value={password}
-                onChangeText={setPassword}
-                secureTextEntry={!showPassword}
-                style={{ width: 350 }}
-            />
-            {passwordRequirements.length > 0 && (
-                <HelperText type="error">
-                    {passwordRequirements.join(', ')}
-                </HelperText>
-            )}
-            <Checkbox.Item
-                status={showPassword ? 'checked' : 'unchecked'}
-                label={showPassword ? 'Hide Password' : 'Show Password'}
-                onPress={() => setShowPassword(!showPassword)}
-                position="leading"
-                style={{ width: 350 }}
-                labelStyle={{ textAlign: 'center' }}
-                mode="android"
-            />
-            <Button mode="contained" onPress={onCreatePress}>
-                Create
-            </Button>
+            <KeyboardAvoidingView
+                keyboardVerticalOffset={150}
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                style={{ flex: 1, flexDirection: 'column' }}
+                enabled
+            >
+                <ScrollView
+                    contentContainerStyle={styles.content}
+                    ref={scrollViewRef}
+                >
+                    <TextInput
+                        label="First Name"
+                        value={fName}
+                        onChangeText={setFName}
+                        style={{ width: 350 }}
+                    />
+                    <TextInput
+                        label="Last Name"
+                        value={lName}
+                        onChangeText={setLName}
+                        style={{ width: 350 }}
+                    />
+                    <TextInput
+                        label="Crimson Email"
+                        value={email}
+                        onChangeText={setEmail}
+                        style={{ width: 350 }}
+                    />
+                    {badEmail && (
+                        <HelperText type="error" visible={badEmail}>
+                            Email must be your student crimson email address!
+                        </HelperText>
+                    )}
+                    <TextInput
+                        label="Password"
+                        value={password}
+                        onChangeText={setPassword}
+                        secureTextEntry={!showPassword}
+                        style={{ width: 350 }}
+                        onChange={() =>
+                            scrollViewRef.current.scrollToEnd({
+                                animated: false
+                            })
+                        }
+                    />
+                    {passwordRequirements.length > 0 && (
+                        <HelperText type="error">
+                            {passwordRequirements.join(', ')}
+                        </HelperText>
+                    )}
+
+                    <Checkbox.Item
+                        status={showPassword ? 'checked' : 'unchecked'}
+                        label={showPassword ? 'Hide Password' : 'Show Password'}
+                        onPress={() => setShowPassword(!showPassword)}
+                        position="leading"
+                        style={{ width: 350 }}
+                        labelStyle={{ textAlign: 'center' }}
+                        mode="android"
+                    />
+                    <Button mode="contained" onPress={onCreatePress}>
+                        Create
+                    </Button>
+                </ScrollView>
+            </KeyboardAvoidingView>
         </AuthPage>
     )
 }
+
+const styles = StyleSheet.create({
+    content: {
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 16,
+        alignItems: 'center'
+    }
+})
 
 export default CreateAccount
