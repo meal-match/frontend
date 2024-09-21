@@ -1,25 +1,17 @@
 import React, { useEffect } from 'react'
-import { Button, Text } from 'react-native-paper'
+import { Text } from 'react-native-paper'
 import { StyleSheet, View } from 'react-native'
-import { useRouter } from 'expo-router'
 import { useDispatch, useSelector } from 'react-redux'
 
 import Page from '@components/Page'
+import Button from '@components/Button'
 import { getProfile, selectProfileData, selectIsLoggedIn } from '@store'
 
 const Index = () => {
     const dispatch = useDispatch()
-    const router = useRouter()
 
     const profileData = useSelector(selectProfileData)
     const isLoggedIn = useSelector(selectIsLoggedIn)
-
-    const onBuyPress = () => {
-        router.push('buy/')
-    }
-    const onSellPress = () => {
-        router.push('sell/')
-    }
 
     useEffect(() => {
         if (isLoggedIn) {
@@ -27,20 +19,24 @@ const Index = () => {
         }
     })
 
-    const name =
-        profileData.firstName &&
-        `Hello ${profileData.firstName} ${profileData.lastName}. `
+    const name = profileData.firstName
 
     return (
-        <Page>
+        <Page header={`Hello ${name}`} style={styles.page}>
             <View style={styles.buttonContainer}>
-                <Text>{name}Would you like to...</Text>
-                <Button mode="contained" onPress={onBuyPress}>
-                    Buy
-                </Button>
-                <Button mode="contained" onPress={onSellPress}>
-                    Sell
-                </Button>
+                <Text style={styles.question}>{name}Would you like to...</Text>
+                <Button url="buy/" text="Buy"></Button>
+                <View style={[styles.divider]} />
+                <Button url="sell/" text="Sell"></Button>
+                <View style={[styles.divider, { width: '100%' }]}></View>
+
+                {/* if is ordered */}
+
+                <Button
+                    url="updateOrder/"
+                    text="Order Ready"
+                    height="15%"
+                ></Button>
             </View>
         </Page>
     )
@@ -48,9 +44,26 @@ const Index = () => {
 
 const styles = StyleSheet.create({
     buttonContainer: {
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 16
+        alignItems: 'center',
+        gap: 16,
+        marginTop: '8%'
+    },
+    page: {
+        headerTitleAlign: 'left',
+        flex: 1
+    },
+    divider: {
+        width: '40%', // Divider spans full width of the screen
+        height: 1, // Thin divider
+        backgroundColor: '#B3B3B3', // Light gray color for the divider
+        marginVertical: 15 // Spacing between links and dividers
+    },
+    question: {
+        fontSize: 24,
+        marginBottom: '3%',
+        color: '9E1B32',
+        fontStyle: 'italic',
+        fontWeight: '700'
     }
 })
 
