@@ -45,7 +45,7 @@ const Buy = () => {
                     <Link
                         key={option.label}
                         style={styles.locationLink}
-                        href="/buy/test"
+                        href="/buy/EntreeChoice"
                     >
                         <View style={styles.locationOption}>
                             <Image

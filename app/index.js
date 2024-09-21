@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import Page from '@components/Page'
 import { getProfile, selectProfileData, selectIsLoggedIn } from '@store'
+import { enGB, registerTranslation } from 'react-native-paper-dates'
+registerTranslation('en-GB', enGB)
 
 const Index = () => {
     const dispatch = useDispatch()
@@ -50,7 +52,8 @@ const styles = StyleSheet.create({
     buttonContainer: {
         display: 'flex',
         flexDirection: 'column',
-        gap: 16
+        gap: 16,
+        width: '100%'
     }
 })
 

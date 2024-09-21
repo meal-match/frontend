@@ -11,3 +11,11 @@ export const PASSWORD_RESET = 'PASSWORD_RESET'
 export const PROFILE_LOADING = 'PROFILE_LOADING'
 export const PROFILE_ERROR = 'PROFILE_ERROR'
 export const SET_PROFILE = 'SET_PROFILE'
+
+// meal
+export const SET_ENTREE = 'SET_ENTREE'
+export const SET_SIDE = 'SET_SIDE'
+export const SET_DRINK = 'SET_DRINK'
+export const SET_SAUCE = 'SET_SAUCE'
+export const ORDER_MEAL = 'ORDER_MEAL'
+export const MEAL_ERROR = 'MEAL_ERROR'

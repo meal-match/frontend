@@ -35,6 +35,26 @@ const RootLayout = () => {
                     }}
                 >
                     <Stack.Screen name="index" />
+                    <Stack.Screen
+                        name="buy/EntreeChoice"
+                        options={{ animation: 'slide_from_right' }}
+                    />
+                    <Stack.Screen
+                        name="buy/SideChoice"
+                        options={{ animation: 'slide_from_right' }}
+                    />
+                    <Stack.Screen
+                        name="buy/DrinkChoice"
+                        options={{ animation: 'slide_from_right' }}
+                    />
+                    <Stack.Screen
+                        name="buy/SauceChoice"
+                        options={{ animation: 'slide_from_right' }}
+                    />
+                    <Stack.Screen
+                        name="buy/PickTime"
+                        options={{ animation: 'slide_from_right' }}
+                    />
                 </Stack>
             </PaperProvider>
         </Provider>

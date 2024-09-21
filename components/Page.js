@@ -44,12 +44,13 @@ const styles = StyleSheet.create({
     headerText: {
         fontSize: 24,
         color: '#404040',
-        textAlign: 'left',
+        textAlign: 'center',
         marginLeft: '4%',
         marginBottom: 8
     },
     content: {
-        flex: 1
+        flex: 1,
+        width: '100%'
     }
 })
 
