@@ -64,7 +64,7 @@ const ForgotPassword = () => {
                 onChangeText={(text) => setEmail(text)}
                 style={{ width: 350 }}
                 inputMode="email"
-                disabled={resetEmailSent}
+                disabled={authLoading || resetEmailSent}
             />
             {badEmail && (
                 <HelperText type="error" visible={badEmail}>

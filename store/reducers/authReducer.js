@@ -6,7 +6,8 @@ import {
     USER_LOGOUT,
     RESET_EMAIL_SENT,
     PASSWORD_RESET,
-    CHECK_AUTH_FAIL
+    CHECK_AUTH_FAIL,
+    VERIFY_EMAIL
 } from '@constants'
 
 const defaultAuthError = {
@@ -21,7 +22,8 @@ const initialState = {
     resetEmailSent: false,
     passwordReset: false,
     createAccount: false,
-    checkAuthFail: false
+    checkAuthFail: false,
+    verifyEmail: false
 }
 
 const authReducer = (state = initialState, action) => {
@@ -76,6 +78,13 @@ const authReducer = (state = initialState, action) => {
             return {
                 ...initialState,
                 checkAuthFail: true
+            }
+        case VERIFY_EMAIL:
+            return {
+                ...state,
+                authLoading: false,
+                authError: defaultAuthError,
+                verifyEmail: true
             }
         default:
             return state

@@ -5,3 +5,4 @@ export const selectResetEmailSent = ({ auth }) => auth.resetEmailSent
 export const selectPasswordReset = ({ auth }) => auth.passwordReset
 export const selectCreateAccount = ({ auth }) => auth.createAccount
 export const selectCheckAuthFail = ({ auth }) => auth.checkAuthFail
+export const selectVerifyEmail = ({ auth }) => auth.verifyEmail

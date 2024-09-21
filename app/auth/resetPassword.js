@@ -64,7 +64,7 @@ const ResetPassword = () => {
     return (
         <AuthPage header="Reset Password">
             <Text style={{ color: 'black', width: 350 }}>
-                Enter your new password
+                Enter your new password.
             </Text>
             <TextInput
                 label="Password"
@@ -72,6 +72,7 @@ const ResetPassword = () => {
                 onChangeText={setPassword}
                 secureTextEntry={!showPassword}
                 style={{ width: 350 }}
+                disabled={authLoading || passwordReset}
             />
             {passwordRequirements.length > 0 && (
                 <HelperText type="error">
@@ -91,7 +92,7 @@ const ResetPassword = () => {
                 mode="contained"
                 onPress={onSubmitPress}
                 loading={authLoading}
-                disabled={authLoading}
+                disabled={authLoading || passwordReset}
                 style={{ width: 350 }}
             >
                 Submit

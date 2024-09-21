@@ -53,6 +53,7 @@ const Login = () => {
                 onChangeText={(text) => setEmail(text)}
                 style={{ width: 350 }}
                 inputMode="email"
+                disabled={isLoading}
             />
             <TextInput
                 label="Password"
@@ -60,6 +61,7 @@ const Login = () => {
                 onChangeText={(text) => setPassword(text)}
                 secureTextEntry={!showPassword}
                 style={{ width: 350 }}
+                disabled={isLoading}
             />
             <Checkbox.Item
                 status={showPassword ? 'checked' : 'unchecked'}
@@ -89,7 +91,7 @@ const Login = () => {
                 Forgot your password?
             </Text>
             <Text
-                onPress={() => router.push('/auth/createAccount')}
+                onPress={() => router.replace('/auth/createAccount')}
                 style={styles.link}
             >
                 Don&apos;t have an account?

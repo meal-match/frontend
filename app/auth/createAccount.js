@@ -1,5 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { TextInput, HelperText, Button, Checkbox } from 'react-native-paper'
+import {
+    TextInput,
+    HelperText,
+    Button,
+    Checkbox,
+    Text
+} from 'react-native-paper'
 import { useDispatch, useSelector } from 'react-redux'
 import { useRouter } from 'expo-router'
 import {
@@ -61,12 +67,6 @@ const CreateAccount = () => {
         }
     }, [authError])
 
-    useEffect(() => {
-        if (createAccountSuccess) {
-            router.replace('/auth/login')
-        }
-    }, [createAccountSuccess])
-
     const onCreatePress = async () => {
         if (
             !firstName.length ||
@@ -109,12 +109,14 @@ const CreateAccount = () => {
                         value={firstName}
                         onChangeText={setFirstName}
                         style={{ width: 350 }}
+                        disabled={authLoading || createAccountSuccess}
                     />
                     <TextInput
                         label="Last Name"
                         value={lastName}
                         onChangeText={setLastName}
                         style={{ width: 350 }}
+                        disabled={authLoading || createAccountSuccess}
                     />
                     <TextInput
                         label="Crimson Email"
@@ -122,6 +124,7 @@ const CreateAccount = () => {
                         onChangeText={setEmail}
                         style={{ width: 350 }}
                         inputMode="email"
+                        disabled={authLoading || createAccountSuccess}
                     />
                     {badEmail && (
                         <HelperText type="error" visible={badEmail}>
@@ -139,6 +142,7 @@ const CreateAccount = () => {
                                 animated: false
                             })
                         }
+                        disabled={authLoading || createAccountSuccess}
                     />
                     {passwordRequirements.length > 0 && (
                         <HelperText type="error">
@@ -158,7 +162,7 @@ const CreateAccount = () => {
                         mode="contained"
                         onPress={onCreatePress}
                         loading={authLoading}
-                        disabled={authLoading}
+                        disabled={authLoading || createAccountSuccess}
                         style={{ width: 350 }}
                     >
                         Create
@@ -166,6 +170,22 @@ const CreateAccount = () => {
                     {errorText.length > 0 && (
                         <HelperText type="error">{errorText}</HelperText>
                     )}
+                    {createAccountSuccess && (
+                        <Text style={{ color: 'green', width: 350 }}>
+                            Account created successfully! We have emailed you a
+                            link to verify your email. Once you have verified
+                            your email, you can login.
+                        </Text>
+                    )}
+                    <Text
+                        style={{
+                            color: 'blue',
+                            textDecorationLine: 'underline'
+                        }}
+                        onPress={() => router.replace('/auth/login')}
+                    >
+                        Back to Login
+                    </Text>
                 </ScrollView>
             </KeyboardAvoidingView>
         </AuthPage>

@@ -6,7 +6,8 @@ import {
     RESET_EMAIL_SENT,
     PASSWORD_RESET,
     CHECK_AUTH_FAIL,
-    USER_LOGOUT
+    USER_LOGOUT,
+    VERIFY_EMAIL
 } from '@constants'
 
 export const userLogin = (params) => async (dispatch, getState) => {
@@ -281,6 +282,54 @@ export const userLogout = async (dispatch, getState) => {
             type: AUTH_ERROR,
             payload: {
                 type: 'userLogout',
+                message: 'An unknown error occured'
+            }
+        })
+    }
+}
+
+export const verifyEmail = (token) => async (dispatch, getState) => {
+    const { auth } = getState()
+    if (auth.authLoading) {
+        return
+    }
+
+    try {
+        dispatch({
+            type: AUTH_LOADING
+        })
+
+        const request = await fetch(
+            process.env.EXPO_PUBLIC_API_URL + '/auth/verify',
+            {
+                method: 'POST',
+                body: JSON.stringify({ token }),
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include'
+            }
+        )
+        const response = await request.json()
+
+        if (response.status === 200) {
+            dispatch({
+                type: VERIFY_EMAIL
+            })
+        } else {
+            dispatch({
+                type: AUTH_ERROR,
+                payload: {
+                    type: 'verifyEmail',
+                    message: response.message
+                }
+            })
+        }
+    } catch (e) {
+        dispatch({
+            type: AUTH_ERROR,
+            payload: {
+                type: 'verifyEmail',
                 message: 'An unknown error occured'
             }
         })
