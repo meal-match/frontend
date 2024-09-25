@@ -32,13 +32,13 @@ export const userLogin = (params) => async (dispatch, getState) => {
                 credentials: 'include'
             }
         )
-        const response = await request.json()
 
-        if (response.status === 200) {
+        if (request.status === 200) {
             dispatch({
                 type: USER_LOGIN
             })
         } else {
+            const response = await request.json()
             dispatch({
                 type: AUTH_ERROR,
                 payload: {
@@ -80,13 +80,13 @@ export const createUser = (params) => async (dispatch, getState) => {
                 credentials: 'include'
             }
         )
-        const response = await request.json()
 
-        if (response.status === 201) {
+        if (request.status === 201) {
             dispatch({
                 type: CREATE_USER
             })
         } else {
+            const response = await request.json()
             dispatch({
                 type: AUTH_ERROR,
                 payload: {
@@ -128,13 +128,13 @@ export const sendResetEmail = (email) => async (dispatch, getState) => {
                 credentials: 'include'
             }
         )
-        const response = await request.json()
 
-        if (response.status === 200) {
+        if (request.status === 200) {
             dispatch({
                 type: RESET_EMAIL_SENT
             })
         } else {
+            const response = await request.json()
             dispatch({
                 type: AUTH_ERROR,
                 payload: {
@@ -176,13 +176,13 @@ export const resetPassword = (params) => async (dispatch, getState) => {
                 credentials: 'include'
             }
         )
-        const response = await request.json()
 
-        if (response.status === 200) {
+        if (request.status === 200) {
             dispatch({
                 type: PASSWORD_RESET
             })
         } else {
+            const response = await request.json()
             dispatch({
                 type: AUTH_ERROR,
                 payload: {
@@ -223,9 +223,8 @@ export const checkAuthStatus = async (dispatch, getState) => {
                 credentials: 'include'
             }
         )
-        const response = await request.json()
 
-        if (response.status === 200) {
+        if (request.status === 200) {
             dispatch({
                 type: USER_LOGIN
             })
@@ -262,13 +261,13 @@ export const userLogout = async (dispatch, getState) => {
                 credentials: 'include'
             }
         )
-        const response = await request.json()
 
-        if (response.status === 200) {
+        if (request.status === 200) {
             dispatch({
                 type: USER_LOGOUT
             })
         } else {
+            const response = await request.json()
             dispatch({
                 type: AUTH_ERROR,
                 payload: {
@@ -310,13 +309,13 @@ export const verifyEmail = (token) => async (dispatch, getState) => {
                 credentials: 'include'
             }
         )
-        const response = await request.json()
 
-        if (response.status === 200) {
+        if (request.status === 200) {
             dispatch({
                 type: VERIFY_EMAIL
             })
         } else {
+            const response = await request.json()
             dispatch({
                 type: AUTH_ERROR,
                 payload: {
