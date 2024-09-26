@@ -25,7 +25,7 @@ const ForgotPassword = () => {
     const [errorText, setErrorText] = useState('')
 
     useEffect(() => {
-        const emailRegex = /^[\w-\\.]+@crimson.ua.edu$/
+        const emailRegex = /^[^\s@]+$/
         if (email.length > 0 && !emailRegex.test(email)) {
             setBadEmail(true)
         } else {
@@ -42,7 +42,7 @@ const ForgotPassword = () => {
         if (badEmail) {
             return
         }
-        dispatch(sendResetEmail(email))
+        dispatch(sendResetEmail(email + '@crimson.ua.edu'))
     }
 
     useEffect(() => {
@@ -65,10 +65,12 @@ const ForgotPassword = () => {
                 style={{ width: 350 }}
                 inputMode="email"
                 disabled={authLoading || resetEmailSent}
+                right={<TextInput.Affix text="@crimson.ua.edu" />}
             />
             {badEmail && (
                 <HelperText type="error" visible={badEmail}>
-                    Email must be your student crimson email address!
+                    Email must be the name of your @crimson.ua.edu email
+                    address!
                 </HelperText>
             )}
             <Button

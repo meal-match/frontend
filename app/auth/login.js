@@ -30,7 +30,9 @@ const Login = () => {
             setErrorText('Please fill out all fields')
             return
         }
-        await dispatch(userLogin({ email, password }))
+        await dispatch(
+            userLogin({ email: email + '@crimson.ua.edu', password })
+        )
     }
 
     useEffect(() => {
@@ -54,6 +56,7 @@ const Login = () => {
                 style={{ width: 350 }}
                 inputMode="email"
                 disabled={isLoading}
+                right={<TextInput.Affix text="@crimson.ua.edu" />}
             />
             <TextInput
                 label="Password"

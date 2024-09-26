@@ -5,7 +5,12 @@ import { useRouter, useFocusEffect } from 'expo-router'
 import { useDispatch, useSelector } from 'react-redux'
 import { ActivityIndicator, Text } from 'react-native-paper'
 
-import { checkAuthStatus, selectCheckAuthFail, selectIsLoggedIn } from '@store'
+import {
+    checkAuthStatus,
+    selectCheckAuthFail,
+    selectIsLoggedIn,
+    selectAuthLoading
+} from '@store'
 
 import BottomNavBar from '@components/BottomNavBar'
 import Container from '@components/Container'
@@ -16,6 +21,7 @@ const Page = ({ style, header, children }) => {
 
     const checkAuthFail = useSelector(selectCheckAuthFail)
     const isLoggedIn = useSelector(selectIsLoggedIn)
+    const authLoading = useSelector(selectAuthLoading)
 
     useFocusEffect(() => {
         if (!isLoggedIn) {
@@ -29,7 +35,7 @@ const Page = ({ style, header, children }) => {
         }
     }, [checkAuthFail])
 
-    if (!isLoggedIn) {
+    if (!isLoggedIn || authLoading) {
         return (
             <Container>
                 <ActivityIndicator size="large" />
