@@ -63,9 +63,9 @@ const ForgotPassword = () => {
                 value={email}
                 onChangeText={(text) => setEmail(text)}
                 style={{ width: 350 }}
-                inputMode="email"
                 disabled={authLoading || resetEmailSent}
                 right={<TextInput.Affix text="@crimson.ua.edu" />}
+                onSubmitEditing={onSubmitPress}
             />
             {badEmail && (
                 <HelperText type="error" visible={badEmail}>

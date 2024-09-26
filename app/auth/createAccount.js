@@ -123,7 +123,6 @@ const CreateAccount = () => {
                         value={email}
                         onChangeText={setEmail}
                         style={{ width: 350 }}
-                        inputMode="email"
                         disabled={authLoading || createAccountSuccess}
                         right={<TextInput.Affix text="@crimson.ua.edu" />}
                     />
@@ -145,6 +144,7 @@ const CreateAccount = () => {
                             })
                         }
                         disabled={authLoading || createAccountSuccess}
+                        onSubmitEditing={onCreatePress}
                     />
                     {passwordRequirements.length > 0 && (
                         <HelperText type="error">

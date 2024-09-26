@@ -73,6 +73,7 @@ const ResetPassword = () => {
                 secureTextEntry={!showPassword}
                 style={{ width: 350 }}
                 disabled={authLoading || passwordReset}
+                onSubmitEditing={onSubmitPress}
             />
             {passwordRequirements.length > 0 && (
                 <HelperText type="error">

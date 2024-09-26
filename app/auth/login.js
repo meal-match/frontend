@@ -54,7 +54,6 @@ const Login = () => {
                 value={email}
                 onChangeText={(text) => setEmail(text)}
                 style={{ width: 350 }}
-                inputMode="email"
                 disabled={isLoading}
                 right={<TextInput.Affix text="@crimson.ua.edu" />}
             />
@@ -65,6 +64,7 @@ const Login = () => {
                 secureTextEntry={!showPassword}
                 style={{ width: 350 }}
                 disabled={isLoading}
+                onSubmitEditing={onLoginPress}
             />
             <Checkbox.Item
                 status={showPassword ? 'checked' : 'unchecked'}
