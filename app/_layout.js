@@ -1,7 +1,8 @@
-import React from 'react'
-import { Stack } from 'expo-router'
+import React, { useEffect, useState } from 'react'
+import { Stack, useRouter } from 'expo-router'
 import { DefaultTheme, PaperProvider } from 'react-native-paper'
 import { Provider } from 'react-redux'
+import * as Linking from 'expo-linking'
 
 import { store } from '@store'
 
@@ -18,6 +19,28 @@ const theme = {
 }
 
 const RootLayout = () => {
+    const router = useRouter()
+
+    const [isMounted, setIsMounted] = useState(false)
+
+    useEffect(() => {
+        const handleDeepLink = (event) => {
+            const data = Linking.parse(event.url)
+            const params = data.queryParams
+
+            if (isMounted) {
+                router.push({
+                    pathname: data.path,
+                    params
+                })
+            }
+        }
+
+        const subscription = Linking.addEventListener('url', handleDeepLink)
+        setIsMounted(true)
+        return () => subscription.remove()
+    }, [])
+
     return (
         <Provider store={store}>
             <PaperProvider theme={theme}>
