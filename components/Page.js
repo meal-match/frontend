@@ -72,7 +72,8 @@ const styles = StyleSheet.create({
         marginBottom: 8
     },
     content: {
-        flex: 1
+        flex: 1,
+        width: '100%'
     }
 })
 
