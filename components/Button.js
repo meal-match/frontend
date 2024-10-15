@@ -42,9 +42,9 @@ const styles = StyleSheet.create({
 })
 
 Button.propTypes = {
-    url: string,
-    text: string,
-    height: string
+    url: string.isRequired,
+    text: string.isRequired,
+    height: string.isRequired
 }
 
 export default Button

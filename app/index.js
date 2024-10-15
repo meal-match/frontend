@@ -24,14 +24,12 @@ const Index = () => {
     return (
         <Page header={`Hello ${name}`} style={styles.page}>
             <View style={styles.buttonContainer}>
-                <Text style={styles.question}>{name}Would you like to...</Text>
-                <Button url="buy/" text="Buy"></Button>
+                <Text style={styles.question}>Would you like to...</Text>
+                <Button url="buy/" text="Buy" height="15%"></Button>
                 <View style={[styles.divider]} />
-                <Button url="sell/" text="Sell"></Button>
+                <Button url="sell/" text="Sell" height="15%"></Button>
                 <View style={[styles.divider, { width: '100%' }]}></View>
-
                 {/* if is ordered */}
-
                 <Button
                     url="updateOrder/"
                     text="Order Ready"
@@ -61,7 +59,7 @@ const styles = StyleSheet.create({
     question: {
         fontSize: 24,
         marginBottom: '3%',
-        color: '9E1B32',
+        color: '#000000',
         fontStyle: 'italic',
         fontWeight: '700'
     }

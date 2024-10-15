@@ -42,7 +42,6 @@ const Buy = () => {
         <Page header="Select Location" style={styles.page}>
             <ScrollView contentContainerStyle={styles.scrollContainer}>
                 {options.map((option) => (
-                    // <View style={styles.location} key={option.label}>
                     <Link
                         key={option.label}
                         style={styles.locationLink}
@@ -56,7 +55,6 @@ const Buy = () => {
                             />
                         </View>
                     </Link>
-                    // </View>
                 ))}
             </ScrollView>
         </Page>
