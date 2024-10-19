@@ -3,12 +3,16 @@ import { TimePickerModal } from 'react-native-paper-dates'
 import Page from '@components/Page'
 import { Text } from 'react-native'
 import { Button, Dialog, Portal } from 'react-native-paper'
-import { useSelector } from 'react-redux'
-import { selectMealData } from '@store'
+import { useSelector, useDispatch } from 'react-redux'
+import { selectOrder, setPickupTime } from '@store'
+import { router, useNavigationContainerRef } from 'expo-router'
+import { StackActions } from '@react-navigation/native'
 
 const PickTime = () => {
     const [pickerVisible, setPickerVisible] = useState(false)
     const [dialogVisible, setDialogVisible] = useState(false)
+    const dispatch = useDispatch()
+    const rootNavigation = useNavigationContainerRef()
     let dt = new Date()
     dt = new Date(dt.setMinutes(dt.getMinutes() + 30))
     const [hours, setHours] = useState(dt.getHours())
@@ -16,14 +20,15 @@ const PickTime = () => {
     const onDismiss = () => {
         setPickerVisible(false)
     }
-    const onConfirm = ({ hours, minutes }) => {
+    const onConfirm = async ({ hours, minutes }) => {
         setPickerVisible(false)
         setHours(hours)
         setMinutes(minutes)
         setDialogVisible(true)
+        await dispatch(setPickupTime(`${hours}:${minutes}`))
     }
 
-    const mealData = useSelector(selectMealData)
+    const order = useSelector(selectOrder)
 
     return (
         <Page header="Select Time">
@@ -50,13 +55,22 @@ const PickTime = () => {
                     <Dialog.Content>
                         <Text>
                             Your order will be ready at {hours}:{minutes}.{' '}
-                            {JSON.stringify(mealData)}
+                            {'\n'}
+                            Meal: {order.entree}
+                            {'\n'}
+                            Side: {order.side}
+                            {'\n'}
+                            Drink: {order.drink}
+                            {'\n'}
+                            Sauce: {order.sauce}
                         </Text>
                     </Dialog.Content>
                     <Dialog.Actions>
                         <Button
                             onPress={() => {
                                 setDialogVisible(false)
+                                rootNavigation.dispatch(StackActions.popToTop())
+                                router.replace('/buy/OrderPlaced')
                             }}
                         >
                             Confirm
@@ -66,7 +80,7 @@ const PickTime = () => {
                                 setDialogVisible(false)
                             }}
                         >
-                            Cancel
+                            Go Back
                         </Button>
                     </Dialog.Actions>
                 </Dialog>

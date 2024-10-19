@@ -7,7 +7,7 @@ import {
     MEAL_ERROR,
     SET_MEAL_DATA
 } from '@constants'
-import { MEAL_LOADING } from '../../constants/actions'
+import { MEAL_LOADING, SET_PICKUP_TIME } from '../../constants/actions'
 
 export const setEntree = (entree) => async (dispatch, getState) => {
     const { meal } = getState()
@@ -72,6 +72,24 @@ export const setSauce = (sauce) => async (dispatch, getState) => {
         dispatch({
             type: SET_SAUCE,
             payload: sauce
+        })
+    } catch (error) {
+        dispatch({
+            type: MEAL_ERROR,
+            payload: 'An unknown error occured'
+        })
+    }
+}
+
+export const setPickupTime = (time) => async (dispatch, getState) => {
+    const { meal } = getState()
+    if (meal.loading) {
+        return
+    }
+    try {
+        dispatch({
+            type: SET_PICKUP_TIME,
+            payload: time
         })
     } catch (error) {
         dispatch({

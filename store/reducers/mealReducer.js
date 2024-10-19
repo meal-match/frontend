@@ -9,6 +9,7 @@ import {
     SET_MEAL_DATA,
     MEAL_LOADING
 } from '@constants'
+import { SET_PICKUP_TIME } from '../../constants/actions'
 
 const initialState = {
     mealData: {},
@@ -58,8 +59,18 @@ const mealReducer = (state = initialState, action) => {
             return {
                 ...state,
                 order: {
-                    ...state.mealData,
+                    ...state.order,
                     sauce: action.payload
+                },
+                loading: false,
+                error: null
+            }
+        case SET_PICKUP_TIME:
+            return {
+                ...state,
+                order: {
+                    ...state.order,
+                    pickupTime: action.payload
                 },
                 loading: false,
                 error: null
