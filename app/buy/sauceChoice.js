@@ -4,17 +4,11 @@ import { List } from 'react-native-paper'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { ScrollView } from 'react-native'
 import { useRouter } from 'expo-router'
-import { setSauce } from '@store'
-import { useDispatch } from 'react-redux'
+import { setSauce, selectRestaurantData } from '@store'
+import { useDispatch, useSelector } from 'react-redux'
 
 const SauceChoice = () => {
-    const sauceOptions = [
-        { label: 'Ketchup' },
-        { label: 'Mustard' },
-        { label: 'BBQ' },
-        { label: 'Ranch' },
-        { label: 'Honey Mustard' }
-    ]
+    const sauceOptions = useSelector(selectRestaurantData).defaultSauces
     const router = useRouter()
     const dispatch = useDispatch()
     return (
@@ -22,8 +16,8 @@ const SauceChoice = () => {
             <ScrollView>
                 {sauceOptions.map((option) => (
                     <List.Item
-                        key={option.label}
-                        title={option.label}
+                        key={option}
+                        title={option}
                         right={(props) => (
                             <Ionicons
                                 {...props}
@@ -32,7 +26,7 @@ const SauceChoice = () => {
                             />
                         )}
                         onPress={async () => {
-                            await dispatch(setSauce(option.label))
+                            await dispatch(setSauce(option))
                             router.push('/buy/PickTime')
                         }}
                         style={

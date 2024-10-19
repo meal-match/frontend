@@ -4,26 +4,39 @@ import { List } from 'react-native-paper'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { ScrollView } from 'react-native'
 import { useRouter } from 'expo-router'
-import { setSide } from '@store'
-import { useDispatch } from 'react-redux'
+import { setSide, selectRestaurantData, selectOrder } from '@store'
+import { useDispatch, useSelector } from 'react-redux'
 
 const SideChoice = () => {
-    const sideOptions = [
-        { label: 'Fries' },
-        { label: 'Salad' },
-        { label: 'Fruit' },
-        { label: 'Chips' },
-        { label: 'Onion Rings' }
-    ]
-    const router = useRouter()
     const dispatch = useDispatch()
+
+    const restaurantData = useSelector(selectRestaurantData)
+    const order = useSelector(selectOrder)
+    const sideOptions =
+        'sides' in
+        restaurantData.meals.filter((item) => item.entree === order.entree)[0]
+            ? restaurantData.meals.filter(
+                  (item) => item.entree === order.entree
+              )[0].sides
+            : restaurantData.defaultSides
+
+    const router = useRouter()
+
+    const moveForward = async (side) => {
+        await dispatch(setSide(side.side))
+        if (side.sideCustomizations.length > 0) {
+            router.push('/buy/sideCustomizations')
+        } else {
+            router.push('/buy/drinkChoice')
+        }
+    }
     return (
         <Page header="Select Side">
             <ScrollView>
                 {sideOptions.map((option) => (
                     <List.Item
-                        key={option.label}
-                        title={option.label}
+                        key={option.side}
+                        title={option.side}
                         right={(props) => (
                             <Ionicons
                                 {...props}
@@ -31,10 +44,7 @@ const SideChoice = () => {
                                 size={28}
                             />
                         )}
-                        onPress={async () => {
-                            await dispatch(setSide(option.label))
-                            router.push('/buy/DrinkChoice')
-                        }}
+                        onPress={async () => moveForward(option)}
                         style={
                             sideOptions.indexOf(option) !==
                             sideOptions.length - 1

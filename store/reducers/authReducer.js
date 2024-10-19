@@ -16,7 +16,7 @@ const defaultAuthError = {
 }
 
 const initialState = {
-    isLoggedIn: false,
+    isLoggedIn: true,
     authError: defaultAuthError,
     authLoading: false,
     resetEmailSent: false,

@@ -4,26 +4,35 @@ import { List } from 'react-native-paper'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { ScrollView } from 'react-native'
 import { useRouter } from 'expo-router'
-import { setDrink } from '@store'
-import { useDispatch } from 'react-redux'
+import { setDrink, selectRestaurantData } from '@store'
+import { useDispatch, useSelector } from 'react-redux'
 
 const DrinkChoice = () => {
-    const drinkOptions = [
-        { label: 'Coke' },
-        { label: 'Diet Coke' },
-        { label: 'Sprite' },
-        { label: 'Lemonade' },
-        { label: 'Sweet Tea' }
-    ]
-    const router = useRouter()
     const dispatch = useDispatch()
+    const restaurantData = useSelector(selectRestaurantData)
+    const drinkOptions = restaurantData.defaultDrinks
+    const router = useRouter()
+
+    const moveForward = async (drink) => {
+        await dispatch(setDrink(drink.drink))
+        if (
+            drink.drinkCustomizations !== undefined &&
+            drink.drinkCustomizations.length > 0
+        ) {
+            router.push('/buy/drinkCustomizations')
+        } else if (restaurantData.defaultSauces.length > 0) {
+            router.push('/buy/sauceChoice')
+        } else {
+            router.push('/buy/pickTime')
+        }
+    }
     return (
         <Page header="Select Drink">
             <ScrollView>
                 {drinkOptions.map((option) => (
                     <List.Item
-                        key={option.label}
-                        title={option.label}
+                        key={option.drink}
+                        title={option.drink}
                         right={(props) => (
                             <Ionicons
                                 {...props}
@@ -31,10 +40,7 @@ const DrinkChoice = () => {
                                 size={28}
                             />
                         )}
-                        onPress={async () => {
-                            await dispatch(setDrink(option.label))
-                            router.push('/buy/SauceChoice')
-                        }}
+                        onPress={async () => moveForward(option)}
                         style={
                             drinkOptions.indexOf(option) !==
                             drinkOptions.length - 1

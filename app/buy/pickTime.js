@@ -5,14 +5,12 @@ import { Text } from 'react-native'
 import { Button, Dialog, Portal } from 'react-native-paper'
 import { useSelector, useDispatch } from 'react-redux'
 import { selectOrder, setPickupTime } from '@store'
-import { router, useNavigationContainerRef } from 'expo-router'
-import { StackActions } from '@react-navigation/native'
+import { clearRouterStack } from '@utils'
 
 const PickTime = () => {
     const [pickerVisible, setPickerVisible] = useState(false)
     const [dialogVisible, setDialogVisible] = useState(false)
     const dispatch = useDispatch()
-    const rootNavigation = useNavigationContainerRef()
     let dt = new Date()
     dt = new Date(dt.setMinutes(dt.getMinutes() + 30))
     const [hours, setHours] = useState(dt.getHours())
@@ -69,8 +67,7 @@ const PickTime = () => {
                         <Button
                             onPress={() => {
                                 setDialogVisible(false)
-                                rootNavigation.dispatch(StackActions.popToTop())
-                                router.replace('/buy/OrderPlaced')
+                                clearRouterStack('/buy/orderPlaced')
                             }}
                         >
                             Confirm

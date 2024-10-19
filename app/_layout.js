@@ -59,23 +59,23 @@ const RootLayout = () => {
                 >
                     <Stack.Screen name="index" />
                     <Stack.Screen
-                        name="buy/EntreeChoice"
+                        name="buy/entreeChoice"
                         options={{ animation: 'slide_from_right' }}
                     />
                     <Stack.Screen
-                        name="buy/SideChoice"
+                        name="buy/sideChoice"
                         options={{ animation: 'slide_from_right' }}
                     />
                     <Stack.Screen
-                        name="buy/DrinkChoice"
+                        name="buy/drinkChoice"
                         options={{ animation: 'slide_from_right' }}
                     />
                     <Stack.Screen
-                        name="buy/SauceChoice"
+                        name="buy/sauceChoice"
                         options={{ animation: 'slide_from_right' }}
                     />
                     <Stack.Screen
-                        name="buy/PickTime"
+                        name="buy/pickTime"
                         options={{ animation: 'slide_from_right' }}
                     />
                 </Stack>

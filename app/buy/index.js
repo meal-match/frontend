@@ -1,68 +1,72 @@
-import React from 'react'
+import { React, useEffect } from 'react'
 import { Image, StyleSheet, View, Dimensions, ScrollView } from 'react-native'
 import { Link } from 'expo-router'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+    getMealOptions,
+    setRestaurant,
+    setRestaurantData,
+    selectMealData
+} from '@store'
 
 import Page from '@components/Page'
 
 const { width: screenWidth } = Dimensions.get('window')
 
 const Buy = () => {
-    const options = [
-        {
-            label: 'Chick-fil-A',
-            key: 'Chick-Fil-A',
-            image: require('@assets/images/logos/chick.png')
-        },
-        {
-            label: 'Panda',
-            key: 'Panda Express',
-            image: require('@assets/images/logos/panda.png')
-        },
-        {
-            label: 'Dunkin',
-            key: "Wendy's",
-            image: require('@assets/images/logos/dunkin.png')
-        },
-        {
-            label: 'Canes',
-            key: "Raising Cane's",
-            image: require('@assets/images/logos/canes.png')
-        },
-        {
-            label: 'Pres-Deli',
-            key: 'Pres Deli',
-            image: require('@assets/images/logos/pres.png')
-        },
-        {
-            label: 'Julias',
-            key: "Julia's Market",
-            image: require('@assets/images/logos/julia.png')
-        },
-        {
-            label: "Wendy's",
-            key: "Wendy's",
-            image: require('@assets/images/logos/wendy.png')
-        }
-    ]
+    const logos = {
+        'Chick-Fil-A': require('@assets/images/logos/Chick-Fil-A.png'),
+        'Panda Express': require('@assets/images/logos/Panda Express.png'),
+        "Raising Cane's": require("@assets/images/logos/Raising Cane's.png"),
+        "Dunkin' Donuts": require("@assets/images/logos/Dunkin' Donuts.png"),
+        "Julia's Market": require("@assets/images/logos/Julia's Market.png"),
+        'Presidential Village': require('@assets/images/logos/Presidential Village.png'),
+        "Wendy's": require("@assets/images/logos/Wendy's.png")
+    }
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(getMealOptions)
+    }, [])
+
+    const mealData = useSelector(selectMealData)
+
+    const options = mealData.map((item) => ({
+        label: item.restaurant,
+        image: logos[item.restaurant]
+    }))
+
+    const populateRestaurantData = (restaurant) => {
+        dispatch(setRestaurant(restaurant))
+        dispatch(
+            setRestaurantData(
+                mealData.filter((item) => item.restaurant === restaurant)[0]
+            )
+        )
+    }
 
     return (
         <Page header="Select Location" style={styles.page}>
             <ScrollView contentContainerStyle={styles.scrollContainer}>
-                {options.map((option) => (
-                    <Link
-                        key={option.label}
-                        style={styles.locationLink}
-                        href={'/buy/EntreeChoice?restaurant=' + option.key}
-                    >
-                        <View style={styles.locationOption}>
-                            <Image
-                                source={option.image}
-                                style={styles.locationLogo}
-                                resizeMode="contain"
-                            />
-                        </View>
-                    </Link>
-                ))}
+                {options !== null &&
+                    options.map((option) => (
+                        <Link
+                            key={option.label}
+                            style={styles.locationLink}
+                            href={'/buy/entreeChoice'}
+                            onPress={async () => {
+                                populateRestaurantData(option.label)
+                            }}
+                        >
+                            <View style={styles.locationOption}>
+                                <Image
+                                    source={option.image}
+                                    style={styles.locationLogo}
+                                    resizeMode="contain"
+                                />
+                            </View>
+                        </Link>
+                    ))}
             </ScrollView>
         </Page>
     )
