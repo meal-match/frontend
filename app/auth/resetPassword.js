@@ -16,6 +16,7 @@ import {
     selectAuthLoading,
     selectPasswordReset
 } from '@store'
+import { checkPasswordRequirements } from '@utils'
 
 const ResetPassword = () => {
     const dispatch = useDispatch()
@@ -34,35 +35,14 @@ const ResetPassword = () => {
     const [showPassword, setShowPassword] = useState(false)
 
     useEffect(() => {
-        if (passwordReset) {
-            router.replace('/auth/login')
-        }
-    }, [passwordReset])
-
-    useEffect(() => {
-        if (authError) {
-            setErrorText(authError)
+        if (authError.type === 'resetPassword') {
+            setErrorText(authError.message)
         }
     }, [authError])
 
     useEffect(() => {
         if (password.length) {
-            const requirements = []
-            if (password.length > 0 && password.length < 8) {
-                requirements.push('At least 8 characters')
-            }
-            if (!password.match(/[0-9]/)) {
-                requirements.push('One number')
-            }
-            if (!password.match(/[A-Z]/)) {
-                requirements.push('One uppercase letter')
-            }
-            if (!password.match(/[a-z]/)) {
-                requirements.push('One lowercase letter')
-            }
-            if (!password.match(/[!@#$%^&*]/)) {
-                requirements.push('One special character - !@#$%^&*')
-            }
+            const requirements = checkPasswordRequirements(password)
             setPasswordRequirements(requirements)
         } else {
             setPasswordRequirements([])
@@ -84,7 +64,7 @@ const ResetPassword = () => {
     return (
         <AuthPage header="Reset Password">
             <Text style={{ color: 'black', width: 350 }}>
-                Enter your new password
+                Enter your new password.
             </Text>
             <TextInput
                 label="Password"
@@ -92,6 +72,8 @@ const ResetPassword = () => {
                 onChangeText={setPassword}
                 secureTextEntry={!showPassword}
                 style={{ width: 350 }}
+                disabled={authLoading || passwordReset}
+                onSubmitEditing={onSubmitPress}
             />
             {passwordRequirements.length > 0 && (
                 <HelperText type="error">
@@ -105,19 +87,32 @@ const ResetPassword = () => {
                 position="leading"
                 style={{ width: 350 }}
                 labelStyle={{ textAlign: 'center' }}
+                mode="android"
             />
             <Button
                 mode="contained"
                 onPress={onSubmitPress}
                 loading={authLoading}
-                disabled={authLoading}
+                disabled={authLoading || passwordReset}
                 style={{ width: 350 }}
             >
                 Submit
             </Button>
-            <HelperText type="error" visible={errorText.length > 0}>
-                {errorText}
-            </HelperText>
+            {passwordReset && (
+                <Text style={{ color: 'green', width: 350 }}>
+                    Password reset successfully! You can now login with your new
+                    password.
+                </Text>
+            )}
+            {errorText.length > 0 && (
+                <HelperText type="error">{errorText}</HelperText>
+            )}
+            <Text
+                style={{ color: 'blue', textDecorationLine: 'underline' }}
+                onPress={() => router.replace('/auth/login')}
+            >
+                Back to Login
+            </Text>
         </AuthPage>
     )
 }

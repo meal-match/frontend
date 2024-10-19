@@ -1,7 +1,19 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { TextInput, HelperText, Button, Checkbox } from 'react-native-paper'
+import {
+    TextInput,
+    HelperText,
+    Button,
+    Checkbox,
+    Text
+} from 'react-native-paper'
 import { useDispatch, useSelector } from 'react-redux'
 import { useRouter } from 'expo-router'
+import {
+    ScrollView,
+    Platform,
+    StyleSheet,
+    KeyboardAvoidingView
+} from 'react-native'
 
 import AuthPage from '@components/AuthPage'
 import {
@@ -10,12 +22,7 @@ import {
     selectAuthError,
     selectCreateAccount
 } from '@store'
-import {
-    ScrollView,
-    Platform,
-    StyleSheet,
-    KeyboardAvoidingView
-} from 'react-native'
+import { checkPasswordRequirements } from '@utils'
 
 const CreateAccount = () => {
     const dispatch = useDispatch()
@@ -37,7 +44,7 @@ const CreateAccount = () => {
     const scrollViewRef = useRef()
 
     useEffect(() => {
-        const emailRegex = /^[\w-\\.]+@crimson\.ua\.edu$/
+        const emailRegex = /^[^\s@]+$/
         if (email.length > 0 && !emailRegex.test(email)) {
             setBadEmail(true)
         } else {
@@ -47,22 +54,7 @@ const CreateAccount = () => {
 
     useEffect(() => {
         if (password.length) {
-            const requirements = []
-            if (password.length > 0 && password.length < 8) {
-                requirements.push('At least 8 characters')
-            }
-            if (!password.match(/[0-9]/)) {
-                requirements.push('One number')
-            }
-            if (!password.match(/[A-Z]/)) {
-                requirements.push('One uppercase letter')
-            }
-            if (!password.match(/[a-z]/)) {
-                requirements.push('One lowercase letter')
-            }
-            if (!password.match(/[!@#$%^&*]/)) {
-                requirements.push('One special character - !@#$%^&*')
-            }
+            const requirements = checkPasswordRequirements(password)
             setPasswordRequirements(requirements)
         } else {
             setPasswordRequirements([])
@@ -70,16 +62,10 @@ const CreateAccount = () => {
     }, [password])
 
     useEffect(() => {
-        if (authError) {
-            setErrorText(authError)
+        if (authError.type === 'createUser') {
+            setErrorText(authError.message)
         }
     }, [authError])
-
-    useEffect(() => {
-        if (createAccountSuccess) {
-            router.replace('/auth/login')
-        }
-    }, [createAccountSuccess])
 
     const onCreatePress = async () => {
         if (
@@ -100,7 +86,7 @@ const CreateAccount = () => {
             createUser({
                 firstName,
                 lastName,
-                email,
+                email: email + '@crimson.ua.edu',
                 password
             })
         )
@@ -123,22 +109,27 @@ const CreateAccount = () => {
                         value={firstName}
                         onChangeText={setFirstName}
                         style={{ width: 350 }}
+                        disabled={authLoading || createAccountSuccess}
                     />
                     <TextInput
                         label="Last Name"
                         value={lastName}
                         onChangeText={setLastName}
                         style={{ width: 350 }}
+                        disabled={authLoading || createAccountSuccess}
                     />
                     <TextInput
                         label="Crimson Email"
                         value={email}
                         onChangeText={setEmail}
                         style={{ width: 350 }}
+                        disabled={authLoading || createAccountSuccess}
+                        right={<TextInput.Affix text="@crimson.ua.edu" />}
                     />
                     {badEmail && (
                         <HelperText type="error" visible={badEmail}>
-                            Email must be your student crimson email address!
+                            Email must be the name of your @crimson.ua.edu email
+                            address!
                         </HelperText>
                     )}
                     <TextInput
@@ -152,6 +143,8 @@ const CreateAccount = () => {
                                 animated: false
                             })
                         }
+                        disabled={authLoading || createAccountSuccess}
+                        onSubmitEditing={onCreatePress}
                     />
                     {passwordRequirements.length > 0 && (
                         <HelperText type="error">
@@ -171,7 +164,7 @@ const CreateAccount = () => {
                         mode="contained"
                         onPress={onCreatePress}
                         loading={authLoading}
-                        disabled={authLoading}
+                        disabled={authLoading || createAccountSuccess}
                         style={{ width: 350 }}
                     >
                         Create
@@ -179,6 +172,22 @@ const CreateAccount = () => {
                     {errorText.length > 0 && (
                         <HelperText type="error">{errorText}</HelperText>
                     )}
+                    {createAccountSuccess && (
+                        <Text style={{ color: 'green', width: 350 }}>
+                            Account created successfully! We have emailed you a
+                            link to verify your email. Once you have verified
+                            your email, you can login.
+                        </Text>
+                    )}
+                    <Text
+                        style={{
+                            color: 'blue',
+                            textDecorationLine: 'underline'
+                        }}
+                        onPress={() => router.replace('/auth/login')}
+                    >
+                        Back to Login
+                    </Text>
                 </ScrollView>
             </KeyboardAvoidingView>
         </AuthPage>

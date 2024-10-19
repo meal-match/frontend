@@ -4,7 +4,12 @@ import { useRouter } from 'expo-router'
 import { useDispatch, useSelector } from 'react-redux'
 
 import AuthPage from '@components/AuthPage'
-import { selectAuthError, selectAuthLoading, sendResetEmail } from '@store'
+import {
+    selectAuthError,
+    selectAuthLoading,
+    sendResetEmail,
+    selectResetEmailSent
+} from '@store'
 
 const ForgotPassword = () => {
     const dispatch = useDispatch()
@@ -13,13 +18,14 @@ const ForgotPassword = () => {
 
     const authError = useSelector(selectAuthError)
     const authLoading = useSelector(selectAuthLoading)
+    const resetEmailSent = useSelector(selectResetEmailSent)
 
     const [email, setEmail] = useState('')
     const [badEmail, setBadEmail] = useState(false)
     const [errorText, setErrorText] = useState('')
 
     useEffect(() => {
-        const emailRegex = /^[\w-\\.]+@crimson.ua.edu$/
+        const emailRegex = /^[^\s@]+$/
         if (email.length > 0 && !emailRegex.test(email)) {
             setBadEmail(true)
         } else {
@@ -36,12 +42,12 @@ const ForgotPassword = () => {
         if (badEmail) {
             return
         }
-        dispatch(sendResetEmail(email))
+        dispatch(sendResetEmail(email + '@crimson.ua.edu'))
     }
 
     useEffect(() => {
-        if (authError) {
-            setErrorText(authError)
+        if (authError.type === 'sendResetEmail') {
+            setErrorText(authError.message)
         }
     }, [authError])
 
@@ -57,21 +63,31 @@ const ForgotPassword = () => {
                 value={email}
                 onChangeText={(text) => setEmail(text)}
                 style={{ width: 350 }}
+                disabled={authLoading || resetEmailSent}
+                right={<TextInput.Affix text="@crimson.ua.edu" />}
+                onSubmitEditing={onSubmitPress}
             />
             {badEmail && (
                 <HelperText type="error" visible={badEmail}>
-                    Email must be your student crimson email address!
+                    Email must be the name of your @crimson.ua.edu email
+                    address!
                 </HelperText>
             )}
             <Button
                 mode="contained"
                 onPress={onSubmitPress}
-                disabled={authLoading}
+                disabled={authLoading || resetEmailSent}
                 loading={authLoading}
                 style={{ width: 350 }}
             >
                 Submit
             </Button>
+            {resetEmailSent && (
+                <Text style={{ color: 'green', width: 350 }}>
+                    Email sent successfully! Check your inbox for a link to
+                    reset your password.
+                </Text>
+            )}
             {errorText.length > 0 && (
                 <HelperText type="error">{errorText}</HelperText>
             )}

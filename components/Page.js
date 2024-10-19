@@ -1,24 +1,47 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { node, object, string } from 'prop-types'
 import { useRouter, useFocusEffect } from 'expo-router'
-import { useSelector } from 'react-redux'
-import { Text } from 'react-native-paper'
+import { useDispatch, useSelector } from 'react-redux'
+import { ActivityIndicator, Text } from 'react-native-paper'
 
-import { selectIsLoggedIn } from '@store'
+import {
+    checkAuthStatus,
+    selectCheckAuthFail,
+    selectIsLoggedIn,
+    selectAuthLoading
+} from '@store'
 
 import BottomNavBar from '@components/BottomNavBar'
 import Container from '@components/Container'
 
 const Page = ({ style, header, children }) => {
+    const dispatch = useDispatch()
     const router = useRouter()
+
+    const checkAuthFail = useSelector(selectCheckAuthFail)
     const isLoggedIn = useSelector(selectIsLoggedIn)
+    const authLoading = useSelector(selectAuthLoading)
 
     useFocusEffect(() => {
         if (!isLoggedIn) {
-            router.replace('/auth/login')
+            dispatch(checkAuthStatus)
         }
     })
+
+    useEffect(() => {
+        if (checkAuthFail) {
+            router.replace('/auth/login')
+        }
+    }, [checkAuthFail])
+
+    if (!isLoggedIn || authLoading) {
+        return (
+            <Container>
+                <ActivityIndicator size="large" />
+            </Container>
+        )
+    }
 
     return (
         <Container>
