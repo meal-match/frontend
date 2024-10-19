@@ -10,30 +10,37 @@ const Buy = () => {
     const options = [
         {
             label: 'Chick-fil-A',
+            key: 'Chick-Fil-A',
             image: require('@assets/images/logos/chick.png')
         },
         {
             label: 'Panda',
+            key: 'Panda Express',
             image: require('@assets/images/logos/panda.png')
         },
         {
             label: 'Dunkin',
+            key: "Wendy's",
             image: require('@assets/images/logos/dunkin.png')
         },
         {
             label: 'Canes',
+            key: "Raising Cane's",
             image: require('@assets/images/logos/canes.png')
         },
         {
             label: 'Pres-Deli',
+            key: 'Pres Deli',
             image: require('@assets/images/logos/pres.png')
         },
         {
             label: 'Julias',
+            key: "Julia's Market",
             image: require('@assets/images/logos/julia.png')
         },
         {
             label: "Wendy's",
+            key: "Wendy's",
             image: require('@assets/images/logos/wendy.png')
         }
     ]
@@ -45,7 +52,7 @@ const Buy = () => {
                     <Link
                         key={option.label}
                         style={styles.locationLink}
-                        href="/buy/EntreeChoice"
+                        href={'/buy/EntreeChoice?restaurant=' + option.key}
                     >
                         <View style={styles.locationOption}>
                             <Image
