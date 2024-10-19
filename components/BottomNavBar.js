@@ -58,7 +58,7 @@ const BottomNavBar = () => {
 const styles = StyleSheet.create({
     navbar: {
         flexDirection: 'row',
-        alignItems: 'center',
+        alignItems: 'top',
         height: 72,
         width: '100%',
         borderTopColor: '#828A8F',
@@ -67,14 +67,8 @@ const styles = StyleSheet.create({
     navItem: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
-    },
-    navItemText: {
-        fontSize: 16
-    },
-    selectedNavItemText: {
-        fontSize: 16,
-        fontWeight: 'bold'
+        alignItems: 'center',
+        marginTop: 8
     }
 })
 

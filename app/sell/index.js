@@ -1,100 +1,115 @@
-import React from 'react'
-import { StyleSheet, View, Text, Dimensions, ScrollView } from 'react-native'
-import { Link } from 'expo-router'
+import React, { useEffect } from 'react'
+import {
+    StyleSheet,
+    View,
+    Text,
+    Dimensions,
+    ScrollView,
+    TouchableOpacity
+} from 'react-native'
+import Ionicons from '@expo/vector-icons/Ionicons'
+import { useRouter } from 'expo-router'
 
 import Page from '@components/Page'
+import { formatTimeWithIntl, isWithin15Minutes } from '@utils'
 
 const { width: screenWidth } = Dimensions.get('window')
 
 const Sell = () => {
+    const router = useRouter()
+
     const options = [
         {
-            label: 'Chick-fil-A',
-            time: '2024-09-14T19:30:00'
+            label: 'Chick-fil-A'
         },
         {
-            label: 'Panda',
-            time: '2024-09-14T19:30:00'
+            label: 'Panda'
         },
         {
-            label: 'Dunkin',
-            time: '2024-09-14T19:35:00'
+            label: 'Dunkin'
         },
         {
-            label: 'Canes',
-            time: '2024-09-14T19:40:00'
+            label: 'Canes'
         },
         {
-            label: 'Pres-Deli',
-            time: '2024-09-14T19:40:00'
+            label: 'Pres-Deli'
         },
         {
-            label: 'Julias',
-            time: '2024-09-14T20:00:00'
+            label: 'Julias'
         },
         {
-            label: "Wendy's",
-            time: '2024-09-14T20:00:00'
+            label: "Wendy's"
+        },
+        {
+            label: 'Chick-fil-A'
         }
     ]
 
-    const formatTimeWithIntl = (timeString) => {
-        const date = new Date(timeString) // Convert the ISO time string to a Date object
-
-        // Use Intl.DateTimeFormat with options for time only (hours, minutes, AM/PM)
-        const formatter = new Intl.DateTimeFormat('en-US', {
-            hour: 'numeric',
-            minute: 'numeric',
-            hour12: true // This ensures the time is in 12-hour format with AM/PM
-        })
-        return formatter.format(date)
+    for (let i = 0; i < options.length; i++) {
+        options[i].time = new Date(
+            Date.now() + (i + 1) * 5 * 60000
+        ).toISOString()
+        options[i].id = i
     }
 
-    const isWithin15Minutes = (optionTime) => {
-        const currentTime = new Date() // Get the current time
-        const optionDate = new Date(optionTime) // Parse the option time into a Date object
-        // Calculate the difference in minutes
-        const timeDifference = (optionDate - currentTime) / (1000 * 60) // Difference in minutes
-        return timeDifference >= 0 && timeDifference <= 15 // Return true if within 30 minutes
+    const pressHandler = (order) => {
+        console.log(order)
+        router.replace('/sell/orderDetails')
+        // dispatch action to claim order
+        // display loading state while action is occurring
+        // navigate to order details page if successful
     }
+
+    useEffect(() => {
+        // dispatch action to get current buy orders
+        // repeat said action every so often?
+    }, [])
+
+    const emptyOrders = (
+        <View style={styles.emptyOrders}>
+            <Text style={styles.emptyOrdersText}>
+                No orders are available at this time. Come back soon!
+            </Text>
+        </View>
+    )
+
+    const ordersList = options.map((option, index) => (
+        <View key={option.id}>
+            <TouchableOpacity
+                style={styles.orderItem}
+                onPress={() => pressHandler(option)}
+            >
+                <View style={styles.rowContainer}>
+                    <View style={styles.textColumn}>
+                        <Text style={styles.location}>{option.label}</Text>
+                        <Text
+                            style={[
+                                styles.timeText,
+                                isWithin15Minutes(option.time) &&
+                                    styles.highlightedLink // Apply different style if within 30 minutes
+                            ]}
+                        >
+                            {formatTimeWithIntl(option.time)}
+                        </Text>
+                    </View>
+                    <View style={styles.rowEndContainer}>
+                        <Text style={styles.rowEndText}>Sell</Text>
+                        <Ionicons
+                            name="chevron-forward-outline"
+                            size={28}
+                            color="#000000"
+                        />
+                    </View>
+                </View>
+            </TouchableOpacity>
+            {index < options.length - 1 && <View style={styles.divider} />}
+        </View>
+    ))
 
     return (
         <Page header="Select Order" style={styles.page}>
             <ScrollView contentContainerStyle={styles.scrollContainer}>
-                {options.map((option, index) => {
-                    const within30Minutes = isWithin15Minutes(option.time) // Check if within 30 minutes
-                    return (
-                        <View key={option.label}>
-                            <Link
-                                key={option.label}
-                                style={styles.locationLink}
-                                href="/buy/test"
-                            >
-                                <View style={styles.rowContainer}>
-                                    <View style={styles.textColumn}>
-                                        <Text style={styles.location}>
-                                            {option.label}
-                                        </Text>
-                                        <Text
-                                            style={[
-                                                styles.timeText,
-                                                within30Minutes &&
-                                                    styles.highlightedLink // Apply different style if within 30 minutes
-                                            ]}
-                                        >
-                                            {'\n'}
-                                            {'\n'}
-                                            {formatTimeWithIntl(option.time)}
-                                        </Text>
-                                    </View>
-                                </View>
-                            </Link>
-                            {index < options.length - 1 && (
-                                <View style={styles.divider} />
-                            )}
-                        </View>
-                    )
-                })}
+                {options.length === 0 ? emptyOrders : ordersList}
             </ScrollView>
         </Page>
     )
@@ -113,10 +128,11 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'space-around',
-        marginTop: (screenWidth * 0.1) / 3,
+        paddingTop: (screenWidth * 0.1) / 3,
+        paddingBottom: (screenWidth * 0.1) / 3,
         gap: screenWidth * 0.01 // Optional: padding around the content
     },
-    locationLink: {
+    orderItem: {
         width: screenWidth * 0.9,
         padding: 4
     },
@@ -130,13 +146,35 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center', // Ensures items in each row align properly
-        width: '100%'
+        width: '100%',
+        padding: 4 // Spacing between links and dividers
+    },
+    rowEndContainer: {
+        flexDirection: 'row'
+    },
+    rowEndText: {
+        fontSize: 22,
+        marginRight: 4
     },
     divider: {
         width: '100%', // Divider spans full width of the screen
         height: 1, // Thin divider
-        backgroundColor: '#828A8F', // Light gray color for the divider
-        marginTop: 10 // Spacing between links and dividers
+        backgroundColor: '#828A8F' // Light gray color for the divider
+    },
+    textColumn: {
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'flex-start',
+        gap: 8
+    },
+    emptyOrders: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        maxWidth: '80%'
+    },
+    emptyOrdersText: {
+        fontSize: 24
     }
 })
 
