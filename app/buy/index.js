@@ -1,12 +1,21 @@
-import { React, useEffect } from 'react'
-import { Image, StyleSheet, View, Dimensions, ScrollView } from 'react-native'
+import { React, useEffect, useState } from 'react'
+import {
+    Image,
+    StyleSheet,
+    View,
+    Dimensions,
+    ScrollView,
+    Text
+} from 'react-native'
 import { Link } from 'expo-router'
 import { useDispatch, useSelector } from 'react-redux'
 import {
     getMealOptions,
     setRestaurant,
     setRestaurantData,
-    selectMealData
+    selectMealData,
+    selectRestaurantError,
+    selectRestaurantLoading
 } from '@store'
 
 import Page from '@components/Page'
@@ -24,10 +33,25 @@ const Buy = () => {
         "Wendy's": require("@assets/images/logos/Wendy's.png")
     }
     const dispatch = useDispatch()
+    const restaurantError = useSelector(selectRestaurantError)
+    const restaurantLoading = useSelector(selectRestaurantLoading)
+    const [errorText, setErrorText] = useState('')
 
     useEffect(() => {
         dispatch(getMealOptions)
     }, [])
+
+    useEffect(() => {
+        if (restaurantError !== null) {
+            setErrorText(restaurantError)
+        }
+    }, [restaurantError])
+
+    useEffect(() => {
+        if (restaurantLoading) {
+            setErrorText('Loading...')
+        }
+    }, [restaurantLoading])
 
     const mealData = useSelector(selectMealData)
 
@@ -47,6 +71,7 @@ const Buy = () => {
 
     return (
         <Page header="Select Location" style={styles.page}>
+            <Text>{JSON.stringify(errorText)}</Text>
             <ScrollView contentContainerStyle={styles.scrollContainer}>
                 {options !== null &&
                     options.map((option) => (

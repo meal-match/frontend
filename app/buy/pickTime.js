@@ -54,13 +54,23 @@ const PickTime = () => {
                         <Text>
                             Your order will be ready at {hours}:{minutes}.{' '}
                             {'\n'}
-                            Meal: {order.entree}
+                            Meal: {order.entree}{' '}
+                            {order.entreeCustomizations.length > 0
+                                ? ' (' +
+                                  order.entreeCustomizations.join(', ') +
+                                  ')'
+                                : ' '}
                             {'\n'}
                             Side: {order.side}
+                            {order.sideCustomizations.length > 0
+                                ? ' (' +
+                                  order.sideCustomizations.join(', ') +
+                                  ')'
+                                : ' '}
                             {'\n'}
                             Drink: {order.drink}
                             {'\n'}
-                            Sauce: {order.sauce}
+                            Sauce: {order.sauce.join(', ')}
                         </Text>
                     </Dialog.Content>
                     <Dialog.Actions>

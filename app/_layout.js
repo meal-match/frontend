@@ -63,7 +63,15 @@ const RootLayout = () => {
                         options={{ animation: 'slide_from_right' }}
                     />
                     <Stack.Screen
+                        name="buy/entreeCustomizations"
+                        options={{ animation: 'slide_from_right' }}
+                    />
+                    <Stack.Screen
                         name="buy/sideChoice"
+                        options={{ animation: 'slide_from_right' }}
+                    />
+                    <Stack.Screen
+                        name="buy/sideCustomizations"
                         options={{ animation: 'slide_from_right' }}
                     />
                     <Stack.Screen
@@ -76,6 +84,10 @@ const RootLayout = () => {
                     />
                     <Stack.Screen
                         name="buy/pickTime"
+                        options={{ animation: 'slide_from_right' }}
+                    />
+                    <Stack.Screen
+                        name="buy/orderPlaced"
                         options={{ animation: 'slide_from_right' }}
                     />
                 </Stack>

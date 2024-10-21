@@ -1,3 +1,4 @@
 export * from './authSelectors'
 export * from './profileSelectors'
-export * from './mealSelectors'
+export * from './restaurantSelectors'
+export * from './orderSelectors'

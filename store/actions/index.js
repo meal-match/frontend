@@ -1,3 +1,4 @@
 export * from './authActions'
 export * from './profileActions'
-export * from './mealActions'
+export * from './restaurantActions'
+export * from './orderActions'
