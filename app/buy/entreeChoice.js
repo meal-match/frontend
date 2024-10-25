@@ -27,6 +27,7 @@ const EntreeChoice = () => {
         <Page header="Select Entree">
             <ScrollView style={{ height: '100%' }}>
                 {restaurantData !== null &&
+                    Object.keys(restaurantData).length > 0 &&
                     restaurantData.meals.map((option) => (
                         <List.Item
                             key={option.entree}

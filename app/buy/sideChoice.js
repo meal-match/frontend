@@ -12,13 +12,10 @@ const SideChoice = () => {
 
     const restaurantData = useSelector(selectRestaurantData)
     const order = useSelector(selectOrder)
-    const sideOptions =
-        'sides' in
-        restaurantData.meals.filter((item) => item.entree === order.entree)[0]
-            ? restaurantData.meals.filter(
-                  (item) => item.entree === order.entree
-              )[0].sides
-            : restaurantData.defaultSides
+    const meal = restaurantData.meals.filter(
+        (item) => item.entree === order.entree
+    )[0]
+    const sideOptions = meal.sides
 
     const router = useRouter()
 

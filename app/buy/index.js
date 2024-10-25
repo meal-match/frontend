@@ -36,6 +36,7 @@ const Buy = () => {
     const restaurantError = useSelector(selectRestaurantError)
     const restaurantLoading = useSelector(selectRestaurantLoading)
     const [errorText, setErrorText] = useState('')
+    const [options, setOptions] = useState([])
 
     useEffect(() => {
         dispatch(getMealOptions)
@@ -50,28 +51,38 @@ const Buy = () => {
     useEffect(() => {
         if (restaurantLoading) {
             setErrorText('Loading...')
+        } else {
+            setErrorText('')
         }
     }, [restaurantLoading])
 
     const mealData = useSelector(selectMealData)
 
-    const options = mealData.map((item) => ({
-        label: item.restaurant,
-        image: logos[item.restaurant]
-    }))
+    useEffect(() => {
+        if (Object.keys(mealData).length > 0) {
+            setOptions(
+                mealData.restaurants.map((item) => ({
+                    label: item.restaurant,
+                    image: logos[item.restaurant]
+                }))
+            )
+        }
+    }, [mealData])
 
     const populateRestaurantData = (restaurant) => {
         dispatch(setRestaurant(restaurant))
         dispatch(
             setRestaurantData(
-                mealData.filter((item) => item.restaurant === restaurant)[0]
+                mealData.restaurants.filter(
+                    (item) => item.restaurant === restaurant
+                )[0]
             )
         )
     }
 
     return (
         <Page header="Select Location" style={styles.page}>
-            <Text>{JSON.stringify(errorText)}</Text>
+            {errorText.length > 0 && <Text>{JSON.stringify(errorText)}</Text>}
             <ScrollView contentContainerStyle={styles.scrollContainer}>
                 {options !== null &&
                     options.map((option) => (

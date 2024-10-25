@@ -17,29 +17,15 @@ const SideCustomizations = () => {
     const [customizations, setCustomizations] = useState([])
     const restaurantData = useSelector(selectRestaurantData)
     const order = useSelector(selectOrder)
+    const meal = restaurantData.meals.filter(
+        (item) => item.entree === order.entree
+    )[0]
 
-    const sideCustomizationOptions =
-        'sides' in
-        restaurantData.meals.filter((item) => item.entree === order.entree)[0]
-            ? restaurantData.meals
-                  .filter((item) => item.entree === order.entree)[0]
-                  .sides.filter((item) => item.side === order.side)[0]
-                  .sideCustomizations
-            : restaurantData.defaultSides.filter(
-                  (item) => item.side === order.side
-              )[0].sideCustomizations
+    const side = meal.sides.filter((item) => item.side === order.side)[0]
 
-    const maxSideCustomizations =
-        'sides' in
-        restaurantData.meals.filter((item) => item.entree === order.entree)[0]
-            ? restaurantData.meals
-                  .filter((item) => item.entree === order.entree)[0]
-                  .sides.filter((item) => item.side === order.side)[0]
-                  .maxSideCustomizations
-            : (restaurantData.defaultSides.filter(
-                  (item) => item.side === order.side
-              )[0].maxSideCustomizations ??
-              restaurantData.defaultMaxSideCustomizations)
+    const sideCustomizationOptions = side.sideCustomizations
+
+    const maxSideCustomizations = side.maxSideCustomizations
 
     const moveForward = async () => {
         await dispatch(setSideCustomizations(customizations))

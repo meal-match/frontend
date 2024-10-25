@@ -17,13 +17,11 @@ const EntreeCustomizations = () => {
     const [customizations, setCustomizations] = useState([])
     const restaurantData = useSelector(selectRestaurantData)
     const order = useSelector(selectOrder)
-    const entreeCustomizationOptions = restaurantData.meals.filter(
+    const meal = restaurantData.meals.filter(
         (item) => item.entree === order.entree
-    )[0].entreeCustomizations
-    const maxCustomizations =
-        restaurantData.meals.filter((item) => item.entree === order.entree)[0]
-            .maxEntreeCustomizations ??
-        restaurantData.defaultMaxEntreeCustomizations
+    )[0]
+    const entreeCustomizationOptions = meal.entreeCustomizations
+    const maxCustomizations = meal.maxEntreeCustomizations
 
     const moveForward = async () => {
         await dispatch(setEntreeCustomizations(customizations))

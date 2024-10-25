@@ -4,16 +4,21 @@ import { List, Button } from 'react-native-paper'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { ScrollView, View } from 'react-native'
 import { useRouter } from 'expo-router'
-import { setSauce, selectRestaurantData } from '@store'
+import { setSauce, selectRestaurantData, selectOrder } from '@store'
 import { useDispatch, useSelector } from 'react-redux'
 
 const SauceChoice = () => {
-    const sauceOptions = useSelector(selectRestaurantData).defaultSauces
+    const restaurantData = useSelector(selectRestaurantData)
+    const order = useSelector(selectOrder)
+    const meal = restaurantData.meals.filter(
+        (item) => item.entree === order.entree
+    )[0]
+    const sauceOptions = meal.sauces
     const router = useRouter()
     const dispatch = useDispatch()
 
     const [customizations, setCustomizations] = useState([])
-    const maxSauces = useSelector(selectRestaurantData).defaultMaxSauces
+    const maxSauces = meal.maxSauces
 
     const moveForward = async () => {
         await dispatch(setSauce(customizations))

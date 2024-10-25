@@ -35,7 +35,7 @@ export const getMealOptions = async (dispatch, getState) => {
         )
         const response = await request.json()
 
-        if (response.status === 200) {
+        if (request.status === 200) {
             dispatch({
                 type: SET_MEAL_DATA,
                 payload: response
