@@ -30,27 +30,32 @@ const BottomNavBar = () => {
 
     return (
         <View style={styles.navbar}>
-            {tabItems.map((item) => (
-                <TouchableOpacity
-                    key={item.route}
-                    onPress={() => router.replace(item.route)}
-                    style={styles.navItem}
-                >
-                    <Ionicons
-                        name={
-                            pathname === item.route
-                                ? item.icon
-                                : `${item.icon}-outline`
-                        }
-                        size={36}
-                        color={
-                            pathname === item.route
-                                ? theme.colors.secondaryBold
-                                : theme.colors.secondary
-                        }
-                    />
-                </TouchableOpacity>
-            ))}
+            {tabItems.map((item) => {
+                const isSelected =
+                    item.route === '/'
+                        ? pathname === item.route
+                        : pathname.includes(item.route)
+                return (
+                    <TouchableOpacity
+                        key={item.route}
+                        onPress={() => router.replace(item.route)}
+                        style={styles.navItem}
+                        disabled={isSelected}
+                    >
+                        <Ionicons
+                            name={
+                                isSelected ? item.icon : `${item.icon}-outline`
+                            }
+                            size={36}
+                            color={
+                                isSelected
+                                    ? theme.colors.secondaryBold
+                                    : theme.colors.secondary
+                            }
+                        />
+                    </TouchableOpacity>
+                )
+            })}
         </View>
     )
 }
