@@ -5,9 +5,9 @@ import {
     selectRestaurantData,
     selectOrder
 } from '@store'
-import { List, Button } from 'react-native-paper'
+import { List } from 'react-native-paper'
 import Ionicons from '@expo/vector-icons/Ionicons'
-import { ScrollView, View } from 'react-native'
+import { FlatList } from 'react-native'
 import { useRouter } from 'expo-router'
 import Page from '@components/Page'
 
@@ -33,14 +33,13 @@ const DrinkCustomizations = () => {
     }
     return (
         <Page header="Customize Drink">
-            <ScrollView style={{ height: '100%' }}>
-                {drinkCustomizationOptions !== null &&
-                    drinkCustomizationOptions.length > 0 &&
-                    maxDrinkCustomizations === 1 &&
-                    drinkCustomizationOptions.map((option) => (
+            <FlatList
+                data={drinkCustomizationOptions}
+                renderItem={(option) => {
+                    maxDrinkCustomizations === 1 ? (
                         <List.Item
-                            key={option}
-                            title={option}
+                            key={option.item}
+                            title={option.item}
                             right={(props) => (
                                 <Ionicons
                                     {...props}
@@ -49,7 +48,10 @@ const DrinkCustomizations = () => {
                                 />
                             )}
                             onPress={async () => {
-                                setCustomizations([...customizations, option])
+                                setCustomizations([
+                                    ...customizations,
+                                    option.item
+                                ])
                                 moveForward()
                             }}
                             style={
@@ -62,23 +64,38 @@ const DrinkCustomizations = () => {
                                     : {}
                             }
                         />
-                    ))}
-                {drinkCustomizationOptions !== null &&
-                    drinkCustomizationOptions.length > 0 &&
-                    maxDrinkCustomizations > 1 &&
-                    drinkCustomizationOptions.map((option) => (
+                    ) : (
                         <List.Item
-                            key={option}
-                            title={option}
+                            key={option.item}
+                            title={option.item}
                             right={(props) => (
                                 <Ionicons
                                     {...props}
-                                    name="chevron-forward-outline"
-                                    size={28}
+                                    name={
+                                        customizations.includes(option.item)
+                                            ? 'checkbox'
+                                            : 'square-outline'
+                                    }
                                 />
                             )}
                             onPress={async () => {
-                                setCustomizations([...customizations, option])
+                                {
+                                    if (customizations.includes(option)) {
+                                        setCustomizations(
+                                            customizations.filter(
+                                                (item) => item !== option
+                                            )
+                                        )
+                                    } else if (
+                                        customizations.length !==
+                                        maxDrinkCustomizations
+                                    ) {
+                                        setCustomizations([
+                                            ...customizations,
+                                            option
+                                        ])
+                                    }
+                                }
                             }}
                             style={
                                 drinkCustomizationOptions.indexOf(option) !==
@@ -90,21 +107,9 @@ const DrinkCustomizations = () => {
                                     : {}
                             }
                         />
-                    ))}
-                {drinkCustomizationOptions !== null &&
-                    drinkCustomizationOptions.length > 0 &&
-                    maxDrinkCustomizations > 1 && (
-                        <View>
-                            <Button
-                                onPress={async () => moveForward()}
-                                mode="contained"
-                                style={{ margin: 15 }}
-                            >
-                                Next
-                            </Button>
-                        </View>
-                    )}
-            </ScrollView>
+                    )
+                }}
+            />
         </Page>
     )
 }

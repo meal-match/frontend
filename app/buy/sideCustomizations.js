@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import Page from '@components/Page'
-import { List, Button } from 'react-native-paper'
+import { List } from 'react-native-paper'
 import Ionicons from '@expo/vector-icons/Ionicons'
-import { ScrollView, View } from 'react-native'
 import { useRouter } from 'expo-router'
 import {
     setSideCustomizations,
@@ -10,6 +9,7 @@ import {
     selectOrder
 } from '@store'
 import { useDispatch, useSelector } from 'react-redux'
+import { FlatList } from 'react-native-web'
 
 const SideCustomizations = () => {
     const dispatch = useDispatch()
@@ -34,7 +34,86 @@ const SideCustomizations = () => {
 
     return (
         <Page header="Customize Side">
-            <ScrollView style={{ height: '100%' }}>
+            <FlatList
+                data={sideCustomizationOptions}
+                renderItem={(option) => {
+                    maxSideCustomizations === 1 ? (
+                        <List.Item
+                            key={option.item}
+                            title={option.item}
+                            right={(props) => (
+                                <Ionicons
+                                    {...props}
+                                    name="chevron-forward-outline"
+                                    size={28}
+                                />
+                            )}
+                            onPress={async () => {
+                                setCustomizations([
+                                    ...customizations,
+                                    option.item
+                                ])
+                                moveForward()
+                            }}
+                            style={
+                                sideCustomizationOptions.indexOf(option) !==
+                                sideCustomizationOptions.length - 1
+                                    ? {
+                                          borderBottomColor: '#828A8F',
+                                          borderBottomWidth: 1
+                                      }
+                                    : {}
+                            }
+                        />
+                    ) : (
+                        <List.Item
+                            key={option.item}
+                            title={option.item}
+                            right={(props) => (
+                                <Ionicons
+                                    {...props}
+                                    name={
+                                        customizations.length > 0 &&
+                                        customizations.includes(option.item)
+                                            ? 'checkbox'
+                                            : 'square-outline'
+                                    }
+                                    size={28}
+                                />
+                            )}
+                            onPress={async () => {
+                                {
+                                    if (customizations.includes(option.item)) {
+                                        setCustomizations(
+                                            customizations.filter(
+                                                (item) => item !== option.item
+                                            )
+                                        )
+                                    } else if (
+                                        customizations.length !==
+                                        maxSideCustomizations
+                                    ) {
+                                        setCustomizations([
+                                            ...customizations,
+                                            option.item
+                                        ])
+                                    }
+                                }
+                            }}
+                            style={
+                                sideCustomizationOptions.indexOf(option) !==
+                                sideCustomizationOptions.length - 1
+                                    ? {
+                                          borderBottomColor: '#828A8F',
+                                          borderBottomWidth: 1
+                                      }
+                                    : {}
+                            }
+                        />
+                    )
+                }}
+            />
+            {/* <ScrollView style={{ height: '100%' }}>
                 {sideCustomizationOptions !== null &&
                     sideCustomizationOptions.length > 0 &&
                     maxSideCustomizations === 1 &&
@@ -126,7 +205,7 @@ const SideCustomizations = () => {
                             </Button>
                         </View>
                     )}
-            </ScrollView>
+            </ScrollView> */}
         </Page>
     )
 }

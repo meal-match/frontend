@@ -2,10 +2,10 @@ import React from 'react'
 import Page from '@components/Page'
 import { List } from 'react-native-paper'
 import Ionicons from '@expo/vector-icons/Ionicons'
-import { ScrollView } from 'react-native'
 import { useRouter } from 'expo-router'
 import { setSide, selectRestaurantData, selectOrder } from '@store'
 import { useDispatch, useSelector } from 'react-redux'
+import { FlatList } from 'react-native-web'
 
 const SideChoice = () => {
     const dispatch = useDispatch()
@@ -29,11 +29,11 @@ const SideChoice = () => {
     }
     return (
         <Page header="Select Side">
-            <ScrollView>
-                {sideOptions.map((option) => (
+            <FlatList
+                data={sideOptions}
+                renderItem={(option) => (
                     <List.Item
-                        key={option.side}
-                        title={option.side}
+                        title={option.item.side}
                         right={(props) => (
                             <Ionicons
                                 {...props}
@@ -41,7 +41,7 @@ const SideChoice = () => {
                                 size={28}
                             />
                         )}
-                        onPress={async () => moveForward(option)}
+                        onPress={async () => moveForward(option.item)}
                         style={
                             sideOptions.indexOf(option) !==
                             sideOptions.length - 1
@@ -52,8 +52,8 @@ const SideChoice = () => {
                                 : {}
                         }
                     />
-                ))}
-            </ScrollView>
+                )}
+            />
         </Page>
     )
 }

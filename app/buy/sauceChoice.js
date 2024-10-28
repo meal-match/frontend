@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import Page from '@components/Page'
-import { List, Button } from 'react-native-paper'
+import { List } from 'react-native-paper'
 import Ionicons from '@expo/vector-icons/Ionicons'
-import { ScrollView, View } from 'react-native'
 import { useRouter } from 'expo-router'
 import { setSauce, selectRestaurantData, selectOrder } from '@store'
 import { useDispatch, useSelector } from 'react-redux'
+import { FlatList } from 'react-native-web'
 
 const SauceChoice = () => {
     const restaurantData = useSelector(selectRestaurantData)
@@ -26,14 +26,13 @@ const SauceChoice = () => {
     }
     return (
         <Page header="Select Sauce">
-            <ScrollView>
-                {sauceOptions !== null &&
-                    sauceOptions.length > 0 &&
-                    maxSauces === 1 &&
-                    sauceOptions.map((option) => (
+            <FlatList
+                data={sauceOptions}
+                renderItem={(option) => {
+                    maxSauces === 1 ? (
                         <List.Item
-                            key={option}
-                            title={option}
+                            key={option.item}
+                            title={option.item}
                             right={(props) => (
                                 <Ionicons
                                     {...props}
@@ -42,7 +41,7 @@ const SauceChoice = () => {
                                 />
                             )}
                             onPress={async () => {
-                                setCustomizations([option])
+                                setCustomizations([option.item])
                                 moveForward()
                             }}
                             style={
@@ -55,19 +54,15 @@ const SauceChoice = () => {
                                     : {}
                             }
                         />
-                    ))}
-                {sauceOptions !== null &&
-                    maxSauces > 1 &&
-                    sauceOptions.length > 0 &&
-                    sauceOptions.map((option) => (
+                    ) : (
                         <List.Item
-                            key={option}
-                            title={option}
+                            key={option.item}
+                            title={option.item}
                             right={(props) => (
                                 <Ionicons
                                     {...props}
                                     name={
-                                        customizations.includes(option)
+                                        customizations.includes(option.item)
                                             ? 'checkbox'
                                             : 'square-outline'
                                     }
@@ -75,16 +70,16 @@ const SauceChoice = () => {
                                 />
                             )}
                             onPress={async () => {
-                                if (customizations.includes(option)) {
+                                if (customizations.includes(option.item)) {
                                     setCustomizations(
                                         customizations.filter(
-                                            (item) => item !== option
+                                            (item) => item !== option.item
                                         )
                                     )
                                 } else {
                                     setCustomizations([
                                         ...customizations,
-                                        option
+                                        option.item
                                     ])
                                 }
                             }}
@@ -98,21 +93,9 @@ const SauceChoice = () => {
                                     : {}
                             }
                         />
-                    ))}
-                {sauceOptions !== null &&
-                    sauceOptions.length > 0 &&
-                    maxSauces > 1 && (
-                        <View>
-                            <Button
-                                onPress={async () => moveForward()}
-                                mode="contained"
-                                style={{ margin: 15 }}
-                            >
-                                Next
-                            </Button>
-                        </View>
-                    )}
-            </ScrollView>
+                    )
+                }}
+            />
         </Page>
     )
 }

@@ -1,5 +1,4 @@
 import { React, useState } from 'react'
-import { ScrollView, View } from 'react-native'
 import Page from '@components/Page'
 import { useSelector, useDispatch } from 'react-redux'
 import {
@@ -7,9 +6,10 @@ import {
     selectOrder,
     setEntreeCustomizations
 } from '@store'
-import { List, Button } from 'react-native-paper'
+import { List } from 'react-native-paper'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { useRouter } from 'expo-router'
+import { FlatList } from 'react-native-web'
 
 const EntreeCustomizations = () => {
     const dispatch = useDispatch()
@@ -30,7 +30,80 @@ const EntreeCustomizations = () => {
 
     return (
         <Page header="Customize Entree">
-            <ScrollView style={{ height: '100%' }}>
+            <FlatList
+                data={entreeCustomizationOptions}
+                renderItem={(option) =>
+                    maxCustomizations === 1 ? (
+                        <List.Item
+                            key={option.item}
+                            title={option.item}
+                            right={(props) => (
+                                <Ionicons
+                                    {...props}
+                                    name="chevron-forward-outline"
+                                    size={28}
+                                />
+                            )}
+                            onPress={async () => {
+                                setCustomizations([
+                                    ...customizations,
+                                    option.item
+                                ])
+                                moveForward()
+                            }}
+                            style={
+                                entreeCustomizationOptions.indexOf(option) !==
+                                entreeCustomizationOptions.length - 1
+                                    ? {
+                                          borderBottomColor: '#828A8F',
+                                          borderBottomWidth: 1
+                                      }
+                                    : {}
+                            }
+                        />
+                    ) : (
+                        <List.Item
+                            key={option.item}
+                            title={option.item}
+                            right={(props) => (
+                                <Ionicons
+                                    {...props}
+                                    name={
+                                        customizations.length > 0 &&
+                                        customizations.includes(option.item)
+                                            ? 'checkbox'
+                                            : 'square-outline'
+                                    }
+                                    size={28}
+                                />
+                            )}
+                            onPress={() => {
+                                customizations.length > 0 &&
+                                customizations.includes(option.item)
+                                    ? setCustomizations(
+                                          customizations.filter(
+                                              (item) => item !== option.item
+                                          )
+                                      )
+                                    : setCustomizations([
+                                          ...customizations,
+                                          option.item
+                                      ])
+                            }}
+                            style={
+                                entreeCustomizationOptions.indexOf(option) !==
+                                entreeCustomizationOptions.length - 1
+                                    ? {
+                                          borderBottomColor: '#828A8F',
+                                          borderBottomWidth: 1
+                                      }
+                                    : {}
+                            }
+                        />
+                    )
+                }
+            />
+            {/* <ScrollView style={{ height: '100%' }}>
                 {entreeCustomizationOptions !== null &&
                     entreeCustomizationOptions.length > 0 &&
                     maxCustomizations === 1 &&
@@ -116,7 +189,7 @@ const EntreeCustomizations = () => {
                             </Button>
                         </View>
                     )}
-            </ScrollView>
+            </ScrollView> */}
         </Page>
     )
 }

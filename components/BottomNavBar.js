@@ -62,7 +62,8 @@ const styles = StyleSheet.create({
         height: 72,
         width: '100%',
         borderTopColor: '#828A8F',
-        borderTopWidth: 2
+        borderTopWidth: 2,
+        backgroundColor: '#F8F8F8'
     },
     navItem: {
         flex: 1,

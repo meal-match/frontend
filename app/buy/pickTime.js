@@ -53,7 +53,7 @@ const PickTime = () => {
                     <Dialog.Content>
                         <Text>
                             Your order will be ready at {hours}:{minutes}.{' '}
-                            {'\n'}
+                            {'\n\n'}
                             Meal: {order.entree}{' '}
                             {order.entreeCustomizations.length > 0
                                 ? ' (' +

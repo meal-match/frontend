@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { SafeAreaView, StyleSheet, View } from 'react-native'
 import { node, object, string } from 'prop-types'
 import { useRouter, useFocusEffect } from 'expo-router'
 import { useDispatch, useSelector } from 'react-redux'
@@ -47,13 +47,15 @@ const Page = ({ style, header, children }) => {
         <Container>
             <View style={styles.content}>
                 {header && (
-                    <View style={styles.header}>
-                        <Text style={styles.headerText}>{header}</Text>
-                    </View>
+                    <SafeAreaView>
+                        <View style={styles.header}>
+                            <Text style={styles.headerText}>{header}</Text>
+                        </View>
+                    </SafeAreaView>
                 )}
-                <View style={style}>{children}</View>
+                <View style={{ flex: 1, ...style }}>{children}</View>
+                <BottomNavBar />
             </View>
-            <BottomNavBar />
         </Container>
     )
 }
