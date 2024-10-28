@@ -1,11 +1,12 @@
 import React from 'react'
-import Page from '@components/Page'
 import { List } from 'react-native-paper'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { FlatList } from 'react-native'
 import { useRouter } from 'expo-router'
-import { setDrink, selectRestaurantData, selectOrder } from '@store'
 import { useDispatch, useSelector } from 'react-redux'
+
+import { setDrink, selectRestaurantData, selectOrder } from '@store'
+import Page from '@components/Page'
 
 const DrinkChoice = () => {
     const dispatch = useDispatch()
@@ -29,9 +30,6 @@ const DrinkChoice = () => {
     }
     return (
         <Page header="Select Drink" style={{ overflow: 'hidden' }}>
-            {/* <ScrollView contentContainerStyle={{ flexBasis: '100%' }}>
-                {drinkList}
-            </ScrollView> */}
             <FlatList
                 data={drinkOptions}
                 renderItem={(option) => (
@@ -46,7 +44,7 @@ const DrinkChoice = () => {
                         )}
                         onPress={async () => moveForward(option.item)}
                         style={
-                            drinkOptions.indexOf(option) !==
+                            drinkOptions.indexOf(option.item) !==
                             drinkOptions.length - 1
                                 ? {
                                       borderBottomColor: '#828A8F',

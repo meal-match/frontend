@@ -1,15 +1,16 @@
 import { React, useState } from 'react'
-import Page from '@components/Page'
+import { FlatList } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
+import { List } from 'react-native-paper'
+import Ionicons from '@expo/vector-icons/Ionicons'
+import { useRouter } from 'expo-router'
+
+import Page from '@components/Page'
 import {
     selectRestaurantData,
     selectOrder,
     setEntreeCustomizations
 } from '@store'
-import { List } from 'react-native-paper'
-import Ionicons from '@expo/vector-icons/Ionicons'
-import { useRouter } from 'expo-router'
-import { FlatList } from 'react-native-web'
 
 const EntreeCustomizations = () => {
     const dispatch = useDispatch()
@@ -52,7 +53,9 @@ const EntreeCustomizations = () => {
                                 moveForward()
                             }}
                             style={
-                                entreeCustomizationOptions.indexOf(option) !==
+                                entreeCustomizationOptions.indexOf(
+                                    option.item
+                                ) !==
                                 entreeCustomizationOptions.length - 1
                                     ? {
                                           borderBottomColor: '#828A8F',
@@ -91,7 +94,9 @@ const EntreeCustomizations = () => {
                                       ])
                             }}
                             style={
-                                entreeCustomizationOptions.indexOf(option) !==
+                                entreeCustomizationOptions.indexOf(
+                                    option.item
+                                ) !==
                                 entreeCustomizationOptions.length - 1
                                     ? {
                                           borderBottomColor: '#828A8F',

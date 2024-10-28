@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
-import Page from '@components/Page'
+import { FlatList } from 'react-native'
 import { List } from 'react-native-paper'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { useRouter } from 'expo-router'
-import { setSauce, selectRestaurantData, selectOrder } from '@store'
 import { useDispatch, useSelector } from 'react-redux'
-import { FlatList } from 'react-native-web'
+
+import Page from '@components/Page'
+import { setSauce, selectRestaurantData, selectOrder } from '@store'
 
 const SauceChoice = () => {
     const restaurantData = useSelector(selectRestaurantData)
@@ -24,6 +25,8 @@ const SauceChoice = () => {
         await dispatch(setSauce(customizations))
         router.push('/buy/pickTime')
     }
+
+    console.log(sauceOptions)
     return (
         <Page header="Select Sauce">
             <FlatList
@@ -45,7 +48,7 @@ const SauceChoice = () => {
                                 moveForward()
                             }}
                             style={
-                                sauceOptions.indexOf(option) !==
+                                sauceOptions.indexOf(option.item) !==
                                 sauceOptions.length - 1
                                     ? {
                                           borderBottomColor: '#828A8F',
@@ -84,7 +87,7 @@ const SauceChoice = () => {
                                 }
                             }}
                             style={
-                                sauceOptions.indexOf(option) !==
+                                sauceOptions.indexOf(option.item) !==
                                 sauceOptions.length - 1
                                     ? {
                                           borderBottomColor: '#828A8F',

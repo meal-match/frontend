@@ -1,15 +1,16 @@
 import React, { useState } from 'react'
-import Page from '@components/Page'
+import { FlatList } from 'react-native'
 import { List } from 'react-native-paper'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { useRouter } from 'expo-router'
+import { useDispatch, useSelector } from 'react-redux'
+
+import Page from '@components/Page'
 import {
     setSideCustomizations,
     selectRestaurantData,
     selectOrder
 } from '@store'
-import { useDispatch, useSelector } from 'react-redux'
-import { FlatList } from 'react-native-web'
 
 const SideCustomizations = () => {
     const dispatch = useDispatch()
@@ -56,7 +57,9 @@ const SideCustomizations = () => {
                                 moveForward()
                             }}
                             style={
-                                sideCustomizationOptions.indexOf(option) !==
+                                sideCustomizationOptions.indexOf(
+                                    option.item
+                                ) !==
                                 sideCustomizationOptions.length - 1
                                     ? {
                                           borderBottomColor: '#828A8F',
@@ -101,7 +104,9 @@ const SideCustomizations = () => {
                                 }
                             }}
                             style={
-                                sideCustomizationOptions.indexOf(option) !==
+                                sideCustomizationOptions.indexOf(
+                                    option.item
+                                ) !==
                                 sideCustomizationOptions.length - 1
                                     ? {
                                           borderBottomColor: '#828A8F',

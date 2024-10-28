@@ -1,11 +1,12 @@
 import React from 'react'
-import Page from '@components/Page'
+import { FlatList } from 'react-native'
 import { List } from 'react-native-paper'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { useRouter } from 'expo-router'
-import { setSide, selectRestaurantData, selectOrder } from '@store'
 import { useDispatch, useSelector } from 'react-redux'
-import { FlatList } from 'react-native-web'
+
+import Page from '@components/Page'
+import { setSide, selectRestaurantData, selectOrder } from '@store'
 
 const SideChoice = () => {
     const dispatch = useDispatch()
@@ -43,7 +44,7 @@ const SideChoice = () => {
                         )}
                         onPress={async () => moveForward(option.item)}
                         style={
-                            sideOptions.indexOf(option) !==
+                            sideOptions.indexOf(option.item) !==
                             sideOptions.length - 1
                                 ? {
                                       borderBottomColor: '#828A8F',

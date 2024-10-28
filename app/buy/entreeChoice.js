@@ -1,11 +1,12 @@
 import { React } from 'react'
-import Page from '@components/Page'
+import { FlatList } from 'react-native'
 import { List } from 'react-native-paper'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { useRouter } from 'expo-router'
-import { setEntree, selectRestaurantData } from '@store'
 import { useDispatch, useSelector } from 'react-redux'
-import { FlatList } from 'react-native-web'
+
+import Page from '@components/Page'
+import { setEntree, selectRestaurantData } from '@store'
 
 const EntreeChoice = () => {
     const dispatch = useDispatch()
@@ -39,7 +40,7 @@ const EntreeChoice = () => {
                         )}
                         onPress={async () => moveForward(option.item)}
                         style={
-                            restaurantData.meals.indexOf(option) !==
+                            restaurantData.meals.indexOf(option.item) !==
                             restaurantData.meals.length - 1
                                 ? {
                                       borderBottomColor: '#828A8F',

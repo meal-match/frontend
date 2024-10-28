@@ -1,15 +1,16 @@
 import React, { useState } from 'react'
+import { FlatList } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
+import { List } from 'react-native-paper'
+import Ionicons from '@expo/vector-icons/Ionicons'
+import { useRouter } from 'expo-router'
+
+import Page from '@components/Page'
 import {
     setDrinkCustomizations,
     selectRestaurantData,
     selectOrder
 } from '@store'
-import { List } from 'react-native-paper'
-import Ionicons from '@expo/vector-icons/Ionicons'
-import { FlatList } from 'react-native'
-import { useRouter } from 'expo-router'
-import Page from '@components/Page'
 
 const DrinkCustomizations = () => {
     const dispatch = useDispatch()
@@ -55,7 +56,9 @@ const DrinkCustomizations = () => {
                                 moveForward()
                             }}
                             style={
-                                drinkCustomizationOptions.indexOf(option) !==
+                                drinkCustomizationOptions.indexOf(
+                                    option.item
+                                ) !==
                                 drinkCustomizationOptions.length - 1
                                     ? {
                                           borderBottomColor: '#828A8F',
@@ -80,10 +83,10 @@ const DrinkCustomizations = () => {
                             )}
                             onPress={async () => {
                                 {
-                                    if (customizations.includes(option)) {
+                                    if (customizations.includes(option.item)) {
                                         setCustomizations(
                                             customizations.filter(
-                                                (item) => item !== option
+                                                (item) => item !== option.item
                                             )
                                         )
                                     } else if (
@@ -92,13 +95,15 @@ const DrinkCustomizations = () => {
                                     ) {
                                         setCustomizations([
                                             ...customizations,
-                                            option
+                                            option.item
                                         ])
                                     }
                                 }
                             }}
                             style={
-                                drinkCustomizationOptions.indexOf(option) !==
+                                drinkCustomizationOptions.indexOf(
+                                    option.item
+                                ) !==
                                 drinkCustomizationOptions.length - 1
                                     ? {
                                           borderBottomColor: '#828A8F',
