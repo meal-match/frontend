@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { FlatList } from 'react-native'
+import { FlatList, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
-import { List } from 'react-native-paper'
+import { List, Button } from 'react-native-paper'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { useRouter } from 'expo-router'
 
@@ -115,6 +115,19 @@ const DrinkCustomizations = () => {
                     )
                 }}
             />
+            {drinkCustomizationOptions !== null &&
+                drinkCustomizationOptions.length > 0 &&
+                maxDrinkCustomizations > 1 && (
+                    <View>
+                        <Button
+                            onPress={async () => moveForward()}
+                            mode="contained"
+                            style={{ margin: 15 }}
+                        >
+                            Next
+                        </Button>
+                    </View>
+                )}
         </Page>
     )
 }

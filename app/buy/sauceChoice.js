@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { FlatList } from 'react-native'
-import { List } from 'react-native-paper'
+import { FlatList, View } from 'react-native'
+import { List, Button } from 'react-native-paper'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { useRouter } from 'expo-router'
 import { useDispatch, useSelector } from 'react-redux'
@@ -18,23 +18,23 @@ const SauceChoice = () => {
     const router = useRouter()
     const dispatch = useDispatch()
 
-    const [customizations, setCustomizations] = useState([])
+    const [sauces, setSauces] = useState([])
     const maxSauces = meal.maxSauces
 
     const moveForward = async () => {
-        await dispatch(setSauce(customizations))
+        await dispatch(setSauce(sauces))
         router.push('/buy/pickTime')
     }
 
     return (
         <Page header="Select Sauce">
             <FlatList
-                data={sauceOptions}
-                renderItem={(option) => {
+                data={sauceOptions.map((sauce) => ({ sauce }))}
+                renderItem={({ item }) =>
                     maxSauces === 1 ? (
                         <List.Item
-                            key={option.item}
-                            title={option.item}
+                            key={item.sauce}
+                            title={item.sauce}
                             right={(props) => (
                                 <Ionicons
                                     {...props}
@@ -43,11 +43,11 @@ const SauceChoice = () => {
                                 />
                             )}
                             onPress={async () => {
-                                setCustomizations([option.item])
+                                setSauces([item.sauce])
                                 moveForward()
                             }}
                             style={
-                                sauceOptions.indexOf(option.item) !==
+                                sauceOptions.indexOf(item.sauce) !==
                                 sauceOptions.length - 1
                                     ? {
                                           borderBottomColor: '#828A8F',
@@ -58,13 +58,13 @@ const SauceChoice = () => {
                         />
                     ) : (
                         <List.Item
-                            key={option.item}
-                            title={option.item}
+                            key={item.sauce}
+                            title={item.sauce}
                             right={(props) => (
                                 <Ionicons
                                     {...props}
                                     name={
-                                        customizations.includes(option.item)
+                                        sauces.includes(item.sauce)
                                             ? 'checkbox'
                                             : 'square-outline'
                                     }
@@ -72,21 +72,18 @@ const SauceChoice = () => {
                                 />
                             )}
                             onPress={async () => {
-                                if (customizations.includes(option.item)) {
-                                    setCustomizations(
-                                        customizations.filter(
-                                            (item) => item !== option.item
+                                if (sauces.includes(item.sauce)) {
+                                    setSauces(
+                                        sauces.filter(
+                                            (sauce) => sauce !== item.sauce
                                         )
                                     )
-                                } else {
-                                    setCustomizations([
-                                        ...customizations,
-                                        option.item
-                                    ])
+                                } else if (sauces.length < maxSauces) {
+                                    setSauces([...sauces, item.sauce])
                                 }
                             }}
                             style={
-                                sauceOptions.indexOf(option.item) !==
+                                sauceOptions.indexOf(item.sauce) !==
                                 sauceOptions.length - 1
                                     ? {
                                           borderBottomColor: '#828A8F',
@@ -96,8 +93,21 @@ const SauceChoice = () => {
                             }
                         />
                     )
-                }}
+                }
             />
+            {sauceOptions !== null &&
+                sauceOptions.length > 0 &&
+                maxSauces > 1 && (
+                    <View>
+                        <Button
+                            onPress={async () => moveForward()}
+                            mode="contained"
+                            style={{ margin: 15 }}
+                        >
+                            Next
+                        </Button>
+                    </View>
+                )}
         </Page>
     )
 }

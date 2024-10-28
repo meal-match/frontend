@@ -1,7 +1,7 @@
 import { React, useState } from 'react'
-import { FlatList } from 'react-native'
+import { FlatList, View } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
-import { List } from 'react-native-paper'
+import { List, Button } from 'react-native-paper'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { useRouter } from 'expo-router'
 
@@ -108,93 +108,19 @@ const EntreeCustomizations = () => {
                     )
                 }
             />
-            {/* <ScrollView style={{ height: '100%' }}>
-                {entreeCustomizationOptions !== null &&
-                    entreeCustomizationOptions.length > 0 &&
-                    maxCustomizations === 1 &&
-                    entreeCustomizationOptions.map((option) => (
-                        <List.Item
-                            key={option}
-                            title={option}
-                            right={(props) => (
-                                <Ionicons
-                                    {...props}
-                                    name="chevron-forward-outline"
-                                    size={28}
-                                />
-                            )}
-                            onPress={async () => {
-                                setCustomizations([...customizations, option])
-                                moveForward()
-                            }}
-                            style={
-                                entreeCustomizationOptions.indexOf(option) !==
-                                entreeCustomizationOptions.length - 1
-                                    ? {
-                                          borderBottomColor: '#828A8F',
-                                          borderBottomWidth: 1
-                                      }
-                                    : {}
-                            }
-                        />
-                    ))}
-                {entreeCustomizationOptions !== null &&
-                    entreeCustomizationOptions.length > 0 &&
-                    maxCustomizations > 1 &&
-                    entreeCustomizationOptions.map((option) => (
-                        <List.Item
-                            key={option}
-                            title={option}
-                            right={(props) => (
-                                <Ionicons
-                                    {...props}
-                                    name={
-                                        customizations.length > 0 &&
-                                        customizations.includes(option)
-                                            ? 'checkbox'
-                                            : 'square-outline'
-                                    }
-                                    size={28}
-                                />
-                            )}
-                            onPress={() => {
-                                customizations.length > 0 &&
-                                customizations.includes(option)
-                                    ? setCustomizations(
-                                          customizations.filter(
-                                              (item) => item !== option
-                                          )
-                                      )
-                                    : setCustomizations([
-                                          ...customizations,
-                                          option
-                                      ])
-                            }}
-                            style={
-                                entreeCustomizationOptions.indexOf(option) !==
-                                entreeCustomizationOptions.length - 1
-                                    ? {
-                                          borderBottomColor: '#828A8F',
-                                          borderBottomWidth: 1
-                                      }
-                                    : {}
-                            }
-                        />
-                    ))}
-                {entreeCustomizationOptions !== null &&
-                    entreeCustomizationOptions.length > 0 &&
-                    maxCustomizations > 1 && (
-                        <View>
-                            <Button
-                                onPress={async () => moveForward()}
-                                mode="contained"
-                                style={{ margin: 15 }}
-                            >
-                                Next
-                            </Button>
-                        </View>
-                    )}
-            </ScrollView> */}
+            {entreeCustomizationOptions !== null &&
+                entreeCustomizationOptions.length > 0 &&
+                maxCustomizations > 1 && (
+                    <View>
+                        <Button
+                            onPress={async () => moveForward()}
+                            mode="contained"
+                            style={{ margin: 15 }}
+                        >
+                            Next
+                        </Button>
+                    </View>
+                )}
         </Page>
     )
 }
