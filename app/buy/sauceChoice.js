@@ -26,7 +26,6 @@ const SauceChoice = () => {
         router.push('/buy/pickTime')
     }
 
-    console.log(sauceOptions)
     return (
         <Page header="Select Sauce">
             <FlatList
