@@ -24,7 +24,7 @@ const Index = () => {
     const name = profileData.firstName
 
     return (
-        <Page header={`Hello ${name}`} style={styles.page}>
+        <Page header={name ? `Hello ${name}` : 'Hello'} style={styles.page}>
             <View style={styles.buttonContainer}>
                 <Text style={styles.question}>Would you like to...</Text>
                 <Button url="buy/" text="Buy" height="15%"></Button>

@@ -9,7 +9,9 @@ import {
     SET_SAUCE,
     SET_PICKUP_TIME,
     ORDER_LOADING,
-    ORDER_ERROR
+    ORDER_ERROR,
+    ORDER_PLACED,
+    ORDER_CANCELLED
 } from '@constants'
 
 const initialState = {
@@ -23,7 +25,8 @@ const initialState = {
     sauce: [],
     pickupTime: null,
     orderLoading: false,
-    orderError: null
+    orderError: null,
+    orderID: null
 }
 
 const orderReducer = (state = initialState, action) => {
@@ -103,6 +106,15 @@ const orderReducer = (state = initialState, action) => {
                 orderLoading: false,
                 orderError: action.payload
             }
+        case ORDER_PLACED:
+            return {
+                ...state,
+                orderID: action.payload,
+                orderLoading: false,
+                orderError: null
+            }
+        case ORDER_CANCELLED:
+            return initialState
         default:
             return state
     }

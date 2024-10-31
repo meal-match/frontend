@@ -21,8 +21,8 @@ const SauceChoice = () => {
     const [sauces, setSauces] = useState([])
     const maxSauces = meal.maxSauces
 
-    const moveForward = async () => {
-        await dispatch(setSauce(sauces))
+    const moveForward = () => {
+        dispatch(setSauce(sauces))
         router.push('/buy/pickTime')
     }
 
@@ -42,7 +42,7 @@ const SauceChoice = () => {
                                     size={28}
                                 />
                             )}
-                            onPress={async () => {
+                            onPress={() => {
                                 setSauces([item.sauce])
                                 moveForward()
                             }}
@@ -71,7 +71,7 @@ const SauceChoice = () => {
                                     size={28}
                                 />
                             )}
-                            onPress={async () => {
+                            onPress={() => {
                                 if (sauces.includes(item.sauce)) {
                                     setSauces(
                                         sauces.filter(
@@ -100,7 +100,7 @@ const SauceChoice = () => {
                 maxSauces > 1 && (
                     <View>
                         <Button
-                            onPress={async () => moveForward()}
+                            onPress={moveForward}
                             mode="contained"
                             style={{ margin: 15 }}
                         >

@@ -9,6 +9,7 @@ import {
 } from 'react-native'
 import { Link } from 'expo-router'
 import { useDispatch, useSelector } from 'react-redux'
+
 import {
     getMealOptions,
     setRestaurant,
@@ -17,7 +18,7 @@ import {
     selectRestaurantError,
     selectRestaurantLoading
 } from '@store'
-
+import LoadingSpinner from '@components/LoadingSpinner'
 import Page from '@components/Page'
 
 const { width: screenWidth } = Dimensions.get('window')
@@ -43,18 +44,8 @@ const Buy = () => {
     }, [])
 
     useEffect(() => {
-        if (restaurantError !== null) {
-            setErrorText(restaurantError)
-        }
+        setErrorText(restaurantError === null ? '' : restaurantError)
     }, [restaurantError])
-
-    useEffect(() => {
-        if (restaurantLoading) {
-            setErrorText('Loading...')
-        } else {
-            setErrorText('')
-        }
-    }, [restaurantLoading])
 
     const mealData = useSelector(selectMealData)
 
@@ -80,29 +71,30 @@ const Buy = () => {
         )
     }
 
+    if (restaurantLoading) {
+        return <LoadingSpinner />
+    }
+
     return (
         <Page header="Select Location" style={styles.page}>
             {errorText.length > 0 && <Text>{JSON.stringify(errorText)}</Text>}
             <ScrollView contentContainerStyle={styles.scrollContainer}>
-                {options !== null &&
-                    options.map((option) => (
-                        <Link
-                            key={option.label}
-                            style={styles.locationLink}
-                            href={'/buy/entreeChoice'}
-                            onPress={async () => {
-                                populateRestaurantData(option.label)
-                            }}
-                        >
-                            <View style={styles.locationOption}>
-                                <Image
-                                    source={option.image}
-                                    style={styles.locationLogo}
-                                    resizeMode="contain"
-                                />
-                            </View>
-                        </Link>
-                    ))}
+                {options?.map((option) => (
+                    <Link
+                        key={option.label}
+                        style={styles.locationLink}
+                        href={'/buy/entreeChoice'}
+                        onPress={() => populateRestaurantData(option.label)}
+                    >
+                        <View style={styles.locationOption}>
+                            <Image
+                                source={option.image}
+                                style={styles.locationLogo}
+                                resizeMode="contain"
+                            />
+                        </View>
+                    </Link>
+                ))}
             </ScrollView>
         </Page>
     )

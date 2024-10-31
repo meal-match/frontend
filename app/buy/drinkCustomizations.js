@@ -28,16 +28,17 @@ const DrinkCustomizations = () => {
         )[0].maxDrinkCustomizations ??
         restaurantData.defaultMaxDrinkCustomizations
 
-    const moveForward = async () => {
-        await dispatch(setDrinkCustomizations(customizations))
+    const moveForward = () => {
+        dispatch(setDrinkCustomizations(customizations))
         router.push('/buy/pickTime')
     }
+
     return (
         <Page header="Customize Drink">
             <FlatList
                 data={drinkCustomizationOptions}
                 renderItem={(option) => {
-                    maxDrinkCustomizations === 1 ? (
+                    return maxDrinkCustomizations === 1 ? (
                         <List.Item
                             key={option.item}
                             title={option.item}
@@ -48,7 +49,7 @@ const DrinkCustomizations = () => {
                                     size={28}
                                 />
                             )}
-                            onPress={async () => {
+                            onPress={() => {
                                 setCustomizations([
                                     ...customizations,
                                     option.item
@@ -81,23 +82,21 @@ const DrinkCustomizations = () => {
                                     }
                                 />
                             )}
-                            onPress={async () => {
-                                {
-                                    if (customizations.includes(option.item)) {
-                                        setCustomizations(
-                                            customizations.filter(
-                                                (item) => item !== option.item
-                                            )
+                            onPress={() => {
+                                if (customizations.includes(option.item)) {
+                                    setCustomizations(
+                                        customizations.filter(
+                                            (item) => item !== option.item
                                         )
-                                    } else if (
-                                        customizations.length !==
-                                        maxDrinkCustomizations
-                                    ) {
-                                        setCustomizations([
-                                            ...customizations,
-                                            option.item
-                                        ])
-                                    }
+                                    )
+                                } else if (
+                                    customizations.length !==
+                                    maxDrinkCustomizations
+                                ) {
+                                    setCustomizations([
+                                        ...customizations,
+                                        option.item
+                                    ])
                                 }
                             }}
                             style={
@@ -120,7 +119,7 @@ const DrinkCustomizations = () => {
                 maxDrinkCustomizations > 1 && (
                     <View>
                         <Button
-                            onPress={async () => moveForward()}
+                            onPress={moveForward}
                             mode="contained"
                             style={{ margin: 15 }}
                         >

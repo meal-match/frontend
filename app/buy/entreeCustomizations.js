@@ -18,14 +18,14 @@ const EntreeCustomizations = () => {
     const [customizations, setCustomizations] = useState([])
     const restaurantData = useSelector(selectRestaurantData)
     const order = useSelector(selectOrder)
-    const meal = restaurantData.meals.filter(
+    const meal = restaurantData.meals?.filter(
         (item) => item.entree === order.entree
     )[0]
-    const entreeCustomizationOptions = meal.entreeCustomizations
-    const maxCustomizations = meal.maxEntreeCustomizations
+    const entreeCustomizationOptions = meal?.entreeCustomizations
+    const maxCustomizations = meal?.maxEntreeCustomizations
 
-    const moveForward = async () => {
-        await dispatch(setEntreeCustomizations(customizations))
+    const moveForward = () => {
+        dispatch(setEntreeCustomizations(customizations))
         router.push('/buy/sideChoice')
     }
 
@@ -45,7 +45,7 @@ const EntreeCustomizations = () => {
                                     size={28}
                                 />
                             )}
-                            onPress={async () => {
+                            onPress={() => {
                                 setCustomizations([
                                     ...customizations,
                                     option.item
@@ -108,12 +108,11 @@ const EntreeCustomizations = () => {
                     )
                 }
             />
-            {entreeCustomizationOptions !== null &&
-                entreeCustomizationOptions.length > 0 &&
+            {entreeCustomizationOptions?.length > 0 &&
                 maxCustomizations > 1 && (
                     <View>
                         <Button
-                            onPress={async () => moveForward()}
+                            onPress={moveForward}
                             mode="contained"
                             style={{ margin: 15 }}
                         >

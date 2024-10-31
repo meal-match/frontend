@@ -28,8 +28,8 @@ const SideCustomizations = () => {
 
     const maxSideCustomizations = side.maxSideCustomizations
 
-    const moveForward = async () => {
-        await dispatch(setSideCustomizations(customizations))
+    const moveForward = () => {
+        dispatch(setSideCustomizations(customizations))
         router.push('/buy/drinkChoice')
     }
 
@@ -49,7 +49,7 @@ const SideCustomizations = () => {
                                     size={28}
                                 />
                             )}
-                            onPress={async () => {
+                            onPress={() => {
                                 setCustomizations([
                                     ...customizations,
                                     option.item
@@ -84,23 +84,21 @@ const SideCustomizations = () => {
                                     size={28}
                                 />
                             )}
-                            onPress={async () => {
-                                {
-                                    if (customizations.includes(option.item)) {
-                                        setCustomizations(
-                                            customizations.filter(
-                                                (item) => item !== option.item
-                                            )
+                            onPress={() => {
+                                if (customizations.includes(option.item)) {
+                                    setCustomizations(
+                                        customizations.filter(
+                                            (item) => item !== option.item
                                         )
-                                    } else if (
-                                        customizations.length !==
-                                        maxSideCustomizations
-                                    ) {
-                                        setCustomizations([
-                                            ...customizations,
-                                            option.item
-                                        ])
-                                    }
+                                    )
+                                } else if (
+                                    customizations.length !==
+                                    maxSideCustomizations
+                                ) {
+                                    setCustomizations([
+                                        ...customizations,
+                                        option.item
+                                    ])
                                 }
                             }}
                             style={
@@ -123,7 +121,7 @@ const SideCustomizations = () => {
                 maxSideCustomizations > 1 && (
                     <View>
                         <Button
-                            onPress={async () => moveForward()}
+                            onPress={moveForward}
                             mode="contained"
                             style={{ margin: 15 }}
                         >

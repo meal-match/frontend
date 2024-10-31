@@ -1,27 +1,60 @@
-import React from 'react'
-import Page from '@components/Page'
+import React, { useEffect } from 'react'
 import { Text, View, StyleSheet } from 'react-native'
-import { Button } from 'react-native-paper'
-import { useSelector } from 'react-redux'
-import { selectOrder } from '@store'
+import { Button, HelperText } from 'react-native-paper'
+import { useDispatch, useSelector } from 'react-redux'
 import { useRouter } from 'expo-router'
 
+import {
+    cancelOrder,
+    selectOrder,
+    selectOrderLoading,
+    selectOrderError,
+    selectOrderID
+} from '@store'
+import LoadingSpinner from '@components/LoadingSpinner'
+import Page from '@components/Page'
+
 const OrderPlaced = () => {
+    const dispatch = useDispatch()
     const router = useRouter()
+
     const order = useSelector(selectOrder)
+    const orderLoading = useSelector(selectOrderLoading)
+    const orderError = useSelector(selectOrderError)
+    const orderID = useSelector(selectOrderID)
+
+    useEffect(() => {
+        if (orderID === null) {
+            router.replace('/')
+        }
+    }, [orderID])
+
+    if (orderLoading) {
+        return <LoadingSpinner />
+    }
+
     return (
-        <Page header="Order Placed">
-            <Text>
-                Thank you for using MealMatch!{'\n'}Once your order is
-                fulfilled, you will receive a notification and pickup details.
+        <Page header="Order Placed" style={styles.page}>
+            <Text style={styles.text}>
+                Thank you for using MealMatch! Once your order is fulfilled, you
+                will receive a notification and pickup details.
                 {'\n\n'}
                 Meal: {order.entree}
                 {'\n'}
                 Pickup Time: {order.pickupTime}
             </Text>
             <View style={styles.divider} />
-            <View>
-                <Button mode="contained" style={styles.footerButton}>
+            {orderError && (
+                <HelperText type="error" style={styles.errorText}>
+                    An error occured: {orderError}
+                </HelperText>
+            )}
+            <View style={styles.buttonContainer}>
+                <Button
+                    onPress={() => dispatch(cancelOrder)}
+                    mode="contained"
+                    style={styles.footerButton}
+                >
                     Cancel Order
                 </Button>
                 <Button
@@ -44,15 +77,25 @@ const styles = StyleSheet.create({
         marginTop: 10 // Spacing between links and dividers
     },
     buttonContainer: {
-        // Can not get buttons to float to bottom . . . fix later
         flex: 1,
-        display: 'flex',
-        flexDirection: 'column',
         justifyContent: 'flex-end',
-        rowGap: 10
+        marginBottom: 10
     },
     footerButton: {
         margin: 10
+    },
+    text: {
+        paddingLeft: 10,
+        paddingRight: 10,
+        fontSize: 18,
+        marginTop: 10
+    },
+    errorText: {
+        fontSize: 18
+    },
+    page: {
+        display: 'flex',
+        flexDirection: 'column'
     }
 })
 

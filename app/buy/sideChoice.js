@@ -20,8 +20,8 @@ const SideChoice = () => {
 
     const router = useRouter()
 
-    const moveForward = async (side) => {
-        await dispatch(setSide(side.side))
+    const moveForward = (side) => {
+        dispatch(setSide(side.side))
         if (side.sideCustomizations.length > 0) {
             router.push('/buy/sideCustomizations')
         } else {
@@ -42,7 +42,7 @@ const SideChoice = () => {
                                 size={28}
                             />
                         )}
-                        onPress={async () => moveForward(option.item)}
+                        onPress={() => moveForward(option.item)}
                         style={
                             sideOptions.indexOf(option.item) !==
                             sideOptions.length - 1

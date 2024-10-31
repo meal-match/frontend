@@ -15,8 +15,8 @@ const EntreeChoice = () => {
 
     const router = useRouter()
 
-    const moveForward = async (meal) => {
-        await dispatch(setEntree(meal.entree))
+    const moveForward = (meal) => {
+        dispatch(setEntree(meal.entree))
         if (meal.entreeCustomizations.length > 0) {
             router.push('/buy/entreeCustomizations')
         } else {
@@ -38,7 +38,7 @@ const EntreeChoice = () => {
                                 size={28}
                             />
                         )}
-                        onPress={async () => moveForward(option.item)}
+                        onPress={() => moveForward(option.item)}
                         style={
                             restaurantData.meals.indexOf(option.item) !==
                             restaurantData.meals.length - 1

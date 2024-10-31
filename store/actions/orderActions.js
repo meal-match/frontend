@@ -1,6 +1,6 @@
 import {
     SET_RESTAURANT,
-    MEAL_ERROR,
+    ORDER_ERROR,
     SET_ENTREE,
     SET_ENTREE_CUSTOMIZATIONS,
     SET_DRINK,
@@ -8,12 +8,15 @@ import {
     SET_SAUCE,
     SET_SIDE,
     SET_SIDE_CUSTOMIZATIONS,
-    ORDER_MEAL
+    ORDER_PLACED,
+    ORDER_LOADING,
+    ORDER_CANCELLED
 } from '@constants'
+import { timeStringToDate } from '@utils'
 
-export const setRestaurant = (restaurant) => async (dispatch, getState) => {
+export const setRestaurant = (restaurant) => (dispatch, getState) => {
     const { order } = getState()
-    if (order.loading) {
+    if (order.orderLoading) {
         return
     }
     try {
@@ -23,15 +26,15 @@ export const setRestaurant = (restaurant) => async (dispatch, getState) => {
         })
     } catch (error) {
         dispatch({
-            type: MEAL_ERROR,
+            type: ORDER_ERROR,
             payload: 'An unknown error occured'
         })
     }
 }
 
-export const setEntree = (entree) => async (dispatch, getState) => {
+export const setEntree = (entree) => (dispatch, getState) => {
     const { order } = getState()
-    if (order.loading) {
+    if (order.orderLoading) {
         return
     }
     try {
@@ -41,16 +44,16 @@ export const setEntree = (entree) => async (dispatch, getState) => {
         })
     } catch (error) {
         dispatch({
-            type: MEAL_ERROR,
+            type: ORDER_ERROR,
             payload: 'An unknown error occured'
         })
     }
 }
 
 export const setEntreeCustomizations =
-    (customizations) => async (dispatch, getState) => {
+    (customizations) => (dispatch, getState) => {
         const { order } = getState()
-        if (order.loading) {
+        if (order.orderLoading) {
             return
         }
         try {
@@ -60,15 +63,15 @@ export const setEntreeCustomizations =
             })
         } catch (error) {
             dispatch({
-                type: MEAL_ERROR,
+                type: ORDER_ERROR,
                 payload: 'An unknown error occured'
             })
         }
     }
 
-export const setSide = (side) => async (dispatch, getState) => {
+export const setSide = (side) => (dispatch, getState) => {
     const { order } = getState()
-    if (order.loading) {
+    if (order.orderLoading) {
         return
     }
     try {
@@ -78,16 +81,16 @@ export const setSide = (side) => async (dispatch, getState) => {
         })
     } catch (error) {
         dispatch({
-            type: MEAL_ERROR,
+            type: ORDER_ERROR,
             payload: 'An unknown error occured'
         })
     }
 }
 
 export const setSideCustomizations =
-    (customizations) => async (dispatch, getState) => {
+    (customizations) => (dispatch, getState) => {
         const { order } = getState()
-        if (order.loading) {
+        if (order.orderLoading) {
             return
         }
         try {
@@ -97,15 +100,15 @@ export const setSideCustomizations =
             })
         } catch (error) {
             dispatch({
-                type: MEAL_ERROR,
+                type: ORDER_ERROR,
                 payload: 'An unknown error occured'
             })
         }
     }
 
-export const setDrink = (drink) => async (dispatch, getState) => {
+export const setDrink = (drink) => (dispatch, getState) => {
     const { order } = getState()
-    if (order.loading) {
+    if (order.orderLoading) {
         return
     }
     try {
@@ -115,15 +118,15 @@ export const setDrink = (drink) => async (dispatch, getState) => {
         })
     } catch (error) {
         dispatch({
-            type: MEAL_ERROR,
+            type: ORDER_ERROR,
             payload: 'An unknown error occured'
         })
     }
 }
 
-export const setSauce = (sauce) => async (dispatch, getState) => {
+export const setSauce = (sauce) => (dispatch, getState) => {
     const { order } = getState()
-    if (order.loading) {
+    if (order.orderLoading) {
         return
     }
     try {
@@ -133,15 +136,15 @@ export const setSauce = (sauce) => async (dispatch, getState) => {
         })
     } catch (error) {
         dispatch({
-            type: MEAL_ERROR,
+            type: ORDER_ERROR,
             payload: 'An unknown error occured'
         })
     }
 }
 
-export const setPickupTime = (time) => async (dispatch, getState) => {
+export const setPickupTime = (time) => (dispatch, getState) => {
     const { order } = getState()
-    if (order.loading) {
+    if (order.orderLoading) {
         return
     }
     try {
@@ -151,25 +154,104 @@ export const setPickupTime = (time) => async (dispatch, getState) => {
         })
     } catch (error) {
         dispatch({
-            type: MEAL_ERROR,
+            type: ORDER_ERROR,
             payload: 'An unknown error occured'
         })
     }
 }
 
-export const orderMeal = (meal) => async (dispatch, getState) => {
+export const placeOrder = async (dispatch, getState) => {
     const { order } = getState()
-    if (order.loading) {
+    if (order.orderLoading) {
         return
     }
+
     try {
         dispatch({
-            type: ORDER_MEAL,
-            payload: meal
+            type: ORDER_LOADING
         })
+
+        const request = await fetch(
+            process.env.EXPO_PUBLIC_API_URL + '/orders/buy',
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include',
+                body: JSON.stringify({
+                    entree: order.entree,
+                    entreeCustomizations: order.entreeCustomizations,
+                    side: order.side,
+                    sideCustomizations: order.sideCustomizations,
+                    drink: order.drink,
+                    drinkCustomizations: order.drinkCustomizations,
+                    sauces: order.sauce,
+                    pickupTime: timeStringToDate(order.pickupTime),
+                    restaurant: order.restaurant
+                })
+            }
+        )
+        const response = await request.json()
+
+        if (request.status === 201) {
+            dispatch({
+                type: ORDER_PLACED,
+                payload: response.orderID
+            })
+        } else {
+            dispatch({
+                type: ORDER_ERROR,
+                payload: response.message
+            })
+        }
     } catch (error) {
         dispatch({
-            type: MEAL_ERROR,
+            type: ORDER_ERROR,
+            payload: 'An unknown error occured'
+        })
+    }
+}
+
+export const cancelOrder = async (dispatch, getState) => {
+    const { order } = getState()
+    if (order.orderLoading || !order.orderID) {
+        return
+    }
+
+    try {
+        dispatch({
+            type: ORDER_LOADING
+        })
+
+        const request = await fetch(
+            process.env.EXPO_PUBLIC_API_URL +
+                '/orders/' +
+                order.orderID +
+                '/cancel-buy',
+            {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include'
+            }
+        )
+        const response = await request.json()
+
+        if (request.status === 200) {
+            dispatch({
+                type: ORDER_CANCELLED
+            })
+        } else {
+            dispatch({
+                type: ORDER_ERROR,
+                payload: response.message
+            })
+        }
+    } catch (error) {
+        dispatch({
+            type: ORDER_ERROR,
             payload: 'An unknown error occured'
         })
     }

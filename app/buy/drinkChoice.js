@@ -18,8 +18,8 @@ const DrinkChoice = () => {
     const drinkOptions = meal.drinks
     const router = useRouter()
 
-    const moveForward = async (drink) => {
-        await dispatch(setDrink(drink.drink))
+    const moveForward = (drink) => {
+        dispatch(setDrink(drink.drink))
         if (drink.drinkCustomizations.length > 0) {
             router.push('/buy/drinkCustomizations')
         } else if (meal.sauces.length > 0) {
@@ -42,7 +42,7 @@ const DrinkChoice = () => {
                                 size={28}
                             />
                         )}
-                        onPress={async () => moveForward(option.item)}
+                        onPress={() => moveForward(option.item)}
                         style={
                             drinkOptions.indexOf(option.item) !==
                             drinkOptions.length - 1

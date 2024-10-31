@@ -3,7 +3,7 @@ import { SafeAreaView, StyleSheet, View } from 'react-native'
 import { node, object, string } from 'prop-types'
 import { useRouter, useFocusEffect } from 'expo-router'
 import { useDispatch, useSelector } from 'react-redux'
-import { ActivityIndicator, Text } from 'react-native-paper'
+import { Text } from 'react-native-paper'
 
 import {
     checkAuthStatus,
@@ -14,6 +14,7 @@ import {
 
 import BottomNavBar from '@components/BottomNavBar'
 import Container from '@components/Container'
+import LoadingSpinner from '@components/LoadingSpinner'
 
 const Page = ({ style, header, children }) => {
     const dispatch = useDispatch()
@@ -36,11 +37,7 @@ const Page = ({ style, header, children }) => {
     }, [checkAuthFail])
 
     if (!isLoggedIn || authLoading) {
-        return (
-            <Container>
-                <ActivityIndicator size="large" />
-            </Container>
-        )
+        return <LoadingSpinner />
     }
 
     return (
