@@ -11,7 +11,8 @@ import {
     ORDER_LOADING,
     ORDER_ERROR,
     ORDER_PLACED,
-    ORDER_CANCELLED
+    ORDER_CANCELLED,
+    CLEAR_ORDER
 } from '@constants'
 
 const initialState = {
@@ -23,7 +24,7 @@ const initialState = {
     drink: null,
     drinkCustomizations: [],
     sauce: [],
-    pickupTime: null,
+    pickupTime: new Date(),
     orderLoading: false,
     orderError: null,
     orderID: null
@@ -114,6 +115,7 @@ const orderReducer = (state = initialState, action) => {
                 orderError: null
             }
         case ORDER_CANCELLED:
+        case CLEAR_ORDER:
             return initialState
         default:
             return state

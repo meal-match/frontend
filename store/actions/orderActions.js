@@ -10,9 +10,9 @@ import {
     SET_SIDE_CUSTOMIZATIONS,
     ORDER_PLACED,
     ORDER_LOADING,
-    ORDER_CANCELLED
+    ORDER_CANCELLED,
+    CLEAR_ORDER
 } from '@constants'
-import { timeStringToDate } from '@utils'
 
 export const setRestaurant = (restaurant) => (dispatch, getState) => {
     const { order } = getState()
@@ -187,7 +187,7 @@ export const placeOrder = async (dispatch, getState) => {
                     drink: order.drink,
                     drinkCustomizations: order.drinkCustomizations,
                     sauces: order.sauce,
-                    pickupTime: timeStringToDate(order.pickupTime),
+                    pickupTime: order.pickupTime,
                     restaurant: order.restaurant
                 })
             }
@@ -249,6 +249,23 @@ export const cancelOrder = async (dispatch, getState) => {
                 payload: response.message
             })
         }
+    } catch (error) {
+        dispatch({
+            type: ORDER_ERROR,
+            payload: 'An unknown error occured'
+        })
+    }
+}
+
+export const clearOrder = async (dispatch, getState) => {
+    const { order } = getState()
+    if (order.orderLoading) {
+        return
+    }
+    try {
+        dispatch({
+            type: CLEAR_ORDER
+        })
     } catch (error) {
         dispatch({
             type: ORDER_ERROR,

@@ -1,6 +1,5 @@
-export const timeStringToDate = (timeString) => {
-    const [hours, minutes] = timeString.split(':').map(Number)
-    const date = new Date()
-    date.setHours(hours, minutes, 0, 0)
-    return date
+export const displayTime = (time) => {
+    const hours = time.getHours()
+    const minutes = time.getMinutes()
+    return `${(hours % 12 === 0 ? 12 : hours % 12) + ':' + minutes.toLocaleString('en-US', { minimumIntegerDigits: 2 }) + ' ' + (hours > 11 ? 'PM' : 'AM')}`
 }

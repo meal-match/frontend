@@ -3,13 +3,15 @@ import { Text, View, StyleSheet } from 'react-native'
 import { Button, HelperText } from 'react-native-paper'
 import { useDispatch, useSelector } from 'react-redux'
 import { useRouter } from 'expo-router'
+import { displayTime } from '@utils'
 
 import {
     cancelOrder,
     selectOrder,
     selectOrderLoading,
     selectOrderError,
-    selectOrderID
+    selectOrderID,
+    clearOrder
 } from '@store'
 import LoadingSpinner from '@components/LoadingSpinner'
 import Page from '@components/Page'
@@ -33,6 +35,11 @@ const OrderPlaced = () => {
         return <LoadingSpinner />
     }
 
+    const returnHome = () => {
+        router.replace('/')
+        dispatch(clearOrder)
+    }
+
     return (
         <Page header="Order Placed" style={styles.page}>
             <Text style={styles.text}>
@@ -41,7 +48,7 @@ const OrderPlaced = () => {
                 {'\n\n'}
                 Meal: {order.entree}
                 {'\n'}
-                Pickup Time: {order.pickupTime}
+                Pickup Time: {displayTime(order.pickupTime)}
             </Text>
             <View style={styles.divider} />
             {orderError && (
@@ -58,7 +65,7 @@ const OrderPlaced = () => {
                     Cancel Order
                 </Button>
                 <Button
-                    onPress={() => router.push('/')}
+                    onPress={returnHome}
                     mode="contained"
                     style={styles.footerButton}
                 >

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { TimePickerModal } from 'react-native-paper-dates'
+import DateTimePicker from '@react-native-community/datetimepicker'
 import { StyleSheet, Text } from 'react-native'
 import { Button, Dialog, HelperText, Portal } from 'react-native-paper'
 import { useSelector, useDispatch } from 'react-redux'
+import { displayTime } from '@utils'
 
 import {
     placeOrder,
@@ -17,26 +18,16 @@ import LoadingSpinner from '@components/LoadingSpinner'
 import Page from '@components/Page'
 
 const PickTime = () => {
-    const [pickerVisible, setPickerVisible] = useState(false)
     const [dialogVisible, setDialogVisible] = useState(false)
+    const [dt, setDt] = useState(
+        new Date(new Date().setMinutes(new Date().getMinutes() + 30))
+    )
 
     const dispatch = useDispatch()
 
-    let dt = new Date()
-    dt = new Date(dt.setMinutes(dt.getMinutes() + 30))
-
-    const [hours, setHours] = useState(dt.getHours())
-    const [minutes, setMinutes] = useState(dt.getMinutes())
-
-    const onDismiss = () => {
-        setPickerVisible(false)
-    }
-    const onConfirm = ({ hours, minutes }) => {
-        setPickerVisible(false)
-        setHours(hours)
-        setMinutes(minutes)
+    const onConfirm = () => {
         setDialogVisible(true)
-        dispatch(setPickupTime(`${hours}:${minutes}`))
+        dispatch(setPickupTime(dt))
     }
 
     const order = useSelector(selectOrder)
@@ -61,29 +52,27 @@ const PickTime = () => {
                 mind that this time will have a range of 10 minutes before and
                 after.
             </Text>
-            <Button onPress={() => setPickerVisible(true)} mode="contained">
-                Pick Time
-            </Button>
             {orderError && (
                 <HelperText type="error" style={styles.text}>
                     An error occurred: {orderError}
                 </HelperText>
             )}
-            <TimePickerModal
-                visible={pickerVisible}
-                locale="en-GB"
-                hours={hours}
-                minutes={minutes}
-                onConfirm={onConfirm}
-                onDismiss={onDismiss}
-                defaultInputType="keyboard"
+            <DateTimePicker
+                display="spinner"
+                mode="time"
+                value={dt}
+                onChange={(event, selectedDate) => setDt(selectedDate)}
+                themeVariant="light"
             />
+            <Button onPress={() => onConfirm()} mode="contained">
+                Review Order
+            </Button>
             <Portal>
                 <Dialog visible={dialogVisible}>
                     <Dialog.Title>Confirm Order</Dialog.Title>
                     <Dialog.Content>
                         <Text>
-                            Your order will be ready at {hours}:{minutes}.{' '}
+                            Your order will be ready at {displayTime(dt)}.
                             {'\n\n'}
                             Entree: {order.entree}
                             {order.entreeCustomizations.length > 0
