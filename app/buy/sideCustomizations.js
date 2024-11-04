@@ -1,10 +1,8 @@
 import React, { useState } from 'react'
-import { FlatList, View } from 'react-native'
-import { List, Button } from 'react-native-paper'
-import Ionicons from '@expo/vector-icons/Ionicons'
 import { useRouter } from 'expo-router'
 import { useDispatch, useSelector } from 'react-redux'
 
+import MultiItemSelector from '@components/MultiItemSelector'
 import Page from '@components/Page'
 import {
     setSideCustomizations,
@@ -35,100 +33,13 @@ const SideCustomizations = () => {
 
     return (
         <Page header="Customize Side">
-            <FlatList
-                data={sideCustomizationOptions}
-                renderItem={(option) =>
-                    maxSideCustomizations === 1 ? (
-                        <List.Item
-                            key={option.item}
-                            title={option.item}
-                            right={(props) => (
-                                <Ionicons
-                                    {...props}
-                                    name="chevron-forward-outline"
-                                    size={28}
-                                />
-                            )}
-                            onPress={() => {
-                                setCustomizations([
-                                    ...customizations,
-                                    option.item
-                                ])
-                                moveForward()
-                            }}
-                            style={
-                                sideCustomizationOptions.indexOf(
-                                    option.item
-                                ) !==
-                                sideCustomizationOptions.length - 1
-                                    ? {
-                                          borderBottomColor: '#828A8F',
-                                          borderBottomWidth: 1
-                                      }
-                                    : {}
-                            }
-                        />
-                    ) : (
-                        <List.Item
-                            key={option.item}
-                            title={option.item}
-                            right={(props) => (
-                                <Ionicons
-                                    {...props}
-                                    name={
-                                        customizations.length > 0 &&
-                                        customizations.includes(option.item)
-                                            ? 'checkbox'
-                                            : 'square-outline'
-                                    }
-                                    size={28}
-                                />
-                            )}
-                            onPress={() => {
-                                if (customizations.includes(option.item)) {
-                                    setCustomizations(
-                                        customizations.filter(
-                                            (item) => item !== option.item
-                                        )
-                                    )
-                                } else if (
-                                    customizations.length !==
-                                    maxSideCustomizations
-                                ) {
-                                    setCustomizations([
-                                        ...customizations,
-                                        option.item
-                                    ])
-                                }
-                            }}
-                            style={
-                                sideCustomizationOptions.indexOf(
-                                    option.item
-                                ) !==
-                                sideCustomizationOptions.length - 1
-                                    ? {
-                                          borderBottomColor: '#828A8F',
-                                          borderBottomWidth: 1
-                                      }
-                                    : {}
-                            }
-                        />
-                    )
-                }
+            <MultiItemSelector
+                items={sideCustomizationOptions}
+                maxSelections={maxSideCustomizations}
+                mealData={customizations}
+                setMealData={setCustomizations}
+                moveForward={moveForward}
             />
-            {sideCustomizationOptions !== null &&
-                sideCustomizationOptions.length > 0 &&
-                maxSideCustomizations > 1 && (
-                    <View>
-                        <Button
-                            onPress={moveForward}
-                            mode="contained"
-                            style={{ margin: 15 }}
-                        >
-                            Next
-                        </Button>
-                    </View>
-                )}
         </Page>
     )
 }

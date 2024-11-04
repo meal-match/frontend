@@ -1,12 +1,10 @@
 import React from 'react'
-import { List } from 'react-native-paper'
-import Ionicons from '@expo/vector-icons/Ionicons'
-import { FlatList } from 'react-native'
 import { useRouter } from 'expo-router'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { setDrink, selectRestaurantData, selectOrder } from '@store'
 import Page from '@components/Page'
+import SingleItemSelector from '@components/SingleItemSelector'
 
 const DrinkChoice = () => {
     const dispatch = useDispatch()
@@ -30,31 +28,11 @@ const DrinkChoice = () => {
     }
     return (
         <Page header="Select Drink" style={{ overflow: 'hidden' }}>
-            <FlatList
-                data={drinkOptions}
-                renderItem={(option) => (
-                    <List.Item
-                        title={option.item.drink}
-                        right={(props) => (
-                            <Ionicons
-                                {...props}
-                                name="chevron-forward-outline"
-                                size={28}
-                            />
-                        )}
-                        onPress={() => moveForward(option.item)}
-                        style={
-                            drinkOptions.indexOf(option.item) !==
-                            drinkOptions.length - 1
-                                ? {
-                                      borderBottomColor: '#828A8F',
-                                      borderBottomWidth: 1
-                                  }
-                                : {}
-                        }
-                    />
-                )}
-                keyExtractor={(item) => item.drink}
+            <SingleItemSelector
+                items={drinkOptions.map((item) => {
+                    return { ...item, name: item.drink }
+                })}
+                moveForward={moveForward}
             />
         </Page>
     )

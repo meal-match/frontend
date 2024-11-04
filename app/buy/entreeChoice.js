@@ -1,11 +1,9 @@
 import { React } from 'react'
-import { FlatList } from 'react-native'
-import { List } from 'react-native-paper'
-import Ionicons from '@expo/vector-icons/Ionicons'
 import { useRouter } from 'expo-router'
 import { useDispatch, useSelector } from 'react-redux'
 
 import Page from '@components/Page'
+import SingleItemSelector from '@components/SingleItemSelector'
 import { setEntree, selectRestaurantData } from '@store'
 
 const EntreeChoice = () => {
@@ -26,30 +24,11 @@ const EntreeChoice = () => {
 
     return (
         <Page header="Select Entree">
-            <FlatList
-                data={restaurantData.meals}
-                renderItem={(option) => (
-                    <List.Item
-                        title={option.item.entree}
-                        right={(props) => (
-                            <Ionicons
-                                {...props}
-                                name="chevron-forward-outline"
-                                size={28}
-                            />
-                        )}
-                        onPress={() => moveForward(option.item)}
-                        style={
-                            restaurantData.meals.indexOf(option.item) !==
-                            restaurantData.meals.length - 1
-                                ? {
-                                      borderBottomColor: '#828A8F',
-                                      borderBottomWidth: 1
-                                  }
-                                : {}
-                        }
-                    />
-                )}
+            <SingleItemSelector
+                items={restaurantData.meals.map((item) => {
+                    return { ...item, name: item.entree }
+                })}
+                moveForward={moveForward}
             />
         </Page>
     )

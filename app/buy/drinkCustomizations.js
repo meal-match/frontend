@@ -1,10 +1,8 @@
 import React, { useState } from 'react'
-import { FlatList, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
-import { List, Button } from 'react-native-paper'
-import Ionicons from '@expo/vector-icons/Ionicons'
 import { useRouter } from 'expo-router'
 
+import MultiItemSelector from '@components/MultiItemSelector'
 import Page from '@components/Page'
 import {
     setDrinkCustomizations,
@@ -35,98 +33,13 @@ const DrinkCustomizations = () => {
 
     return (
         <Page header="Customize Drink">
-            <FlatList
-                data={drinkCustomizationOptions}
-                renderItem={(option) => {
-                    return maxDrinkCustomizations === 1 ? (
-                        <List.Item
-                            key={option.item}
-                            title={option.item}
-                            right={(props) => (
-                                <Ionicons
-                                    {...props}
-                                    name="chevron-forward-outline"
-                                    size={28}
-                                />
-                            )}
-                            onPress={() => {
-                                setCustomizations([
-                                    ...customizations,
-                                    option.item
-                                ])
-                                moveForward()
-                            }}
-                            style={
-                                drinkCustomizationOptions.indexOf(
-                                    option.item
-                                ) !==
-                                drinkCustomizationOptions.length - 1
-                                    ? {
-                                          borderBottomColor: '#828A8F',
-                                          borderBottomWidth: 1
-                                      }
-                                    : {}
-                            }
-                        />
-                    ) : (
-                        <List.Item
-                            key={option.item}
-                            title={option.item}
-                            right={(props) => (
-                                <Ionicons
-                                    {...props}
-                                    name={
-                                        customizations.includes(option.item)
-                                            ? 'checkbox'
-                                            : 'square-outline'
-                                    }
-                                />
-                            )}
-                            onPress={() => {
-                                if (customizations.includes(option.item)) {
-                                    setCustomizations(
-                                        customizations.filter(
-                                            (item) => item !== option.item
-                                        )
-                                    )
-                                } else if (
-                                    customizations.length !==
-                                    maxDrinkCustomizations
-                                ) {
-                                    setCustomizations([
-                                        ...customizations,
-                                        option.item
-                                    ])
-                                }
-                            }}
-                            style={
-                                drinkCustomizationOptions.indexOf(
-                                    option.item
-                                ) !==
-                                drinkCustomizationOptions.length - 1
-                                    ? {
-                                          borderBottomColor: '#828A8F',
-                                          borderBottomWidth: 1
-                                      }
-                                    : {}
-                            }
-                        />
-                    )
-                }}
+            <MultiItemSelector
+                items={drinkCustomizationOptions}
+                maxSelections={maxDrinkCustomizations}
+                mealData={customizations}
+                setMealData={setCustomizations}
+                moveForward={moveForward}
             />
-            {drinkCustomizationOptions !== null &&
-                drinkCustomizationOptions.length > 0 &&
-                maxDrinkCustomizations > 1 && (
-                    <View>
-                        <Button
-                            onPress={moveForward}
-                            mode="contained"
-                            style={{ margin: 15 }}
-                        >
-                            Next
-                        </Button>
-                    </View>
-                )}
         </Page>
     )
 }

@@ -1,11 +1,9 @@
 import React from 'react'
-import { FlatList } from 'react-native'
-import { List } from 'react-native-paper'
-import Ionicons from '@expo/vector-icons/Ionicons'
 import { useRouter } from 'expo-router'
 import { useDispatch, useSelector } from 'react-redux'
 
 import Page from '@components/Page'
+import SingleItemSelector from '@components/SingleItemSelector'
 import { setSide, selectRestaurantData, selectOrder } from '@store'
 
 const SideChoice = () => {
@@ -30,30 +28,11 @@ const SideChoice = () => {
     }
     return (
         <Page header="Select Side">
-            <FlatList
-                data={sideOptions}
-                renderItem={(option) => (
-                    <List.Item
-                        title={option.item.side}
-                        right={(props) => (
-                            <Ionicons
-                                {...props}
-                                name="chevron-forward-outline"
-                                size={28}
-                            />
-                        )}
-                        onPress={() => moveForward(option.item)}
-                        style={
-                            sideOptions.indexOf(option.item) !==
-                            sideOptions.length - 1
-                                ? {
-                                      borderBottomColor: '#828A8F',
-                                      borderBottomWidth: 1
-                                  }
-                                : {}
-                        }
-                    />
-                )}
+            <SingleItemSelector
+                items={sideOptions.map((item) => {
+                    return { ...item, name: item.side }
+                })}
+                moveForward={moveForward}
             />
         </Page>
     )

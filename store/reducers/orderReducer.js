@@ -43,6 +43,12 @@ const orderReducer = (state = initialState, action) => {
             return {
                 ...state,
                 entree: action.payload,
+                entreeCustomizations: [],
+                side: null,
+                sideCustomizations: [],
+                drink: null,
+                drinkCustomizations: [],
+                sauce: [],
                 orderLoading: false,
                 orderError: null
             }
@@ -57,6 +63,7 @@ const orderReducer = (state = initialState, action) => {
             return {
                 ...state,
                 side: action.payload,
+                sideCustomizations: [],
                 orderLoading: false,
                 orderError: null
             }
@@ -71,6 +78,7 @@ const orderReducer = (state = initialState, action) => {
             return {
                 ...state,
                 drink: action.payload,
+                drinkCustomizations: [],
                 orderLoading: false,
                 orderError: null
             }

@@ -1,10 +1,8 @@
 import React, { useState } from 'react'
-import { FlatList, View } from 'react-native'
-import { List, Button } from 'react-native-paper'
-import Ionicons from '@expo/vector-icons/Ionicons'
 import { useRouter } from 'expo-router'
 import { useDispatch, useSelector } from 'react-redux'
 
+import MultiItemSelector from '@components/MultiItemSelector'
 import Page from '@components/Page'
 import { setSauce, selectRestaurantData, selectOrder } from '@store'
 
@@ -28,86 +26,13 @@ const SauceChoice = () => {
 
     return (
         <Page header="Select Sauce">
-            <FlatList
-                data={sauceOptions.map((sauce) => ({ sauce }))}
-                renderItem={({ item }) =>
-                    maxSauces === 1 ? (
-                        <List.Item
-                            key={item.sauce}
-                            title={item.sauce}
-                            right={(props) => (
-                                <Ionicons
-                                    {...props}
-                                    name="chevron-forward-outline"
-                                    size={28}
-                                />
-                            )}
-                            onPress={() => {
-                                setSauces([item.sauce])
-                                moveForward()
-                            }}
-                            style={
-                                sauceOptions.indexOf(item.sauce) !==
-                                sauceOptions.length - 1
-                                    ? {
-                                          borderBottomColor: '#828A8F',
-                                          borderBottomWidth: 1
-                                      }
-                                    : {}
-                            }
-                        />
-                    ) : (
-                        <List.Item
-                            key={item.sauce}
-                            title={item.sauce}
-                            right={(props) => (
-                                <Ionicons
-                                    {...props}
-                                    name={
-                                        sauces.includes(item.sauce)
-                                            ? 'checkbox'
-                                            : 'square-outline'
-                                    }
-                                    size={28}
-                                />
-                            )}
-                            onPress={() => {
-                                if (sauces.includes(item.sauce)) {
-                                    setSauces(
-                                        sauces.filter(
-                                            (sauce) => sauce !== item.sauce
-                                        )
-                                    )
-                                } else if (sauces.length < maxSauces) {
-                                    setSauces([...sauces, item.sauce])
-                                }
-                            }}
-                            style={
-                                sauceOptions.indexOf(item.sauce) !==
-                                sauceOptions.length - 1
-                                    ? {
-                                          borderBottomColor: '#828A8F',
-                                          borderBottomWidth: 1
-                                      }
-                                    : {}
-                            }
-                        />
-                    )
-                }
+            <MultiItemSelector
+                items={sauceOptions}
+                maxSelections={maxSauces}
+                mealData={sauces}
+                setMealData={setSauces}
+                moveForward={moveForward}
             />
-            {sauceOptions !== null &&
-                sauceOptions.length > 0 &&
-                maxSauces > 1 && (
-                    <View>
-                        <Button
-                            onPress={moveForward}
-                            mode="contained"
-                            style={{ margin: 15 }}
-                        >
-                            Next
-                        </Button>
-                    </View>
-                )}
         </Page>
     )
 }
