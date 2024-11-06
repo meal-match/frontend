@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import {
+    Image,
     StyleSheet,
     View,
     Text,
@@ -9,61 +10,77 @@ import {
 } from 'react-native'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { useRouter } from 'expo-router'
+import { useDispatch, useSelector } from 'react-redux'
 
+import ErrorDialog from '@components/ErrorDialog'
 import Page from '@components/Page'
+import {
+    claimOrder,
+    getOrders,
+    resetClaimOrderError,
+    selectClaimedOrder,
+    selectClaimedOrderLoading,
+    selectClaimedOrderError,
+    selectOrders,
+    selectOrdersLoading,
+    selectOrdersError
+} from '@store'
 import { formatTimeWithIntl, isWithin15Minutes } from '@utils'
 
 const { width: screenWidth } = Dimensions.get('window')
 
 const Sell = () => {
+    const dispatch = useDispatch()
     const router = useRouter()
 
-    const options = [
-        {
-            label: 'Chick-fil-A'
-        },
-        {
-            label: 'Panda'
-        },
-        {
-            label: 'Dunkin'
-        },
-        {
-            label: 'Canes'
-        },
-        {
-            label: 'Pres-Deli'
-        },
-        {
-            label: 'Julias'
-        },
-        {
-            label: "Wendy's"
-        },
-        {
-            label: 'Chick-fil-A'
-        }
-    ]
+    const orders = useSelector(selectOrders)
+    const ordersLoading = useSelector(selectOrdersLoading)
+    const ordersError = useSelector(selectOrdersError)
 
-    for (let i = 0; i < options.length; i++) {
-        options[i].time = new Date(
-            Date.now() + (i + 1) * 5 * 60000
-        ).toISOString()
-        options[i].id = i
-    }
+    const claimedOrder = useSelector(selectClaimedOrder)
+    const claimedOrderLoading = useSelector(selectClaimedOrderLoading)
+    const claimedOrderError = useSelector(selectClaimedOrderError)
 
     const pressHandler = (order) => {
-        console.log(order)
-        router.replace('/sell/orderDetails')
-        // dispatch action to claim order
-        // display loading state while action is occurring
-        // navigate to order details page if successful
+        dispatch(claimOrder(order))
+    }
+
+    const icons = {
+        'Chick-Fil-A': require('@assets/images/icons/Chick-Fil-A.png'),
+        "Dunkin' Donuts": require("@assets/images/icons/Dunkin' Donuts.png"),
+        "Julia's Market": require("@assets/images/icons/Julia's Market.png"),
+        'Panda Express': require('@assets/images/icons/Panda Express.png'),
+        'Presidential Village': require('@assets/images/icons/Presidential Village.png'),
+        "Raising Cane's": require("@assets/images/icons/Raising Cane's.png"),
+        "Wendy's": require("@assets/images/icons/Wendy's.png")
     }
 
     useEffect(() => {
-        // dispatch action to get current buy orders
-        // repeat said action every so often?
+        if (claimedOrder) {
+            // TODO: replace with stack router replace
+            router.replace('/sell/orderDetails')
+        }
+    }, [claimedOrder])
+
+    useEffect(() => {
+        dispatch(getOrders)
+
+        // Refresh orders every 15 seconds
+        const interval = setInterval(() => {
+            dispatch(getOrders)
+        }, 15000)
+        return () => clearInterval(interval)
     }, [])
+
+    if (ordersLoading || claimedOrderLoading) {
+        // TODO: replace with loading spinner
+        // also TODO: make <View style={styles.divider}/> a component
+        return (
+            <View style={styles.emptyOrders}>
+                <Text style={styles.emptyOrdersText}>Loading...</Text>
+            </View>
+        )
+    }
 
     const emptyOrders = (
         <View style={styles.emptyOrders}>
@@ -73,23 +90,32 @@ const Sell = () => {
         </View>
     )
 
-    const ordersList = options.map((option, index) => (
-        <View key={option.id}>
+    const ordersList = orders.map((option, index) => (
+        <View key={option._id}>
             <TouchableOpacity
                 style={styles.orderItem}
                 onPress={() => pressHandler(option)}
             >
                 <View style={styles.rowContainer}>
                     <View style={styles.textColumn}>
-                        <Text style={styles.location}>{option.label}</Text>
+                        <View style={styles.rowSubcontainer}>
+                            <Image
+                                source={icons[option.restaurant]}
+                                resizeMode="contain"
+                                style={{ maxWidth: 50, maxHeight: 50 }}
+                            />
+                            <Text style={styles.location}>
+                                {option.restaurant}
+                            </Text>
+                        </View>
                         <Text
                             style={[
                                 styles.timeText,
-                                isWithin15Minutes(option.time) &&
-                                    styles.highlightedLink // Apply different style if within 30 minutes
+                                isWithin15Minutes(option.desiredPickupTime) &&
+                                    styles.highlightedLink // Apply different style if within 15 minutes
                             ]}
                         >
-                            {formatTimeWithIntl(option.time)}
+                            {formatTimeWithIntl(option.desiredPickupTime)}
                         </Text>
                     </View>
                     <View style={styles.rowEndContainer}>
@@ -102,14 +128,31 @@ const Sell = () => {
                     </View>
                 </View>
             </TouchableOpacity>
-            {index < options.length - 1 && <View style={styles.divider} />}
+            {index < orders.length - 1 && <View style={styles.divider} />}
+            <ErrorDialog
+                error={claimedOrderError}
+                onClose={() => dispatch(resetClaimOrderError)}
+            />
         </View>
     ))
+
+    let content = null
+    if (ordersError) {
+        content = (
+            <View style={styles.emptyOrders}>
+                <Text style={styles.emptyOrdersText}>
+                    Error loading orders: {ordersError}. Please try again later.
+                </Text>
+            </View>
+        )
+    } else {
+        content = orders.length === 0 ? emptyOrders : ordersList
+    }
 
     return (
         <Page header="Select Order" style={styles.page}>
             <ScrollView contentContainerStyle={styles.scrollContainer}>
-                {options.length === 0 ? emptyOrders : ordersList}
+                {content}
             </ScrollView>
         </Page>
     )
@@ -121,7 +164,7 @@ const styles = StyleSheet.create({
         flex: 1
     },
     highlightedLink: {
-        color: '#FF0000' // A different background color for items within 30 minutes
+        color: '#FF0000' // A different background color for items within 15 minutes
     },
     scrollContainer: {
         flexGrow: 1, // Allow the content to grow and be scrollable
@@ -133,7 +176,7 @@ const styles = StyleSheet.create({
         gap: screenWidth * 0.01 // Optional: padding around the content
     },
     orderItem: {
-        width: screenWidth * 0.9,
+        width: screenWidth * 0.95,
         padding: 4
     },
     location: {
@@ -148,6 +191,10 @@ const styles = StyleSheet.create({
         alignItems: 'center', // Ensures items in each row align properly
         width: '100%',
         padding: 4 // Spacing between links and dividers
+    },
+    rowSubcontainer: {
+        flexDirection: 'row',
+        marginLeft: -10
     },
     rowEndContainer: {
         flexDirection: 'row'

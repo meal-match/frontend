@@ -1,38 +1,54 @@
 import React, { Fragment } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux'
+import { Button } from 'react-native-paper'
+import { Redirect } from 'expo-router'
 
+import ErrorDialog from '@components/ErrorDialog'
 import Page from '@components/Page'
+import {
+    resetClaimOrderError,
+    selectClaimedOrder,
+    selectClaimedOrderError,
+    unclaimOrder
+} from '@store'
+import { formatTimeWithIntl } from '@utils'
 
 const OrderDetails = () => {
-    const orderData = {
-        restaurant: 'Chick-fil-A',
-        time: new Date(Date.now() + 5 * 60000).toISOString(),
-        meal: {
-            entree: 'Chicken Sandwich',
-            entreeCustomizations: 'No pickles',
-            side: 'Waffle Fries',
-            sideCustomizations: [],
-            drink: 'Lemonade',
-            drinkCustomizations: [],
-            sauces: ['Chick-fil-A Sauce', 'Buffalo Sauce']
-        }
+    const dispatch = useDispatch()
+
+    const orderData = useSelector(selectClaimedOrder)
+    const claimedOrderError = useSelector(selectClaimedOrderError)
+
+    const onCancelPress = () => {
+        dispatch(unclaimOrder)
     }
+
+    if (!orderData) {
+        return <Redirect href="/sell" />
+    }
+
+    // TODO: add a loading spinner
 
     return (
         <Page header="Order Details">
             <View style={styles.orderDetails}>
-                <Text>Restaurant: {orderData.restaurant}</Text>
+                <Text style={styles.text}>
+                    Restaurant: {orderData.restaurant}
+                    {'\n'}
+                </Text>
                 {Object.keys(orderData.meal).map((key) => {
                     if (
-                        Array.isArray(orderData.meal[key]) &&
-                        !orderData.meal[key].length
+                        (Array.isArray(orderData.meal[key]) &&
+                            !orderData.meal[key].length) ||
+                        key === '_id'
                     ) {
                         return <Fragment key={key} />
                     }
                     let label = key.replace(/([A-Z])/g, ' $1')
                     label = label.charAt(0).toUpperCase() + label.slice(1)
                     return (
-                        <Text key={key}>
+                        <Text key={key} style={styles.text}>
                             {label}:{' '}
                             {Array.isArray(orderData.meal[key])
                                 ? orderData.meal[key].join(', ')
@@ -40,14 +56,46 @@ const OrderDetails = () => {
                         </Text>
                     )
                 })}
+                <Text style={styles.text}>
+                    {'\n'}
+                    Desired Pickup Time:{' '}
+                    {formatTimeWithIntl(orderData.desiredPickupTime)}
+                </Text>
             </View>
+            <View style={styles.divider} />
+            <View style={styles.buttonMenu}>
+                <Button mode="contained" onPress={onCancelPress}>
+                    Cancel Order
+                </Button>
+            </View>
+            <ErrorDialog
+                error={claimedOrderError}
+                onClose={() => dispatch(resetClaimOrderError)}
+            />
         </Page>
     )
 }
 
 const styles = StyleSheet.create({
     orderDetails: {
-        width: '80%'
+        width: '80%',
+        paddingLeft: 10,
+        paddingRight: 10,
+        marginTop: 10,
+        marginBottom: 10
+    },
+    text: {
+        fontSize: 18
+    },
+    divider: {
+        width: '100%', // Divider spans full width of the screen
+        height: 1, // Thin divider
+        backgroundColor: '#828A8F' // Light gray color for the divider
+    },
+    buttonMenu: {
+        paddingLeft: 10,
+        paddingRight: 10,
+        marginTop: 10
     }
 })
 

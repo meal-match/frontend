@@ -31,8 +31,8 @@ const Index = () => {
                 <View style={[styles.divider, { width: '100%' }]}></View>
                 {/* if is ordered */}
                 <Button
-                    url="updateOrder/"
-                    text="Order Ready"
+                    url="/openOrders"
+                    text="Open Orders"
                     height="15%"
                 ></Button>
             </View>
