@@ -36,8 +36,8 @@ const SideCustomizations = () => {
             <MultiItemSelector
                 items={sideCustomizationOptions}
                 maxSelections={maxSideCustomizations}
-                mealData={customizations}
-                setMealData={setCustomizations}
+                values={customizations}
+                setValues={setCustomizations}
                 moveForward={moveForward}
             />
         </Page>

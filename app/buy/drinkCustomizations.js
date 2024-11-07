@@ -36,8 +36,8 @@ const DrinkCustomizations = () => {
             <MultiItemSelector
                 items={drinkCustomizationOptions}
                 maxSelections={maxDrinkCustomizations}
-                mealData={customizations}
-                setMealData={setCustomizations}
+                values={customizations}
+                setValues={setCustomizations}
                 moveForward={moveForward}
             />
         </Page>

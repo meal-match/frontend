@@ -29,8 +29,8 @@ const SauceChoice = () => {
             <MultiItemSelector
                 items={sauceOptions}
                 maxSelections={maxSauces}
-                mealData={sauces}
-                setMealData={setSauces}
+                values={sauces}
+                setValues={setSauces}
                 moveForward={moveForward}
             />
         </Page>

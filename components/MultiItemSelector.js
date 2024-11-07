@@ -4,12 +4,29 @@ import { List, Button } from 'react-native-paper'
 import { array, func, number } from 'prop-types'
 import Ionicons from '@expo/vector-icons/Ionicons'
 
+const getIconName = (maxSelections, values, item) => {
+    if (maxSelections === 1) {
+        return 'chevron-forward-outline'
+    } else if (values.includes(item)) {
+        return 'checkbox'
+    } else {
+        return 'square-outline'
+    }
+}
+
 const MultiItemSelector = ({
     items,
     maxSelections,
-    mealData,
-    setMealData,
-    moveForward
+    values,
+    setValues,
+    moveForward,
+    rightIcon = (props, option) => (
+        <Ionicons
+            {...props}
+            name={getIconName(maxSelections, values, option.item)}
+            size={28}
+        />
+    )
 }) => {
     return (
         <>
@@ -20,15 +37,9 @@ const MultiItemSelector = ({
                         <List.Item
                             key={option.item}
                             title={option.item}
-                            right={(props) => (
-                                <Ionicons
-                                    {...props}
-                                    name="chevron-forward-outline"
-                                    size={28}
-                                />
-                            )}
+                            right={(props) => rightIcon(props, option)}
                             onPress={() => {
-                                setMealData([...mealData, option.item])
+                                setValues([...values, option.item])
                                 moveForward()
                             }}
                             style={
@@ -44,26 +55,16 @@ const MultiItemSelector = ({
                         <List.Item
                             key={option.item}
                             title={option.item}
-                            right={(props) => (
-                                <Ionicons
-                                    {...props}
-                                    name={
-                                        mealData.includes(option.item)
-                                            ? 'checkbox'
-                                            : 'square-outline'
-                                    }
-                                    size={28}
-                                />
-                            )}
+                            right={(props) => rightIcon(props, option)}
                             onPress={() => {
-                                if (mealData.includes(option.item)) {
-                                    setMealData(
-                                        mealData.filter(
+                                if (values.includes(option.item)) {
+                                    setValues(
+                                        values.filter(
                                             (item) => item !== option.item
                                         )
                                     )
-                                } else if (mealData.length < maxSelections) {
-                                    setMealData([...mealData, option.item])
+                                } else if (values.length < maxSelections) {
+                                    setValues([...values, option.item])
                                 }
                             }}
                             style={
@@ -96,9 +97,10 @@ const MultiItemSelector = ({
 MultiItemSelector.propTypes = {
     items: array.isRequired,
     maxSelections: number.isRequired,
-    mealData: array.isRequired,
-    setMealData: func.isRequired,
-    moveForward: func.isRequired
+    values: array.isRequired,
+    setValues: func.isRequired,
+    moveForward: func.isRequired,
+    rightIcon: func
 }
 
 export default MultiItemSelector

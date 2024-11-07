@@ -32,8 +32,8 @@ const EntreeCustomizations = () => {
             <MultiItemSelector
                 items={entreeCustomizationOptions}
                 maxSelections={maxCustomizations}
-                mealData={customizations}
-                setMealData={setCustomizations}
+                values={customizations}
+                setValues={setCustomizations}
                 moveForward={moveForward}
             />
         </Page>

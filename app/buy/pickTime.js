@@ -3,7 +3,6 @@ import DateTimePicker from '@react-native-community/datetimepicker'
 import { StyleSheet, Text } from 'react-native'
 import { Button, Dialog, HelperText, Portal } from 'react-native-paper'
 import { useSelector, useDispatch } from 'react-redux'
-import { displayTime } from '@utils'
 
 import {
     placeOrder,
@@ -13,7 +12,7 @@ import {
     selectOrderLoading,
     setPickupTime
 } from '@store'
-import { clearRouterStack } from '@utils'
+import { clearRouterStack, displayTime } from '@utils'
 import LoadingSpinner from '@components/LoadingSpinner'
 import Page from '@components/Page'
 
