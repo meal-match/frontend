@@ -32,31 +32,16 @@ const MultiItemSelector = ({
         <>
             <FlatList
                 data={items}
-                renderItem={(option) => {
-                    return maxSelections === 1 ? (
-                        <List.Item
-                            key={option.item}
-                            title={option.item}
-                            right={(props) => rightIcon(props, option)}
-                            onPress={() => {
-                                setValues([...values, option.item])
+                renderItem={(option) => (
+                    <List.Item
+                        key={option.item}
+                        title={option.item}
+                        right={(props) => rightIcon(props, option)}
+                        onPress={() => {
+                            if (maxSelections === 1) {
+                                setValues([option.item])
                                 moveForward()
-                            }}
-                            style={
-                                items.indexOf(option.item) !== items.length - 1
-                                    ? {
-                                          borderBottomColor: '#828A8F',
-                                          borderBottomWidth: 1
-                                      }
-                                    : {}
-                            }
-                        />
-                    ) : (
-                        <List.Item
-                            key={option.item}
-                            title={option.item}
-                            right={(props) => rightIcon(props, option)}
-                            onPress={() => {
+                            } else {
                                 if (values.includes(option.item)) {
                                     setValues(
                                         values.filter(
@@ -66,18 +51,18 @@ const MultiItemSelector = ({
                                 } else if (values.length < maxSelections) {
                                     setValues([...values, option.item])
                                 }
-                            }}
-                            style={
-                                items.indexOf(option.item) !== items.length - 1
-                                    ? {
-                                          borderBottomColor: '#828A8F',
-                                          borderBottomWidth: 1
-                                      }
-                                    : {}
                             }
-                        />
-                    )
-                }}
+                        }}
+                        style={
+                            items.indexOf(option.item) !== items.length - 1
+                                ? {
+                                      borderBottomColor: '#828A8F',
+                                      borderBottomWidth: 1
+                                  }
+                                : {}
+                        }
+                    />
+                )}
             />
             {items !== null && items.length > 0 && maxSelections > 1 && (
                 <View>
