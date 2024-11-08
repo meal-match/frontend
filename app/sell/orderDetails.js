@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Button } from 'react-native-paper'
 import { Redirect } from 'expo-router'
 
+import Divider from '@components/Divider'
 import ErrorDialog from '@components/ErrorDialog'
 import Page from '@components/Page'
 import {
@@ -20,7 +21,7 @@ const OrderDetails = () => {
     const orderData = useSelector(selectClaimedOrder)
     const claimedOrderError = useSelector(selectClaimedOrderError)
 
-    const onCancelPress = () => {
+    const onUnclaimPress = () => {
         dispatch(unclaimOrder)
     }
 
@@ -62,10 +63,10 @@ const OrderDetails = () => {
                     {formatTimeWithIntl(orderData.desiredPickupTime)}
                 </Text>
             </View>
-            <View style={styles.divider} />
+            <Divider />
             <View style={styles.buttonMenu}>
-                <Button mode="contained" onPress={onCancelPress}>
-                    Cancel Order
+                <Button mode="contained" onPress={onUnclaimPress}>
+                    Unclaim Order
                 </Button>
             </View>
             <ErrorDialog
@@ -86,11 +87,6 @@ const styles = StyleSheet.create({
     },
     text: {
         fontSize: 18
-    },
-    divider: {
-        width: '100%', // Divider spans full width of the screen
-        height: 1, // Thin divider
-        backgroundColor: '#828A8F' // Light gray color for the divider
     },
     buttonMenu: {
         paddingLeft: 10,

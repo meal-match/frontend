@@ -46,7 +46,7 @@ const BottomNavBar = () => {
                             name={
                                 isSelected ? item.icon : `${item.icon}-outline`
                             }
-                            size={36}
+                            size={40}
                             color={
                                 isSelected
                                     ? theme.colors.secondaryBold
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     navbar: {
         flexDirection: 'row',
         alignItems: 'top',
-        height: 72,
+        height: 75,
         width: '100%',
         borderTopColor: '#828A8F',
         borderTopWidth: 2
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 8
+        paddingTop: 8
     }
 })
 

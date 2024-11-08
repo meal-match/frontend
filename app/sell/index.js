@@ -12,8 +12,10 @@ import Ionicons from '@expo/vector-icons/Ionicons'
 import { useRouter } from 'expo-router'
 import { useDispatch, useSelector } from 'react-redux'
 
+import Divider from '@components/Divider'
 import ErrorDialog from '@components/ErrorDialog'
 import Page from '@components/Page'
+import PaymentSetupRedirect from '@components/PaymentSetupRedirect'
 import {
     claimOrder,
     getOrders,
@@ -23,7 +25,8 @@ import {
     selectClaimedOrderError,
     selectOrders,
     selectOrdersLoading,
-    selectOrdersError
+    selectOrdersError,
+    selectProfileData
 } from '@store'
 import { formatTimeWithIntl, isWithin15Minutes } from '@utils'
 
@@ -40,6 +43,8 @@ const Sell = () => {
     const claimedOrder = useSelector(selectClaimedOrder)
     const claimedOrderLoading = useSelector(selectClaimedOrderLoading)
     const claimedOrderError = useSelector(selectClaimedOrderError)
+
+    const profileData = useSelector(selectProfileData)
 
     const pressHandler = (order) => {
         dispatch(claimOrder(order))
@@ -72,9 +77,12 @@ const Sell = () => {
         return () => clearInterval(interval)
     }, [])
 
+    if (profileData.paymentSetupIntent) {
+        return <PaymentSetupRedirect />
+    }
+
     if (ordersLoading || claimedOrderLoading) {
         // TODO: replace with loading spinner
-        // also TODO: make <View style={styles.divider}/> a component
         return (
             <View style={styles.emptyOrders}>
                 <Text style={styles.emptyOrdersText}>Loading...</Text>
@@ -119,7 +127,6 @@ const Sell = () => {
                         </Text>
                     </View>
                     <View style={styles.rowEndContainer}>
-                        <Text style={styles.rowEndText}>Sell</Text>
                         <Ionicons
                             name="chevron-forward-outline"
                             size={28}
@@ -128,7 +135,7 @@ const Sell = () => {
                     </View>
                 </View>
             </TouchableOpacity>
-            {index < orders.length - 1 && <View style={styles.divider} />}
+            {index < orders.length - 1 && <Divider />}
             <ErrorDialog
                 error={claimedOrderError}
                 onClose={() => dispatch(resetClaimOrderError)}
@@ -150,7 +157,7 @@ const Sell = () => {
     }
 
     return (
-        <Page header="Select Order" style={styles.page}>
+        <Page header="Select an Order to Claim" style={styles.page}>
             <ScrollView contentContainerStyle={styles.scrollContainer}>
                 {content}
             </ScrollView>
@@ -198,15 +205,6 @@ const styles = StyleSheet.create({
     },
     rowEndContainer: {
         flexDirection: 'row'
-    },
-    rowEndText: {
-        fontSize: 22,
-        marginRight: 4
-    },
-    divider: {
-        width: '100%', // Divider spans full width of the screen
-        height: 1, // Thin divider
-        backgroundColor: '#828A8F' // Light gray color for the divider
     },
     textColumn: {
         flexDirection: 'column',
