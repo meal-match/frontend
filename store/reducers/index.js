@@ -2,11 +2,14 @@ import { combineReducers } from 'redux'
 
 import authReducer from './authReducer'
 import profileReducer from './profileReducer'
+import sellReducer from './sellReducer'
+
 import { USER_LOGOUT } from '@constants'
 
 const appReducer = combineReducers({
     auth: authReducer,
-    profile: profileReducer
+    profile: profileReducer,
+    sell: sellReducer
 })
 
 const rootReducer = (state, action) => {
