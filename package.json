@@ -73,6 +73,7 @@
         "singleQuote": true
     },
     "lint-staged": {
-        "*.(js|jsx|json|yml|yaml|css|md|vue|mjs|ts|tsx)": "npx prettier --log-level silent --write"
+        "*.(js|jsx|json|yml|yaml|css|md|vue|mjs|ts|tsx)": "npx prettier --log-level silent --write",
+        "*.(js|jsx|ts|tsx)": "npx eslint"
     }
 }

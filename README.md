@@ -71,7 +71,7 @@ Once you are ready to merge your changes, simply commit any remaining changes, p
 
 ### Pre-Commit Checks
 
-When commiting your changes, please note that we use [Husky](https://github.com/typicode/husky) to perform Prettier formatting and ESLint code checks. If you have outstanding ESLint errors, this will prevent you from comitting. If you are using the VSCode Git GUI instead of the command line, you can find these errors in the "Ouput" tab at the bottom. The idea is that you resolve or (if necessary) [programmatically ignore](https://stackoverflow.com/questions/27732209/turning-off-eslint-rule-for-a-specific-line) ESLint errors before pushing to the code repo.
+When commiting your changes, please note that we use [Husky](https://github.com/typicode/husky) and [Lint-Staged](https://www.npmjs.com/package/lint-staged) to perform Prettier formatting and ESLint code checks. If you have outstanding ESLint errors, this will prevent you from comitting. If you are using the VSCode Git GUI instead of the command line, you can find these errors in the "Ouput" tab at the bottom. The idea is that you resolve or (if necessary) [programmatically ignore](https://stackoverflow.com/questions/27732209/turning-off-eslint-rule-for-a-specific-line) ESLint errors before pushing to the code repo.
 
 ### Libraries
 
