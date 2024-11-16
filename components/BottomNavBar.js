@@ -30,27 +30,32 @@ const BottomNavBar = () => {
 
     return (
         <View style={styles.navbar}>
-            {tabItems.map((item) => (
-                <TouchableOpacity
-                    key={item.route}
-                    onPress={() => router.replace(item.route)}
-                    style={styles.navItem}
-                >
-                    <Ionicons
-                        name={
-                            pathname === item.route
-                                ? item.icon
-                                : `${item.icon}-outline`
-                        }
-                        size={36}
-                        color={
-                            pathname === item.route
-                                ? theme.colors.secondaryBold
-                                : theme.colors.secondary
-                        }
-                    />
-                </TouchableOpacity>
-            ))}
+            {tabItems.map((item) => {
+                const isSelected =
+                    item.route === '/'
+                        ? pathname === item.route
+                        : pathname.includes(item.route)
+                return (
+                    <TouchableOpacity
+                        key={item.route}
+                        onPress={() => router.replace(item.route)}
+                        style={styles.navItem}
+                        disabled={isSelected}
+                    >
+                        <Ionicons
+                            name={
+                                isSelected ? item.icon : `${item.icon}-outline`
+                            }
+                            size={40}
+                            color={
+                                isSelected
+                                    ? theme.colors.secondaryBold
+                                    : theme.colors.secondary
+                            }
+                        />
+                    </TouchableOpacity>
+                )
+            })}
         </View>
     )
 }
@@ -58,8 +63,8 @@ const BottomNavBar = () => {
 const styles = StyleSheet.create({
     navbar: {
         flexDirection: 'row',
-        alignItems: 'center',
-        height: 72,
+        alignItems: 'top',
+        height: 75,
         width: '100%',
         borderTopColor: '#828A8F',
         borderTopWidth: 2,
@@ -68,14 +73,8 @@ const styles = StyleSheet.create({
     navItem: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
-    },
-    navItemText: {
-        fontSize: 16
-    },
-    selectedNavItemText: {
-        fontSize: 16,
-        fontWeight: 'bold'
+        alignItems: 'center',
+        paddingTop: 8
     }
 })
 
