@@ -41,16 +41,14 @@ const MultiItemSelector = ({
                             if (maxSelections === 1) {
                                 setValues([option.item])
                                 moveForward()
-                            } else {
-                                if (values.includes(option.item)) {
-                                    setValues(
-                                        values.filter(
-                                            (item) => item !== option.item
-                                        )
+                            } else if (values.includes(option.item)) {
+                                setValues(
+                                    values.filter(
+                                        (item) => item !== option.item
                                     )
-                                } else if (values.length < maxSelections) {
-                                    setValues([...values, option.item])
-                                }
+                                )
+                            } else if (values.length < maxSelections) {
+                                setValues([...values, option.item])
                             }
                         }}
                         style={
@@ -64,7 +62,7 @@ const MultiItemSelector = ({
                     />
                 )}
             />
-            {items !== null && items.length > 0 && maxSelections > 1 && (
+            {!!items && items.length > 0 && maxSelections > 1 && (
                 <View>
                     <Button
                         onPress={moveForward}
@@ -80,8 +78,8 @@ const MultiItemSelector = ({
 }
 
 MultiItemSelector.propTypes = {
-    items: array.isRequired,
-    maxSelections: number.isRequired,
+    items: array,
+    maxSelections: number,
     values: array.isRequired,
     setValues: func.isRequired,
     moveForward: func.isRequired,

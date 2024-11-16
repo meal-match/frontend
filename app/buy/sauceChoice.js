@@ -7,17 +7,19 @@ import Page from '@components/Page'
 import { setSauce, selectRestaurantData, selectOrder } from '@store'
 
 const SauceChoice = () => {
-    const restaurantData = useSelector(selectRestaurantData)
-    const order = useSelector(selectOrder)
-    const meal = restaurantData.meals.filter(
-        (item) => item.entree === order.entree
-    )[0]
-    const sauceOptions = meal.sauces
     const router = useRouter()
     const dispatch = useDispatch()
 
+    const restaurantData = useSelector(selectRestaurantData)
+    const order = useSelector(selectOrder)
+
+    const meal = restaurantData.meals.filter(
+        (item) => item.entree === order.entree
+    )[0]
+    const sauceOptions = meal?.sauces || []
+    const maxSauces = meal?.maxSauces
+
     const [sauces, setSauces] = useState([])
-    const maxSauces = meal.maxSauces
 
     const moveForward = () => {
         dispatch(setSauce(sauces))

@@ -8,15 +8,15 @@ import { setSide, selectRestaurantData, selectOrder } from '@store'
 
 const SideChoice = () => {
     const dispatch = useDispatch()
+    const router = useRouter()
 
     const restaurantData = useSelector(selectRestaurantData)
     const order = useSelector(selectOrder)
+
     const meal = restaurantData.meals.filter(
         (item) => item.entree === order.entree
     )[0]
-    const sideOptions = meal.sides
-
-    const router = useRouter()
+    const sideOptions = meal?.sides || []
 
     const moveForward = (side) => {
         dispatch(setSide(side.side))

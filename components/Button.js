@@ -5,9 +5,11 @@ import { string } from 'prop-types'
 
 const Button = ({ url, text, height }) => {
     const router = useRouter()
+
     const onPress = () => {
         router.push(url)
     }
+
     return (
         <TouchableOpacity
             onPress={onPress}

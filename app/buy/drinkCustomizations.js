@@ -13,9 +13,12 @@ import {
 const DrinkCustomizations = () => {
     const dispatch = useDispatch()
     const router = useRouter()
+
     const [customizations, setCustomizations] = useState([])
+
     const restaurantData = useSelector(selectRestaurantData)
     const order = selectOrder()
+
     const drinkCustomizationOptions = restaurantData.defaultDrinks.filter(
         (item) => item.drink === order.drink
     )[0].drinkCustomizations

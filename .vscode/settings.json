@@ -8,5 +8,5 @@
     "vs-code-prettier-eslint.prettierLast": false,
     "files.associations": {
         "array": "cpp"
-    } 
+    }
 }

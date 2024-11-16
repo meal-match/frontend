@@ -16,10 +16,12 @@ import {
     setRestaurantData,
     selectMealData,
     selectRestaurantError,
-    selectRestaurantLoading
+    selectRestaurantLoading,
+    selectProfileData
 } from '@store'
 import LoadingSpinner from '@components/LoadingSpinner'
 import Page from '@components/Page'
+import PaymentSetupRedirect from '@components/PaymentSetupRedirect'
 
 const { width: screenWidth } = Dimensions.get('window')
 
@@ -33,9 +35,13 @@ const Buy = () => {
         'Presidential Village': require('@assets/images/logos/Presidential Village.png'),
         "Wendy's": require("@assets/images/logos/Wendy's.png")
     }
+
     const dispatch = useDispatch()
+
+    const profileData = useSelector(selectProfileData)
     const restaurantError = useSelector(selectRestaurantError)
     const restaurantLoading = useSelector(selectRestaurantLoading)
+
     const [errorText, setErrorText] = useState('')
     const [options, setOptions] = useState([])
 
@@ -69,6 +75,10 @@ const Buy = () => {
                 )[0]
             )
         )
+    }
+
+    if (profileData.paymentSetupIntent) {
+        return <PaymentSetupRedirect />
     }
 
     if (restaurantLoading) {

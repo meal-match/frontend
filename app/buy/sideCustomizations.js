@@ -13,18 +13,18 @@ import {
 const SideCustomizations = () => {
     const dispatch = useDispatch()
     const router = useRouter()
+
     const [customizations, setCustomizations] = useState([])
+
     const restaurantData = useSelector(selectRestaurantData)
     const order = useSelector(selectOrder)
+
     const meal = restaurantData.meals.filter(
         (item) => item.entree === order.entree
     )[0]
-
-    const side = meal.sides.filter((item) => item.side === order.side)[0]
-
-    const sideCustomizationOptions = side.sideCustomizations
-
-    const maxSideCustomizations = side.maxSideCustomizations
+    const side = meal?.sides?.filter((item) => item.side === order.side)[0]
+    const sideCustomizationOptions = side?.sideCustomizations
+    const maxSideCustomizations = side?.maxSideCustomizations
 
     const moveForward = () => {
         dispatch(setSideCustomizations(customizations))

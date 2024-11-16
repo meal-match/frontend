@@ -8,10 +8,9 @@ import { setEntree, selectRestaurantData } from '@store'
 
 const EntreeChoice = () => {
     const dispatch = useDispatch()
+    const router = useRouter()
 
     const restaurantData = useSelector(selectRestaurantData)
-
-    const router = useRouter()
 
     const moveForward = (meal) => {
         dispatch(setEntree(meal.entree))
@@ -25,7 +24,7 @@ const EntreeChoice = () => {
     return (
         <Page header="Select Entree">
             <SingleItemSelector
-                items={restaurantData.meals.map((item) => {
+                items={restaurantData.meals?.map((item) => {
                     return { ...item, name: item.entree }
                 })}
                 moveForward={moveForward}

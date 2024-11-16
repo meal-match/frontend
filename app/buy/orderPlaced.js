@@ -2,8 +2,6 @@ import React, { useEffect } from 'react'
 import { Text, View, StyleSheet } from 'react-native'
 import { Button, HelperText } from 'react-native-paper'
 import { useDispatch, useSelector } from 'react-redux'
-import { useRouter } from 'expo-router'
-import { displayTime } from '@utils'
 
 import {
     cancelOrder,
@@ -13,12 +11,13 @@ import {
     selectOrderID,
     clearOrder
 } from '@store'
+import Divider from '@components/Divider'
 import LoadingSpinner from '@components/LoadingSpinner'
 import Page from '@components/Page'
+import { displayPickerTime, clearRouterStack } from '@utils'
 
 const OrderPlaced = () => {
     const dispatch = useDispatch()
-    const router = useRouter()
 
     const order = useSelector(selectOrder)
     const orderLoading = useSelector(selectOrderLoading)
@@ -27,7 +26,7 @@ const OrderPlaced = () => {
 
     useEffect(() => {
         if (orderID === null) {
-            router.replace('/')
+            clearRouterStack('/')
         }
     }, [orderID])
 
@@ -36,7 +35,7 @@ const OrderPlaced = () => {
     }
 
     const returnHome = () => {
-        router.replace('/')
+        clearRouterStack('/')
         dispatch(clearOrder)
     }
 
@@ -48,9 +47,9 @@ const OrderPlaced = () => {
                 {'\n\n'}
                 Meal: {order.entree}
                 {'\n'}
-                Pickup Time: {displayTime(order.pickupTime)}
+                Pickup Time: {displayPickerTime(order.pickupTime)}
             </Text>
-            <View style={styles.divider} />
+            <Divider />
             {orderError && (
                 <HelperText type="error" style={styles.errorText}>
                     An error occured: {orderError}
@@ -77,12 +76,6 @@ const OrderPlaced = () => {
 }
 
 const styles = StyleSheet.create({
-    divider: {
-        width: '100%', // Divider spans full width of the screen
-        height: 1, // Thin divider
-        backgroundColor: '#828A8F', // Light gray color for the divider
-        marginTop: 10 // Spacing between links and dividers
-    },
     buttonContainer: {
         flex: 1,
         justifyContent: 'flex-end',
@@ -95,7 +88,8 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
         paddingRight: 10,
         fontSize: 18,
-        marginTop: 10
+        marginTop: 10,
+        marginBottom: 10
     },
     errorText: {
         fontSize: 18

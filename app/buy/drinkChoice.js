@@ -8,13 +8,15 @@ import SingleItemSelector from '@components/SingleItemSelector'
 
 const DrinkChoice = () => {
     const dispatch = useDispatch()
+    const router = useRouter()
+
     const restaurantData = useSelector(selectRestaurantData)
     const order = useSelector(selectOrder)
+
     const meal = restaurantData.meals.filter(
         (item) => item.entree === order.entree
     )[0]
-    const drinkOptions = meal.drinks
-    const router = useRouter()
+    const drinkOptions = meal?.drinks || []
 
     const moveForward = (drink) => {
         dispatch(setDrink(drink.drink))

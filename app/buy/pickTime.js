@@ -12,17 +12,17 @@ import {
     selectOrderLoading,
     setPickupTime
 } from '@store'
-import { clearRouterStack, displayTime } from '@utils'
+import { clearRouterStack, displayPickerTime } from '@utils'
 import LoadingSpinner from '@components/LoadingSpinner'
 import Page from '@components/Page'
 
 const PickTime = () => {
+    const dispatch = useDispatch()
+
     const [dialogVisible, setDialogVisible] = useState(false)
     const [dt, setDt] = useState(
         new Date(new Date().setMinutes(new Date().getMinutes() + 30))
     )
-
-    const dispatch = useDispatch()
 
     const onConfirm = () => {
         setDialogVisible(true)
@@ -71,7 +71,7 @@ const PickTime = () => {
                     <Dialog.Title>Confirm Order</Dialog.Title>
                     <Dialog.Content>
                         <Text>
-                            Your order will be ready at {displayTime(dt)}.
+                            Your order will be ready at {displayPickerTime(dt)}.
                             {'\n\n'}
                             Entree: {order.entree}
                             {order.entreeCustomizations.length > 0

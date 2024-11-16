@@ -9,11 +9,11 @@ import {
     TouchableOpacity
 } from 'react-native'
 import Ionicons from '@expo/vector-icons/Ionicons'
-import { useRouter } from 'expo-router'
 import { useDispatch, useSelector } from 'react-redux'
 
 import Divider from '@components/Divider'
 import ErrorDialog from '@components/ErrorDialog'
+import LoadingSpinner from '@components/LoadingSpinner'
 import Page from '@components/Page'
 import PaymentSetupRedirect from '@components/PaymentSetupRedirect'
 import {
@@ -28,13 +28,12 @@ import {
     selectOrdersError,
     selectProfileData
 } from '@store'
-import { formatTimeWithIntl, isWithin15Minutes } from '@utils'
+import { clearRouterStack, formatTimeWithIntl, isWithin15Minutes } from '@utils'
 
 const { width: screenWidth } = Dimensions.get('window')
 
 const Sell = () => {
     const dispatch = useDispatch()
-    const router = useRouter()
 
     const orders = useSelector(selectOrders)
     const ordersLoading = useSelector(selectOrdersLoading)
@@ -62,8 +61,7 @@ const Sell = () => {
 
     useEffect(() => {
         if (claimedOrder) {
-            // TODO: replace with stack router replace
-            router.replace('/sell/orderDetails')
+            clearRouterStack('/sell/orderDetails')
         }
     }, [claimedOrder])
 
@@ -82,12 +80,7 @@ const Sell = () => {
     }
 
     if (ordersLoading || claimedOrderLoading) {
-        // TODO: replace with loading spinner
-        return (
-            <View style={styles.emptyOrders}>
-                <Text style={styles.emptyOrdersText}>Loading...</Text>
-            </View>
-        )
+        return <LoadingSpinner />
     }
 
     const emptyOrders = (
