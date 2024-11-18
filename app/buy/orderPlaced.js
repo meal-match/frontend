@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { Text, View, StyleSheet } from 'react-native'
 import { Button, HelperText } from 'react-native-paper'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigation } from 'expo-router'
 
 import {
     cancelOrder,
@@ -18,6 +19,7 @@ import { displayPickerTime, clearRouterStack } from '@utils'
 
 const OrderPlaced = () => {
     const dispatch = useDispatch()
+    const navigation = useNavigation()
 
     const order = useSelector(selectOrder)
     const orderLoading = useSelector(selectOrderLoading)
@@ -26,7 +28,7 @@ const OrderPlaced = () => {
 
     useEffect(() => {
         if (orderID === null) {
-            clearRouterStack('/')
+            clearRouterStack('/', navigation)
         }
     }, [orderID])
 
@@ -35,7 +37,7 @@ const OrderPlaced = () => {
     }
 
     const returnHome = () => {
-        clearRouterStack('/')
+        clearRouterStack('/', navigation)
         dispatch(clearOrder)
     }
 

@@ -3,6 +3,7 @@ import DateTimePicker from '@react-native-community/datetimepicker'
 import { StyleSheet, Text } from 'react-native'
 import { Button, Dialog, HelperText, Portal } from 'react-native-paper'
 import { useSelector, useDispatch } from 'react-redux'
+import { useNavigation } from 'expo-router'
 
 import {
     placeOrder,
@@ -18,6 +19,7 @@ import Page from '@components/Page'
 
 const PickTime = () => {
     const dispatch = useDispatch()
+    const navigation = useNavigation()
 
     const [dialogVisible, setDialogVisible] = useState(false)
     const [dt, setDt] = useState(
@@ -36,7 +38,7 @@ const PickTime = () => {
 
     useEffect(() => {
         if (orderID !== null) {
-            clearRouterStack('/buy/orderPlaced')
+            clearRouterStack('buy/orderPlaced', navigation)
         }
     }, [orderID])
 

@@ -16,6 +16,7 @@ import ErrorDialog from '@components/ErrorDialog'
 import LoadingSpinner from '@components/LoadingSpinner'
 import Page from '@components/Page'
 import PaymentSetupRedirect from '@components/PaymentSetupRedirect'
+import { useNavigation } from 'expo-router'
 import {
     claimOrder,
     getOrders,
@@ -34,6 +35,7 @@ const { width: screenWidth } = Dimensions.get('window')
 
 const Sell = () => {
     const dispatch = useDispatch()
+    const navigation = useNavigation()
 
     const orders = useSelector(selectOrders)
     const ordersLoading = useSelector(selectOrdersLoading)
@@ -61,7 +63,7 @@ const Sell = () => {
 
     useEffect(() => {
         if (claimedOrder) {
-            clearRouterStack('/sell/orderDetails')
+            clearRouterStack('/sell/orderDetails', navigation)
         }
     }, [claimedOrder])
 

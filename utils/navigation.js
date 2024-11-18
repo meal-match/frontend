@@ -1,10 +1,17 @@
-import { StackActions } from '@react-navigation/native'
-import { router, useNavigationContainerRef } from 'expo-router'
-
-export const clearRouterStack = (path) => {
-    const rootNavigation = useNavigationContainerRef()
-    if (rootNavigation.canGoBack()) {
-        rootNavigation.dispatch(StackActions.popToTop())
+export const clearRouterStack = (path, navigation) => {
+    if (path === '/') {
+        navigation.reset({
+            index: 0,
+            routes: [{ name: 'index' }]
+        })
+        return
     }
-    router.replace(path)
+    // Remove leading slash because this routes based on name and not path
+    if (path[0] === '/') {
+        path = path.slice(1)
+    }
+    navigation.reset({
+        index: 0,
+        routes: [{ name: path }]
+    })
 }
