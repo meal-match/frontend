@@ -1,51 +1,100 @@
-import React from 'react'
-import { Image, StyleSheet, View, Dimensions, ScrollView } from 'react-native'
+import { React, useEffect, useState } from 'react'
+import {
+    Image,
+    StyleSheet,
+    View,
+    Dimensions,
+    ScrollView,
+    Text
+} from 'react-native'
 import { Link } from 'expo-router'
+import { useDispatch, useSelector } from 'react-redux'
 
+import {
+    getMealOptions,
+    setRestaurant,
+    setRestaurantData,
+    selectMealData,
+    selectRestaurantError,
+    selectRestaurantLoading,
+    selectProfileData
+} from '@store'
+import LoadingSpinner from '@components/LoadingSpinner'
 import Page from '@components/Page'
+import PaymentSetupRedirect from '@components/PaymentSetupRedirect'
 
 const { width: screenWidth } = Dimensions.get('window')
 
 const Buy = () => {
-    const options = [
-        {
-            label: 'Chick-fil-A',
-            image: require('@assets/images/logos/chick.png')
-        },
-        {
-            label: 'Panda',
-            image: require('@assets/images/logos/panda.png')
-        },
-        {
-            label: 'Dunkin',
-            image: require('@assets/images/logos/dunkin.png')
-        },
-        {
-            label: 'Canes',
-            image: require('@assets/images/logos/canes.png')
-        },
-        {
-            label: 'Pres-Deli',
-            image: require('@assets/images/logos/pres.png')
-        },
-        {
-            label: 'Julias',
-            image: require('@assets/images/logos/julia.png')
-        },
-        {
-            label: "Wendy's",
-            image: require('@assets/images/logos/wendy.png')
+    const logos = {
+        'Chick-Fil-A': require('@assets/images/logos/Chick-Fil-A.png'),
+        'Panda Express': require('@assets/images/logos/Panda Express.png'),
+        "Raising Cane's": require("@assets/images/logos/Raising Cane's.png"),
+        "Dunkin' Donuts": require("@assets/images/logos/Dunkin' Donuts.png"),
+        "Julia's Market": require("@assets/images/logos/Julia's Market.png"),
+        'Presidential Village': require('@assets/images/logos/Presidential Village.png'),
+        "Wendy's": require("@assets/images/logos/Wendy's.png")
+    }
+
+    const dispatch = useDispatch()
+
+    const profileData = useSelector(selectProfileData)
+    const restaurantError = useSelector(selectRestaurantError)
+    const restaurantLoading = useSelector(selectRestaurantLoading)
+
+    const [errorText, setErrorText] = useState('')
+    const [options, setOptions] = useState([])
+
+    useEffect(() => {
+        dispatch(getMealOptions)
+    }, [])
+
+    useEffect(() => {
+        setErrorText(restaurantError === null ? '' : restaurantError)
+    }, [restaurantError])
+
+    const mealData = useSelector(selectMealData)
+
+    useEffect(() => {
+        if (Object.keys(mealData).length > 0) {
+            setOptions(
+                mealData.restaurants.map((item) => ({
+                    label: item.restaurant,
+                    image: logos[item.restaurant]
+                }))
+            )
         }
-    ]
+    }, [mealData])
+
+    const populateRestaurantData = (restaurant) => {
+        dispatch(setRestaurant(restaurant))
+        dispatch(
+            setRestaurantData(
+                mealData.restaurants.filter(
+                    (item) => item.restaurant === restaurant
+                )[0]
+            )
+        )
+    }
+
+    if (profileData.paymentSetupIntent) {
+        return <PaymentSetupRedirect />
+    }
+
+    if (restaurantLoading) {
+        return <LoadingSpinner />
+    }
 
     return (
         <Page header="Select Location" style={styles.page}>
+            {errorText.length > 0 && <Text>{JSON.stringify(errorText)}</Text>}
             <ScrollView contentContainerStyle={styles.scrollContainer}>
-                {options.map((option) => (
+                {options?.map((option) => (
                     <Link
                         key={option.label}
                         style={styles.locationLink}
-                        href="/buy/test"
+                        href={'/buy/entreeChoice'}
+                        onPress={() => populateRestaurantData(option.label)}
                     >
                         <View style={styles.locationOption}>
                             <Image

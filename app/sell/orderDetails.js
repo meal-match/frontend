@@ -6,11 +6,13 @@ import { Redirect } from 'expo-router'
 
 import Divider from '@components/Divider'
 import ErrorDialog from '@components/ErrorDialog'
+import LoadingSpinner from '@components/LoadingSpinner'
 import Page from '@components/Page'
 import {
     resetClaimOrderError,
     selectClaimedOrder,
     selectClaimedOrderError,
+    selectClaimedOrderLoading,
     unclaimOrder
 } from '@store'
 import { formatTimeWithIntl } from '@utils'
@@ -20,6 +22,7 @@ const OrderDetails = () => {
 
     const orderData = useSelector(selectClaimedOrder)
     const claimedOrderError = useSelector(selectClaimedOrderError)
+    const claimedOrderLoading = useSelector(selectClaimedOrderLoading)
 
     const onUnclaimPress = () => {
         dispatch(unclaimOrder)
@@ -29,7 +32,9 @@ const OrderDetails = () => {
         return <Redirect href="/sell" />
     }
 
-    // TODO: add a loading spinner
+    if (claimedOrderLoading) {
+        return <LoadingSpinner />
+    }
 
     return (
         <Page header="Order Details">

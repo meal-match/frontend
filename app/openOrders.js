@@ -10,7 +10,7 @@ import { selectProfileData } from '@store'
 const OpenOrders = () => {
     const profileData = useSelector(selectProfileData)
 
-    const orders = profileData?.openOrders
+    const orders = profileData.openOrders
 
     const orderList = (
         <FlatList

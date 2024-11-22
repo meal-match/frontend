@@ -7,6 +7,8 @@ import Divider from '@components/Divider'
 import Page from '@components/Page'
 import Button from '@components/Button'
 import { getProfile, selectProfileData, selectIsLoggedIn } from '@store'
+import { enGB, registerTranslation } from 'react-native-paper-dates'
+registerTranslation('en-GB', enGB)
 
 const Index = () => {
     const dispatch = useDispatch()
@@ -21,17 +23,30 @@ const Index = () => {
     })
 
     const name = profileData.firstName
+    const openOrders = profileData.openOrders
+
+    // TODO: open orders need to get updated whenever someone claims/unclaims/places/cancels an order
+    const hasOpenOrders = openOrders && openOrders.length > 0
+    const buttonHeight = hasOpenOrders ? '15%' : '20%'
+    const openOrdersContent = (
+        <>
+            <Divider />
+            <Button
+                url="/openOrders"
+                text="Open Orders"
+                height={buttonHeight}
+            />
+        </>
+    )
 
     return (
-        <Page header={`Hello ${name}`} style={styles.page}>
+        <Page header={name ? `Hello, ${name}!` : 'Hello!'} style={styles.page}>
             <View style={styles.buttonContainer}>
                 <Text style={styles.question}>Would you like to...</Text>
-                <Button url="buy/" text="Buy" height="15%"></Button>
+                <Button url="buy/" text="Buy" height={buttonHeight}></Button>
                 <Divider width={'40%'} />
-                <Button url="sell/" text="Sell" height="15%"></Button>
-                <Divider />
-                {/* if is ordered */}
-                <Button url="/openOrders" text="Open Orders" height="15%" />
+                <Button url="sell/" text="Sell" height={buttonHeight}></Button>
+                {openOrders && openOrders.length > 0 && openOrdersContent}
             </View>
         </Page>
     )

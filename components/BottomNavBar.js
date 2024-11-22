@@ -67,13 +67,14 @@ const styles = StyleSheet.create({
         height: 75,
         width: '100%',
         borderTopColor: '#828A8F',
-        borderTopWidth: 2
+        borderTopWidth: 2,
+        backgroundColor: '#F8F8F8'
     },
     navItem: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        paddingTop: 8
+        marginBottom: 10
     }
 })
 

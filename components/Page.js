@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { SafeAreaView, StyleSheet, View } from 'react-native'
 import { node, object, string } from 'prop-types'
 import { useRouter, useFocusEffect } from 'expo-router'
 import { useDispatch, useSelector } from 'react-redux'
-import { ActivityIndicator, Text } from 'react-native-paper'
+import { Text } from 'react-native-paper'
 
 import {
     checkAuthStatus,
@@ -14,6 +14,7 @@ import {
 
 import BottomNavBar from '@components/BottomNavBar'
 import Container from '@components/Container'
+import LoadingSpinner from '@components/LoadingSpinner'
 
 const Page = ({ style, header, children }) => {
     const dispatch = useDispatch()
@@ -36,24 +37,22 @@ const Page = ({ style, header, children }) => {
     }, [checkAuthFail])
 
     if (!isLoggedIn || authLoading) {
-        return (
-            <Container>
-                <ActivityIndicator size="large" />
-            </Container>
-        )
+        return <LoadingSpinner />
     }
 
     return (
         <Container>
             <View style={styles.content}>
                 {header && (
-                    <View style={styles.header}>
-                        <Text style={styles.headerText}>{header}</Text>
-                    </View>
+                    <SafeAreaView>
+                        <View style={styles.header}>
+                            <Text style={styles.headerText}>{header}</Text>
+                        </View>
+                    </SafeAreaView>
                 )}
-                <View style={style}>{children}</View>
+                <View style={{ flex: 1, ...style }}>{children}</View>
+                <BottomNavBar />
             </View>
-            <BottomNavBar />
         </Container>
     )
 }
@@ -67,7 +66,7 @@ const styles = StyleSheet.create({
     headerText: {
         fontSize: 24,
         color: '#404040',
-        textAlign: 'left',
+        textAlign: 'center',
         marginLeft: '4%',
         marginBottom: 8
     },
