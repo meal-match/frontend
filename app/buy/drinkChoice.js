@@ -21,7 +21,11 @@ const DrinkChoice = () => {
     const moveForward = (drink) => {
         dispatch(setDrink(drink.drink))
         if (drink.drinkCustomizations.length > 0) {
-            router.push('/buy/drinkCustomizations')
+            if (drink.drinkCustomizations[0].title === 'Choose Sweetener') {
+                router.push('/buy/sweetenerChoice')
+            } else {
+                router.push('/buy/drinkCustomizations')
+            }
         } else if (meal.sauces.length > 0) {
             router.push('/buy/sauceChoice')
         } else {
