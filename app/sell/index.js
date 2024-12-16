@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import {
     Image,
     StyleSheet,
@@ -6,7 +6,8 @@ import {
     Text,
     Dimensions,
     ScrollView,
-    TouchableOpacity
+    TouchableOpacity,
+    RefreshControl
 } from 'react-native'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { useDispatch, useSelector } from 'react-redux'
@@ -47,6 +48,14 @@ const Sell = () => {
 
     const profileData = useSelector(selectProfileData)
 
+    const [refreshing, setRefreshing] = useState(false)
+
+    const onRefresh = useCallback(() => {
+        setRefreshing(true)
+        dispatch(getOrders)
+        setRefreshing(false)
+    }, [])
+
     const pressHandler = (order) => {
         dispatch(claimOrder(order))
     }
@@ -70,10 +79,10 @@ const Sell = () => {
     useEffect(() => {
         dispatch(getOrders)
 
-        // Refresh orders every 15 seconds
+        // Refresh orders every 60 seconds
         const interval = setInterval(() => {
             dispatch(getOrders)
-        }, 15000)
+        }, 60000)
         return () => clearInterval(interval)
     }, [])
 
@@ -153,7 +162,17 @@ const Sell = () => {
 
     return (
         <Page header="Select an Order to Claim" style={styles.page}>
-            <ScrollView contentContainerStyle={styles.scrollContainer}>
+            <ScrollView
+                contentContainerStyle={styles.scrollContainer}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
+                        tintColor={'black'}
+                        colors={['black']}
+                    />
+                }
+            >
                 {content}
             </ScrollView>
         </Page>
