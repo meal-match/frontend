@@ -4,6 +4,7 @@ import {
     SET_ENTREE,
     SET_ENTREE_CUSTOMIZATIONS,
     SET_DRINK,
+    SET_DRINK_CUSTOMIZATIONS,
     SET_PICKUP_TIME,
     SET_SAUCE,
     SET_SIDE,
@@ -123,6 +124,25 @@ export const setDrink = (drink) => (dispatch, getState) => {
         })
     }
 }
+
+export const setDrinkCustomizations =
+    (customizations) => (dispatch, getState) => {
+        const { order } = getState()
+        if (order.orderLoading) {
+            return
+        }
+        try {
+            dispatch({
+                type: SET_DRINK_CUSTOMIZATIONS,
+                payload: customizations
+            })
+        } catch (error) {
+            dispatch({
+                type: ORDER_ERROR,
+                payload: 'An unknown error occured'
+            })
+        }
+    }
 
 export const setSauce = (sauce) => (dispatch, getState) => {
     const { order } = getState()
