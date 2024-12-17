@@ -22,6 +22,8 @@ import {
 import LoadingSpinner from '@components/LoadingSpinner'
 import Page from '@components/Page'
 import PaymentSetupRedirect from '@components/PaymentSetupRedirect'
+import { FilterImage } from 'react-native-svg/filter-image'
+import { convertTimeToDateObject, getCloseTimeFromHoursObject } from '@utils'
 
 const { width: screenWidth } = Dimensions.get('window')
 
@@ -60,7 +62,8 @@ const Buy = () => {
             setOptions(
                 mealData.restaurants.map((item) => ({
                     label: item.restaurant,
-                    image: logos[item.restaurant]
+                    image: logos[item.restaurant],
+                    hours: item.hours
                 }))
             )
         }
@@ -75,6 +78,22 @@ const Buy = () => {
                 )[0]
             )
         )
+    }
+
+    const isDisabled = (hours) => {
+        if (!hours) {
+            return false
+        }
+
+        const closeTimeString = getCloseTimeFromHoursObject(hours)
+        const closeTime = convertTimeToDateObject(closeTimeString)
+
+        const disabledTime = closeTime.setMinutes(closeTime.getMinutes() - 30)
+
+        if (new Date() <= disabledTime) {
+            return false
+        }
+        return true
     }
 
     if (profileData.paymentSetupIntent) {
@@ -95,13 +114,25 @@ const Buy = () => {
                         style={styles.locationLink}
                         href={'/buy/entreeChoice'}
                         onPress={() => populateRestaurantData(option.label)}
+                        disabled={isDisabled(option.hours)}
                     >
                         <View style={styles.locationOption}>
-                            <Image
-                                source={option.image}
-                                style={styles.locationLogo}
-                                resizeMode="contain"
-                            />
+                            {isDisabled(option.hours) ? (
+                                <FilterImage
+                                    source={option.image}
+                                    style={{
+                                        ...styles.locationLogo,
+                                        filter: 'grayscale(100%)'
+                                    }}
+                                    resizeMode="contain"
+                                />
+                            ) : (
+                                <Image
+                                    source={option.image}
+                                    style={styles.locationLogo}
+                                    resizeMode="contain"
+                                />
+                            )}
                         </View>
                     </Link>
                 ))}

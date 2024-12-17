@@ -23,3 +23,31 @@ export const isWithin15Minutes = (optionTime) => {
     const timeDifference = (optionDate - currentTime) / (1000 * 60) // Difference in minutes
     return timeDifference >= 0 && timeDifference <= 15 // Return true if within 30 minutes
 }
+
+export const convertTimeToDateObject = (timeString) => {
+    const d = new Date()
+
+    const regexTime = /(1?[0-9]):([0-9][0-9]) (AM|PM)/
+    const timeArr = regexTime.exec(timeString)
+    const isoTimeString =
+        (timeArr[3] === 'PM' ? String(Number(timeArr[1]) + 12) : timeArr[1]) +
+        ':' +
+        timeArr[2] +
+        ':00'
+    const time = new Date(d.toISOString().split('T')[0] + 'T' + isoTimeString)
+    return time
+}
+
+export const getCloseTimeFromHoursObject = (hours) => {
+    const d = new Date()
+    const day = d.toLocaleDateString('en-US', { weekday: 'long' }).toLowerCase()
+    const closeTime = hours[day].close
+    return closeTime
+}
+
+export const getOpenTimeFromHoursObject = (hours) => {
+    const d = new Date()
+    const day = d.toLocaleDateString('en-US', { weekday: 'long' }).toLowerCase()
+    const openTime = hours[day].open
+    return openTime
+}
