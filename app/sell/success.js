@@ -16,8 +16,9 @@ const Success = () => {
         <Page header="Success!">
             <View style={styles.success}>
                 <Text style={styles.text}>
-                    Thank you for using MealMatch. Your funds will be released
-                    in the next 2 hours if there are no buyer complaints. {'\n'}
+                    Thank you for using MealMatch. If there are no buyer
+                    complaints in the next two hours, your funds will be
+                    released sometime after that.{'\n'}
                 </Text>
                 <Divider />
                 <View style={styles.buttonMenu}>

@@ -20,7 +20,8 @@ import {
     selectClaimedOrder,
     selectClaimedOrderError,
     selectClaimedOrderLoading,
-    unclaimOrder
+    unclaimOrder,
+    confirmOrder
 } from '@store'
 import { formatTimeWithIntl, clearRouterStack } from '@utils'
 import * as ImagePicker from 'expo-image-picker'
@@ -43,6 +44,7 @@ const OrderDetails = () => {
     }
 
     const onConfirmPress = () => {
+        dispatch(confirmOrder(orderData))
         clearRouterStack('/sell/success', navigation)
     }
 

@@ -49,10 +49,12 @@ const Sell = () => {
     const profileData = useSelector(selectProfileData)
 
     const [refreshing, setRefreshing] = useState(false)
+    const [timeInterval, setTimeInterval] = useState(null)
 
     const onRefresh = useCallback(() => {
         setRefreshing(true)
         dispatch(getOrders)
+        clearInterval(timeInterval)
         setRefreshing(false)
     }, [])
 
@@ -80,10 +82,12 @@ const Sell = () => {
         dispatch(getOrders)
 
         // Refresh orders every 60 seconds
-        const interval = setInterval(() => {
-            dispatch(getOrders)
-        }, 60000)
-        return () => clearInterval(interval)
+        setTimeInterval(
+            setInterval(() => {
+                dispatch(getOrders)
+            }, 60000)
+        )
+        return () => clearInterval(timeInterval)
     }, [])
 
     if (profileData.paymentSetupIntent) {

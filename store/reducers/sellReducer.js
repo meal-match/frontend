@@ -6,7 +6,8 @@ import {
     ORDERS_LOADING,
     SET_ORDERS,
     GET_ORDERS_ERROR,
-    UNCLAIM_ORDER
+    UNCLAIM_ORDER,
+    CONFIRM_ORDER
 } from '@constants'
 
 const initialState = {
@@ -71,6 +72,13 @@ const sellReducer = (state = initialState, action) => {
             return {
                 ...state,
                 claimedOrder: null,
+                claimedOrderLoading: false,
+                claimedOrderError: null
+            }
+        case CONFIRM_ORDER:
+            return {
+                ...state,
+                claimedOrder: action.payload,
                 claimedOrderLoading: false,
                 claimedOrderError: null
             }
