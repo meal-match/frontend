@@ -7,8 +7,6 @@ import Divider from '@components/Divider'
 import Page from '@components/Page'
 import Button from '@components/Button'
 import { getProfile, selectProfileData, selectIsLoggedIn } from '@store'
-import { enGB, registerTranslation } from 'react-native-paper-dates'
-registerTranslation('en-GB', enGB)
 
 const Index = () => {
     const dispatch = useDispatch()
