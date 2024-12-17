@@ -51,10 +51,15 @@ const Sell = () => {
     const [refreshing, setRefreshing] = useState(false)
     const [timeInterval, setTimeInterval] = useState(null)
 
+    const resetRefreshTimer = () => {
+        // Refresh orders every 60 seconds
+        setTimeInterval(setInterval(() => dispatch(getOrders), 60000))
+    }
+
     const onRefresh = useCallback(() => {
         setRefreshing(true)
         dispatch(getOrders)
-        clearInterval(timeInterval)
+        resetRefreshTimer()
         setRefreshing(false)
     }, [])
 
@@ -80,13 +85,7 @@ const Sell = () => {
 
     useEffect(() => {
         dispatch(getOrders)
-
-        // Refresh orders every 60 seconds
-        setTimeInterval(
-            setInterval(() => {
-                dispatch(getOrders)
-            }, 60000)
-        )
+        resetRefreshTimer()
         return () => clearInterval(timeInterval)
     }, [])
 
