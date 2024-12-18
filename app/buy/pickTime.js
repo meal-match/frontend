@@ -11,9 +11,16 @@ import {
     selectOrderID,
     selectOrderError,
     selectOrderLoading,
-    setPickupTime
+    setPickupTime,
+    selectRestaurantData
 } from '@store'
-import { clearRouterStack, displayPickerTime } from '@utils'
+import {
+    clearRouterStack,
+    displayPickerTime,
+    getCloseTimeFromHoursObject,
+    convertTimeToDateObject,
+    getOpenTimeFromHoursObject
+} from '@utils'
 import LoadingSpinner from '@components/LoadingSpinner'
 import Page from '@components/Page'
 
@@ -25,6 +32,7 @@ const PickTime = () => {
     const [dt, setDt] = useState(
         new Date(new Date().setMinutes(new Date().getMinutes() + 30))
     )
+    const [warningText, setWarningText] = useState('')
 
     const onConfirm = () => {
         setDialogVisible(true)
@@ -35,12 +43,33 @@ const PickTime = () => {
     const orderID = useSelector(selectOrderID)
     const orderLoading = useSelector(selectOrderLoading)
     const orderError = useSelector(selectOrderError)
+    const restaurantData = useSelector(selectRestaurantData)
 
     useEffect(() => {
         if (orderID !== null) {
             clearRouterStack('buy/orderPlaced', navigation)
         }
     }, [orderID])
+
+    useEffect(() => {
+        if (!restaurantData.hours) {
+            setWarningText('')
+            return
+        }
+        const closeTimeString = getCloseTimeFromHoursObject(
+            restaurantData.hours
+        )
+        const closeTime = convertTimeToDateObject(closeTimeString)
+        const openTimeString = getOpenTimeFromHoursObject(restaurantData.hours)
+        const openTime = convertTimeToDateObject(openTimeString)
+        if (dt < openTime || dt > closeTime) {
+            setWarningText(
+                "Warning: the time you have selected is outside the restaurant's normal hours of operation."
+            )
+        } else {
+            setWarningText('')
+        }
+    }, [dt])
 
     if (orderLoading) {
         return <LoadingSpinner />
@@ -58,6 +87,10 @@ const PickTime = () => {
                     An error occurred: {orderError}
                 </HelperText>
             )}
+            <Text style={styles.text}>
+                Open Today: {getOpenTimeFromHoursObject(restaurantData.hours)} -{' '}
+                {getCloseTimeFromHoursObject(restaurantData.hours)}
+            </Text>
             <DateTimePicker
                 display="spinner"
                 mode="time"
@@ -65,6 +98,9 @@ const PickTime = () => {
                 onChange={(event, selectedDate) => setDt(selectedDate)}
                 themeVariant="light"
             />
+            {warningText.length > 0 && (
+                <Text style={styles.warning}>{warningText}</Text>
+            )}
             <Button onPress={() => onConfirm()} mode="contained">
                 Review Order
             </Button>
@@ -127,6 +163,11 @@ const styles = StyleSheet.create({
         marginTop: 10,
         marginBottom: 10,
         fontSize: 18
+    },
+    warning: {
+        marginTop: 10,
+        marginBottom: 10,
+        color: 'red'
     }
 })
 
