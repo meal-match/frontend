@@ -87,6 +87,10 @@ const PickTime = () => {
                     An error occurred: {orderError}
                 </HelperText>
             )}
+            <Text style={styles.text}>
+                Open Today: {getOpenTimeFromHoursObject(restaurantData.hours)} -{' '}
+                {getCloseTimeFromHoursObject(restaurantData.hours)}
+            </Text>
             <DateTimePicker
                 display="spinner"
                 mode="time"

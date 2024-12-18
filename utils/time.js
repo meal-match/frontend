@@ -30,11 +30,21 @@ export const convertTimeToDateObject = (timeString) => {
     const regexTime = /(1?[0-9]):([0-9][0-9]) (AM|PM)/
     const timeArr = regexTime.exec(timeString)
     const isoTimeString =
-        (timeArr[3] === 'PM' ? String(Number(timeArr[1]) + 12) : timeArr[1]) +
+        (timeArr[3] === 'PM'
+            ? String((Number(timeArr[1]) + 12) % 24)
+            : String(Number(timeArr[1]) % 24)) +
         ':' +
         timeArr[2] +
         ':00'
-    const time = new Date(d.toISOString().split('T')[0] + 'T' + isoTimeString)
+    const mdy = d
+        .toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'numeric',
+            day: 'numeric'
+        })
+        .split('/')
+    const isoDateString = mdy[2] + '-' + mdy[0] + '-' + mdy[1]
+    const time = new Date(isoDateString + 'T' + isoTimeString)
     return time
 }
 
