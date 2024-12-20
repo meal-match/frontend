@@ -6,7 +6,8 @@ import {
     ORDERS_INITIAL_LOADING,
     SET_ORDERS,
     GET_ORDERS_ERROR,
-    UNCLAIM_ORDER
+    UNCLAIM_ORDER,
+    CONFIRM_ORDER
 } from '@constants'
 
 export const getOrders = async (dispatch, getState) => {
@@ -139,6 +140,57 @@ export const unclaimOrder = async (dispatch, getState) => {
                 payload: response.message
             })
         }
+    } catch (error) {
+        dispatch({
+            type: CLAIM_ORDER_ERROR,
+            payload: 'An unknown error occured'
+        })
+    }
+}
+
+export const confirmOrder = (order) => async (dispatch, getState) => {
+    const { sell } = getState()
+    if (sell.claimedOrderLoading || !sell.claimedOrder) {
+        return
+    }
+
+    try {
+        dispatch({
+            type: CLAIM_ORDER_LOADING
+        })
+        // TODO: Add this route in when backend is caught up
+        // const request = await fetch(
+        //     process.env.EXPO_PUBLIC_API_URL +
+        //         '/orders/' +
+        //         sell.claimedOrder._id +
+        //         '/confirm',
+        //     {
+        //         method: 'PATCH',
+        //         headers: {
+        //             'Content-Type': 'application/json'
+        //         },
+        //         credentials: 'include'
+        //     }
+        // )
+        // const response = await request.json()
+
+        // if (request.status === 200) {
+        //     dispatch({
+        //         type: CONFIRM_ORDER,
+        //         payload: order
+        //     })
+        // } else {
+        //     dispatch({
+        //         type: CLAIM_ORDER_ERROR,
+        //         payload: response.message
+        //     })
+        // }
+
+        // TODO: delete this and use above code when backend is caught up
+        dispatch({
+            type: CONFIRM_ORDER,
+            payload: order
+        })
     } catch (error) {
         dispatch({
             type: CLAIM_ORDER_ERROR,

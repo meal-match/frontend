@@ -90,6 +90,10 @@ const RootLayout = () => {
                         name="buy/orderPlaced"
                         options={{ animation: 'slide_from_right' }}
                     />
+                    <Stack.Screen
+                        name="sell/success"
+                        options={{ animation: 'slide_from_right' }}
+                    />
                 </Stack>
             </PaperProvider>
         </Provider>
