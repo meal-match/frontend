@@ -53,7 +53,7 @@ const RootLayout = () => {
                             fontSize: 24
                         },
                         headerTintColor: theme.colors.accent,
-                        headerBackTitleVisible: false,
+                        headerBackButtonDisplayMode: 'minimal',
                         animation: 'none'
                     }}
                 >

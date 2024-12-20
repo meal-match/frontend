@@ -1,5 +1,6 @@
 export * from './authActions'
 export * from './orderActions'
+export * from './paymentActions'
 export * from './profileActions'
 export * from './restaurantActions'
 export * from './sellActions'
