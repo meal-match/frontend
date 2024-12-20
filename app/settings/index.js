@@ -3,16 +3,23 @@ import { FlatList } from 'react-native'
 import { List } from 'react-native-paper'
 import { useDispatch } from 'react-redux'
 import Ionicons from '@expo/vector-icons/Ionicons'
+import { useRouter } from 'expo-router'
 
 import Page from '@components/Page'
 import { userLogout } from '@store'
 
 const Settings = () => {
     const dispatch = useDispatch()
+    const router = useRouter()
 
     const settingsOptions = [
         {
-            title: 'Payment Information'
+            title: 'Payment Information',
+            onPress: () => {
+                router.push({
+                    pathname: 'settings/paymentSetup'
+                })
+            }
         },
         {
             title: 'Report an Issue'
