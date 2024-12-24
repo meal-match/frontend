@@ -13,6 +13,7 @@ export const VERIFY_EMAIL = 'VERIFY_EMAIL'
 export const PROFILE_LOADING = 'PROFILE_LOADING'
 export const PROFILE_ERROR = 'PROFILE_ERROR'
 export const SET_PROFILE = 'SET_PROFILE'
+export const DELETE_PROFILE_ERROR = 'DELETE_PROFILE_ERROR'
 
 // meal
 export const MEAL_ERROR = 'MEAL_ERROR'
