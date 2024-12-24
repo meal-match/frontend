@@ -14,7 +14,12 @@ const Settings = () => {
 
     const settingsOptions = [
         {
-            title: 'Payment Information'
+            title: 'Payment Information',
+            onPress: () => {
+                router.push({
+                    pathname: 'settings/paymentSetup'
+                })
+            }
         },
         {
             title: 'Report an Issue' // page that interfaces with report API?
