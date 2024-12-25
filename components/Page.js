@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { SafeAreaView, StyleSheet, View } from 'react-native'
 import { node, object, string } from 'prop-types'
-import { useRouter, useFocusEffect } from 'expo-router'
+import { useFocusEffect, useNavigation } from 'expo-router'
 import { useDispatch, useSelector } from 'react-redux'
 import { Text } from 'react-native-paper'
 
@@ -11,6 +11,7 @@ import {
     selectIsLoggedIn,
     selectAuthLoading
 } from '@store'
+import { clearRouterStack } from '@utils'
 
 import BottomNavBar from '@components/BottomNavBar'
 import Container from '@components/Container'
@@ -18,7 +19,7 @@ import LoadingSpinner from '@components/LoadingSpinner'
 
 const Page = ({ style, header, children }) => {
     const dispatch = useDispatch()
-    const router = useRouter()
+    const navigation = useNavigation()
 
     const checkAuthFail = useSelector(selectCheckAuthFail)
     const isLoggedIn = useSelector(selectIsLoggedIn)
@@ -32,7 +33,7 @@ const Page = ({ style, header, children }) => {
 
     useEffect(() => {
         if (checkAuthFail) {
-            router.replace('/auth/login')
+            clearRouterStack('/auth/login', navigation)
         }
     }, [checkAuthFail])
 

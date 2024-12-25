@@ -1,5 +1,5 @@
 import React from 'react'
-import { FlatList } from 'react-native'
+import { FlatList, Linking } from 'react-native'
 import { List } from 'react-native-paper'
 import { useDispatch } from 'react-redux'
 import Ionicons from '@expo/vector-icons/Ionicons'
@@ -22,18 +22,35 @@ const Settings = () => {
             }
         },
         {
-            title: 'Report an Issue'
+            title: 'Report an Issue' // page that interfaces with report API?
         },
         {
-            title: 'Questions'
+            title: 'Privacy Policy',
+            onPress: () => {
+                Linking.openURL(
+                    'https://www.privacypolicies.com/live/c27eaadc-e241-48ce-be38-3be7315d7cdf'
+                )
+            }
         },
         {
-            title: 'About Us'
+            title: 'About Us',
+            onPress: () => {
+                // TODO: Update link
+                Linking.openURL('https://google.com')
+            }
         },
         {
             title: 'Sign Out',
             onPress: () => {
                 dispatch(userLogout)
+            }
+        },
+        {
+            title: 'Delete Account',
+            onPress: () => {
+                router.push({
+                    pathname: 'settings/deleteAccount'
+                })
             }
         }
     ]
