@@ -1,8 +1,8 @@
 import {
     PAYMENT_LOADING,
+    PAYMENT_METHOD_SAVED,
     PAYMENT_SETUP,
-    PAYMENT_SETUP_ERROR,
-    PAYMENT_METHOD_SAVED
+    PAYMENT_SETUP_ERROR
 } from '@constants'
 
 export const initPaymentSetup = async (dispatch, getState) => {

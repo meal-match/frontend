@@ -1,8 +1,8 @@
+import Ionicons from '@expo/vector-icons/Ionicons'
 import React from 'react'
-import { useSelector } from 'react-redux'
 import { FlatList, Text, View } from 'react-native'
 import { List } from 'react-native-paper'
-import Ionicons from '@expo/vector-icons/Ionicons'
+import { useSelector } from 'react-redux'
 
 import Page from '@components/Page'
 import { selectProfileData } from '@store'

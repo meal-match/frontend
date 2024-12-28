@@ -1,12 +1,12 @@
-import { React, useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
 import { useRouter } from 'expo-router'
+import { React, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
 import MultiItemSelector from '@components/MultiItemSelector'
 import Page from '@components/Page'
 import {
-    selectRestaurantData,
     selectOrder,
+    selectRestaurantData,
     setEntreeCustomizations
 } from '@store'
 

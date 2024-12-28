@@ -1,8 +1,8 @@
+import Ionicons from '@expo/vector-icons/Ionicons'
+import { array, func, number } from 'prop-types'
 import React from 'react'
 import { FlatList, View } from 'react-native'
-import { List, Button } from 'react-native-paper'
-import { array, func, number } from 'prop-types'
-import Ionicons from '@expo/vector-icons/Ionicons'
+import { Button, List } from 'react-native-paper'
 
 const getIconName = (maxSelections, values, item) => {
     if (maxSelections === 1) {

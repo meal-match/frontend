@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from 'react'
 import { StripeProvider, useStripe } from '@stripe/stripe-react-native'
+import React, { useEffect, useState } from 'react'
+import { Alert, StyleSheet } from 'react-native'
 import { Button, HelperText, Text } from 'react-native-paper'
 import { useDispatch, useSelector } from 'react-redux'
-import { Alert, StyleSheet } from 'react-native'
 
 import LoadingSpinner from '@components/LoadingSpinner'
 import Page from '@components/Page'
 import {
     initPaymentSetup,
     savePaymentMethod,
-    selectPaymentSetup,
     selectPaymentLoading,
-    selectPaymentSetupError,
     selectPaymentMethodSaved,
+    selectPaymentSetup,
+    selectPaymentSetupError,
     selectProfileData
 } from '@store'
 

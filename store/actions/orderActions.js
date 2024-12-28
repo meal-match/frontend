@@ -1,17 +1,17 @@
 import {
-    SET_RESTAURANT,
+    CLEAR_ORDER,
+    ORDER_CANCELLED,
     ORDER_ERROR,
+    ORDER_LOADING,
+    ORDER_PLACED,
+    SET_DRINK,
     SET_ENTREE,
     SET_ENTREE_CUSTOMIZATIONS,
-    SET_DRINK,
     SET_PICKUP_TIME,
+    SET_RESTAURANT,
     SET_SAUCE,
     SET_SIDE,
-    SET_SIDE_CUSTOMIZATIONS,
-    ORDER_PLACED,
-    ORDER_LOADING,
-    ORDER_CANCELLED,
-    CLEAR_ORDER
+    SET_SIDE_CUSTOMIZATIONS
 } from '@constants'
 
 export const setRestaurant = (restaurant) => (dispatch, getState) => {

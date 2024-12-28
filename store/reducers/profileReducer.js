@@ -1,8 +1,8 @@
 import {
-    PROFILE_LOADING,
+    DELETE_PROFILE_ERROR,
     PROFILE_ERROR,
-    SET_PROFILE,
-    DELETE_PROFILE_ERROR
+    PROFILE_LOADING,
+    SET_PROFILE
 } from '@constants'
 
 const initialState = {

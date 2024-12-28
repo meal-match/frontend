@@ -1,8 +1,8 @@
+import Ionicons from '@expo/vector-icons/Ionicons'
+import { array, func } from 'prop-types'
 import React from 'react'
 import { FlatList } from 'react-native'
 import { List } from 'react-native-paper'
-import { array, func } from 'prop-types'
-import Ionicons from '@expo/vector-icons/Ionicons'
 
 const SingleItemSelector = ({
     items,

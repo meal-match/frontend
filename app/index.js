@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react'
-import { Text } from 'react-native-paper'
 import { StyleSheet, View } from 'react-native'
+import { Text } from 'react-native-paper'
 import { useDispatch, useSelector } from 'react-redux'
 
+import Button from '@components/Button'
 import Divider from '@components/Divider'
 import Page from '@components/Page'
-import Button from '@components/Button'
-import { getProfile, selectProfileData, selectIsLoggedIn } from '@store'
+import { getProfile, selectIsLoggedIn, selectProfileData } from '@store'
 
 const Index = () => {
     const dispatch = useDispatch()

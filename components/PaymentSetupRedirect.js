@@ -1,7 +1,7 @@
-import React from 'react'
-import { Button } from 'react-native-paper'
 import { useNavigation } from 'expo-router'
+import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
+import { Button } from 'react-native-paper'
 
 import Page from '@components/Page'
 import { clearRouterStack } from '@utils'

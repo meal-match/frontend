@@ -1,10 +1,10 @@
-import React from 'react'
 import { useRouter } from 'expo-router'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { setDrink, selectRestaurantData, selectOrder } from '@store'
 import Page from '@components/Page'
 import SingleItemSelector from '@components/SingleItemSelector'
+import { selectOrder, selectRestaurantData, setDrink } from '@store'
 
 const DrinkChoice = () => {
     const dispatch = useDispatch()

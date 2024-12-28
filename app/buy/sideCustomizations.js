@@ -1,13 +1,13 @@
-import React, { useState } from 'react'
 import { useRouter } from 'expo-router'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import MultiItemSelector from '@components/MultiItemSelector'
 import Page from '@components/Page'
 import {
-    setSideCustomizations,
+    selectOrder,
     selectRestaurantData,
-    selectOrder
+    setSideCustomizations
 } from '@store'
 
 const SideCustomizations = () => {

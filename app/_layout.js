@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import * as Linking from 'expo-linking'
 import { Stack, useRouter } from 'expo-router'
+import React, { useEffect, useState } from 'react'
 import { DefaultTheme, PaperProvider } from 'react-native-paper'
 import { Provider } from 'react-redux'
-import * as Linking from 'expo-linking'
 
 import { store } from '@store'
 

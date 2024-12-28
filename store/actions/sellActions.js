@@ -1,13 +1,13 @@
 import {
     CLAIM_ORDER,
-    CLAIM_ORDER_LOADING,
     CLAIM_ORDER_ERROR,
-    ORDERS_LOADING,
-    ORDERS_INITIAL_LOADING,
-    SET_ORDERS,
+    CLAIM_ORDER_LOADING,
+    CONFIRM_ORDER,
     GET_ORDERS_ERROR,
-    UNCLAIM_ORDER,
-    CONFIRM_ORDER
+    ORDERS_INITIAL_LOADING,
+    ORDERS_LOADING,
+    SET_ORDERS,
+    UNCLAIM_ORDER
 } from '@constants'
 
 export const getOrders = async (dispatch, getState) => {

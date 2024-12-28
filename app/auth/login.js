@@ -1,17 +1,17 @@
+import { useRouter } from 'expo-router'
 import React, { useEffect, useState } from 'react'
+import { StyleSheet } from 'react-native'
 import {
     Button,
+    Checkbox,
     HelperText,
     Text,
-    TextInput,
-    Checkbox
+    TextInput
 } from 'react-native-paper'
-import { useRouter } from 'expo-router'
 import { useDispatch, useSelector } from 'react-redux'
-import { StyleSheet } from 'react-native'
 
 import AuthPage from '@components/AuthPage'
-import { userLogin, selectAuthError, selectAuthLoading } from '@store'
+import { selectAuthError, selectAuthLoading, userLogin } from '@store'
 
 const Login = () => {
     const dispatch = useDispatch()

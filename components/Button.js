@@ -1,7 +1,7 @@
-import React from 'react'
-import { StyleSheet, TouchableOpacity, Text } from 'react-native'
 import { useRouter } from 'expo-router'
 import { string } from 'prop-types'
+import React from 'react'
+import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 
 const Button = ({ url, text, height }) => {
     const router = useRouter()

@@ -1,9 +1,9 @@
+import Ionicons from '@expo/vector-icons/Ionicons'
+import { useRouter } from 'expo-router'
 import React from 'react'
 import { FlatList, Linking } from 'react-native'
 import { List } from 'react-native-paper'
 import { useDispatch } from 'react-redux'
-import Ionicons from '@expo/vector-icons/Ionicons'
-import { useRouter } from 'expo-router'
 
 import Page from '@components/Page'
 import { userLogout } from '@store'

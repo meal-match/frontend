@@ -1,33 +1,33 @@
+import { Link } from 'expo-router'
 import { React, useEffect, useState } from 'react'
 import {
-    Image,
-    StyleSheet,
-    View,
     Dimensions,
+    Image,
     ScrollView,
-    Text
+    StyleSheet,
+    Text,
+    View
 } from 'react-native'
-import { Link } from 'expo-router'
 import { useDispatch, useSelector } from 'react-redux'
 
-import {
-    getMealOptions,
-    setRestaurant,
-    setRestaurantData,
-    selectMealData,
-    selectRestaurantError,
-    selectRestaurantLoading,
-    selectProfileData
-} from '@store'
 import LoadingSpinner from '@components/LoadingSpinner'
 import Page from '@components/Page'
 import PaymentSetupRedirect from '@components/PaymentSetupRedirect'
-import { FilterImage } from 'react-native-svg/filter-image'
+import {
+    getMealOptions,
+    selectMealData,
+    selectProfileData,
+    selectRestaurantError,
+    selectRestaurantLoading,
+    setRestaurant,
+    setRestaurantData
+} from '@store'
 import {
     convertTimeToDateObject,
     getCloseTimeFromHoursObject,
     getOpenTimeFromHoursObject
 } from '@utils'
+import { FilterImage } from 'react-native-svg/filter-image'
 
 const { width: screenWidth } = Dimensions.get('window')
 

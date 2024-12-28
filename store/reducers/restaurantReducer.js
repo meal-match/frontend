@@ -1,9 +1,9 @@
 import {
-    MEAL_ERROR,
     GET_MEAL_DATA,
+    MEAL_ERROR,
+    MEAL_LOADING,
     SET_MEAL_DATA,
-    SET_RESTAURANT_DATA,
-    MEAL_LOADING
+    SET_RESTAURANT_DATA
 } from '@constants'
 
 const initialState = {

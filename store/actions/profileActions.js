@@ -1,9 +1,9 @@
 import {
+    DELETE_PROFILE_ERROR,
+    PROFILE_ERROR,
     PROFILE_LOADING,
     SET_PROFILE,
-    PROFILE_ERROR,
-    USER_LOGOUT,
-    DELETE_PROFILE_ERROR
+    USER_LOGOUT
 } from '@constants'
 
 export const getProfile = async (dispatch, getState) => {
