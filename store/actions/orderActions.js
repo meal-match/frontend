@@ -172,7 +172,7 @@ export const placeOrder = async (dispatch, getState) => {
         })
 
         const request = await fetch(
-            process.env.EXPO_PUBLIC_API_URL + '/orders/buy',
+            `${process.env.EXPO_PUBLIC_API_URL}/orders/buy`,
             {
                 method: 'POST',
                 headers: {
@@ -225,10 +225,7 @@ export const cancelOrder = async (dispatch, getState) => {
         })
 
         const request = await fetch(
-            process.env.EXPO_PUBLIC_API_URL +
-                '/orders/' +
-                order.orderID +
-                '/cancel-buy',
+            `${process.env.EXPO_PUBLIC_API_URL}/orders/${order.orderID}/cancel-buy`,
             {
                 method: 'DELETE',
                 headers: {

@@ -17,7 +17,7 @@ export const initPaymentSetup = async (dispatch, getState) => {
         })
 
         const request = await fetch(
-            process.env.EXPO_PUBLIC_API_URL + '/payment/setup-intent',
+            `${process.env.EXPO_PUBLIC_API_URL}/payment/setup-intent`,
             {
                 method: 'GET',
                 headers: {
@@ -57,7 +57,7 @@ export const savePaymentMethod = async (dispatch, getState) => {
         })
 
         const request = await fetch(
-            process.env.EXPO_PUBLIC_API_URL + '/payment/setup-intent',
+            `${process.env.EXPO_PUBLIC_API_URL}/payment/setup-intent`,
             {
                 method: 'DELETE',
                 headers: {

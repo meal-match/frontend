@@ -113,22 +113,18 @@ const PickTime = () => {
                             {'\n\n'}
                             Entree: {order.entree}
                             {order.entreeCustomizations.length > 0
-                                ? ' (' +
-                                  order.entreeCustomizations.join(', ') +
-                                  ')'
+                                ? ` (${order.entreeCustomizations.join(', ')})`
                                 : ' '}
                             {'\n'}
                             Side: {order.side}
                             {order.sideCustomizations.length > 0
-                                ? ' (' +
-                                  order.sideCustomizations.join(', ') +
-                                  ')'
+                                ? ` (${order.sideCustomizations.join(', ')})`
                                 : ' '}
                             {'\n'}
                             Drink: {order.drink}
                             {'\n'}
                             {order.sauce?.length > 0 &&
-                                'Sauce: ' + order.sauce.join(', ')}
+                                `Sauce: ${order.sauce.join(', ')}`}
                         </Text>
                     </Dialog.Content>
                     <Dialog.Actions>

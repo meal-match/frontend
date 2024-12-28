@@ -31,7 +31,7 @@ const Login = () => {
             return
         }
         await dispatch(
-            userLogin({ email: email + '@crimson.ua.edu', password })
+            userLogin({ email: `${email}@crimson.ua.edu`, password })
         )
     }
 

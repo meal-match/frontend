@@ -42,7 +42,7 @@ const ForgotPassword = () => {
         if (badEmail) {
             return
         }
-        dispatch(sendResetEmail(email + '@crimson.ua.edu'))
+        dispatch(sendResetEmail(`${email}@crimson.ua.edu`))
     }
 
     useEffect(() => {

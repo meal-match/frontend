@@ -1,7 +1,12 @@
 export const displayPickerTime = (time) => {
     const hours = time.getHours()
     const minutes = time.getMinutes()
-    return `${(hours % 12 === 0 ? 12 : hours % 12) + ':' + minutes.toLocaleString('en-US', { minimumIntegerDigits: 2 }) + ' ' + (hours > 11 ? 'PM' : 'AM')}`
+    const hoursString = hours % 12 === 0 ? 12 : hours % 12
+    const minutesString = minutes.toLocaleString('en-US', {
+        minimumIntegerDigits: 2
+    })
+    const timeOfDayString = hours > 11 ? 'PM' : 'AM'
+    return `${hoursString}:${minutesString} ${timeOfDayString}`
 }
 
 export const formatTimeWithIntl = (timeString) => {
@@ -27,15 +32,13 @@ export const isWithin15Minutes = (optionTime) => {
 export const convertTimeToDateObject = (timeString) => {
     const d = new Date()
 
-    const regexTime = /(1?[0-9]):([0-9][0-9]) (AM|PM)/
+    const regexTime = /(1?\d):(\d\d) (AM|PM)/
     const timeArr = regexTime.exec(timeString)
-    const isoTimeString =
-        (timeArr[3] === 'PM'
+    const isoTimeString = `${
+        timeArr[3] === 'PM'
             ? String((Number(timeArr[1]) + 12) % 24)
-            : String(Number(timeArr[1]) % 24)) +
-        ':' +
-        timeArr[2] +
-        ':00'
+            : String(Number(timeArr[1]) % 24)
+    }:${timeArr[2]}:00`
     const mdy = d
         .toLocaleDateString('en-US', {
             year: 'numeric',
@@ -43,8 +46,8 @@ export const convertTimeToDateObject = (timeString) => {
             day: 'numeric'
         })
         .split('/')
-    const isoDateString = mdy[2] + '-' + mdy[0] + '-' + mdy[1]
-    const time = new Date(isoDateString + 'T' + isoTimeString)
+    const isoDateString = `${mdy[2]}-${mdy[0]}-${mdy[1]}`
+    const time = new Date(`${isoDateString}T${isoTimeString}`)
     return time
 }
 

@@ -91,7 +91,9 @@ const PaymentSetup = () => {
                 </Text>
             </Page>
         )
-    } else if (paymentMethodSaved === false) {
+    }
+
+    if (paymentMethodSaved === false) {
         return (
             <Page header="Payment Setup" style={styles.page}>
                 <Text style={styles.text}>

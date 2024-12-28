@@ -77,11 +77,11 @@ const Buy = () => {
     useEffect(() => {
         let tempDisabledRestaurant = false
         if (Object.keys(options).length > 0) {
-            options.forEach((option) => {
+            for (const option of options) {
                 if (isDisabled(option.hours)) {
                     tempDisabledRestaurant = true
                 }
-            })
+            }
         }
         setDisabledRestaurant(tempDisabledRestaurant)
     }, [options])
@@ -107,10 +107,7 @@ const Buy = () => {
 
         const disabledTime = closeTime.setMinutes(closeTime.getMinutes() - 30)
 
-        if (new Date() <= disabledTime) {
-            return false
-        }
-        return true
+        return new Date() > disabledTime
     }
 
     if (profileData.paymentSetupIntent) {

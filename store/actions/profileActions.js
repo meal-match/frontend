@@ -21,7 +21,7 @@ export const getProfile = async (dispatch, getState) => {
         })
 
         const request = await fetch(
-            process.env.EXPO_PUBLIC_API_URL + '/profile',
+            `${process.env.EXPO_PUBLIC_API_URL}/profile`,
             {
                 method: 'GET',
                 headers: {
@@ -63,7 +63,7 @@ export const deleteProfile = async (dispatch, getState) => {
         })
 
         const request = await fetch(
-            process.env.EXPO_PUBLIC_API_URL + '/profile',
+            `${process.env.EXPO_PUBLIC_API_URL}/profile`,
             {
                 method: 'DELETE',
                 headers: {

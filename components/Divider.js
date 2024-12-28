@@ -11,7 +11,7 @@ const Divider = ({ width = '100%', color = '#B3B3B3' }) => {
         }
     })
 
-    return <View style={styles.divider}></View>
+    return <View style={styles.divider} />
 }
 
 Divider.propTypes = {

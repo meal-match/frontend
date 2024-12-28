@@ -22,7 +22,7 @@ export const userLogin = (params) => async (dispatch, getState) => {
         })
 
         const request = await fetch(
-            process.env.EXPO_PUBLIC_API_URL + '/auth/login',
+            `${process.env.EXPO_PUBLIC_API_URL}/auth/login`,
             {
                 method: 'POST',
                 body: JSON.stringify(params),
@@ -70,7 +70,7 @@ export const createUser = (params) => async (dispatch, getState) => {
         })
 
         const request = await fetch(
-            process.env.EXPO_PUBLIC_API_URL + '/auth/signup',
+            `${process.env.EXPO_PUBLIC_API_URL}/auth/signup`,
             {
                 method: 'POST',
                 body: JSON.stringify(params),
@@ -118,7 +118,7 @@ export const sendResetEmail = (email) => async (dispatch, getState) => {
         })
 
         const request = await fetch(
-            process.env.EXPO_PUBLIC_API_URL + '/auth/send-reset',
+            `${process.env.EXPO_PUBLIC_API_URL}/auth/send-reset`,
             {
                 method: 'POST',
                 body: JSON.stringify({ email }),
@@ -166,7 +166,7 @@ export const resetPassword = (params) => async (dispatch, getState) => {
         })
 
         const request = await fetch(
-            process.env.EXPO_PUBLIC_API_URL + '/auth/reset-password',
+            `${process.env.EXPO_PUBLIC_API_URL}/auth/reset-password`,
             {
                 method: 'POST',
                 body: JSON.stringify(params),
@@ -214,7 +214,7 @@ export const checkAuthStatus = async (dispatch, getState) => {
         })
 
         const request = await fetch(
-            process.env.EXPO_PUBLIC_API_URL + '/auth/status',
+            `${process.env.EXPO_PUBLIC_API_URL}/auth/status`,
             {
                 method: 'GET',
                 headers: {
@@ -252,7 +252,7 @@ export const userLogout = async (dispatch, getState) => {
         })
 
         const request = await fetch(
-            process.env.EXPO_PUBLIC_API_URL + '/auth/logout',
+            `${process.env.EXPO_PUBLIC_API_URL}/auth/logout`,
             {
                 method: 'POST',
                 headers: {
@@ -299,7 +299,7 @@ export const verifyEmail = (token) => async (dispatch, getState) => {
         })
 
         const request = await fetch(
-            process.env.EXPO_PUBLIC_API_URL + '/auth/verify',
+            `${process.env.EXPO_PUBLIC_API_URL}/auth/verify`,
             {
                 method: 'POST',
                 body: JSON.stringify({ token }),

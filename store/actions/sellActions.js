@@ -25,7 +25,7 @@ export const getOrders = async (dispatch, getState) => {
         })
 
         const request = await fetch(
-            process.env.EXPO_PUBLIC_API_URL + '/orders',
+            `${process.env.EXPO_PUBLIC_API_URL}/orders`,
             {
                 method: 'GET',
                 headers: {
@@ -67,7 +67,7 @@ export const claimOrder = (order) => async (dispatch, getState) => {
         })
 
         const request = await fetch(
-            process.env.EXPO_PUBLIC_API_URL + '/orders/' + order._id + '/claim',
+            `${process.env.EXPO_PUBLIC_API_URL}/orders/${order._id}/claim`,
             {
                 method: 'PATCH',
                 headers: {
@@ -116,10 +116,7 @@ export const unclaimOrder = async (dispatch, getState) => {
         })
 
         const request = await fetch(
-            process.env.EXPO_PUBLIC_API_URL +
-                '/orders/' +
-                sell.claimedOrder._id +
-                '/unclaim',
+            `${process.env.EXPO_PUBLIC_API_URL}/orders/${sell.claimedOrder._id}/unclaim`,
             {
                 method: 'PATCH',
                 headers: {

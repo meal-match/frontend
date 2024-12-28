@@ -24,7 +24,7 @@ export const getMealOptions = async (dispatch, getState) => {
         })
 
         const request = await fetch(
-            process.env.EXPO_PUBLIC_API_URL + '/restaurants',
+            `${process.env.EXPO_PUBLIC_API_URL}/restaurants`,
             {
                 method: 'GET',
                 headers: {

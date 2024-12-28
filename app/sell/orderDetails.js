@@ -48,6 +48,10 @@ const OrderDetails = () => {
         clearRouterStack('/sell/success', navigation)
     }
 
+    useEffect(() => {
+        setOrderDetailsError(claimedOrderError)
+    }, [claimedOrderError])
+
     if (!orderData) {
         return <Redirect href="/sell/success" />
     }
@@ -55,10 +59,6 @@ const OrderDetails = () => {
     if (claimedOrderLoading) {
         return <LoadingSpinner />
     }
-
-    useEffect(() => {
-        setOrderDetailsError(claimedOrderError)
-    }, [claimedOrderError])
 
     const uploadImage = async () => {
         try {

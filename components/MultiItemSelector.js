@@ -7,11 +7,11 @@ import Ionicons from '@expo/vector-icons/Ionicons'
 const getIconName = (maxSelections, values, item) => {
     if (maxSelections === 1) {
         return 'chevron-forward-outline'
-    } else if (values.includes(item)) {
-        return 'checkbox'
-    } else {
-        return 'square-outline'
     }
+    if (values.includes(item)) {
+        return 'checkbox'
+    }
+    return 'square-outline'
 }
 
 const MultiItemSelector = ({

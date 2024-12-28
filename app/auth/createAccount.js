@@ -86,7 +86,7 @@ const CreateAccount = () => {
             createUser({
                 firstName,
                 lastName,
-                email: email + '@crimson.ua.edu',
+                email: `${email}@crimson.ua.edu`,
                 password
             })
         )
