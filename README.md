@@ -25,6 +25,8 @@ This is a [JavaScript](https://en.wikipedia.org/wiki/JavaScript) application bui
     - ESLint
     - Prettier
     - Prettier ESLint
+    - Biome
+    - SonarQube
 
 1. Optionally install the following additional extensions
 

@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import { HelperText, Text, TextInput, Button } from 'react-native-paper'
 import { useRouter } from 'expo-router'
+import React, { useEffect, useState } from 'react'
+import { Button, HelperText, Text, TextInput } from 'react-native-paper'
 import { useDispatch, useSelector } from 'react-redux'
 
 import AuthPage from '@components/AuthPage'
 import {
     selectAuthError,
     selectAuthLoading,
-    sendResetEmail,
-    selectResetEmailSent
+    selectResetEmailSent,
+    sendResetEmail
 } from '@store'
 
 const ForgotPassword = () => {
@@ -42,7 +42,7 @@ const ForgotPassword = () => {
         if (badEmail) {
             return
         }
-        dispatch(sendResetEmail(email + '@crimson.ua.edu'))
+        dispatch(sendResetEmail(`${email}@crimson.ua.edu`))
     }
 
     useEffect(() => {

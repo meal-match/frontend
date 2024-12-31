@@ -1,15 +1,15 @@
+import Ionicons from '@expo/vector-icons/Ionicons'
 import React, { useEffect, useState, useCallback } from 'react'
 import {
-    Image,
-    StyleSheet,
-    View,
-    Text,
     Dimensions,
+    Image,
+    RefreshControl,
     ScrollView,
+    StyleSheet,
+    Text,
     TouchableOpacity,
-    RefreshControl
+    View
 } from 'react-native'
-import Ionicons from '@expo/vector-icons/Ionicons'
 import { useDispatch, useSelector } from 'react-redux'
 
 import Divider from '@components/Divider'
@@ -17,20 +17,20 @@ import ErrorDialog from '@components/ErrorDialog'
 import LoadingSpinner from '@components/LoadingSpinner'
 import Page from '@components/Page'
 import PaymentSetupRedirect from '@components/PaymentSetupRedirect'
-import { useNavigation } from 'expo-router'
 import {
     claimOrder,
     getOrders,
     resetClaimOrderError,
     selectClaimedOrder,
-    selectClaimedOrderLoading,
     selectClaimedOrderError,
+    selectClaimedOrderLoading,
     selectOrders,
-    selectOrdersLoading,
     selectOrdersError,
+    selectOrdersLoading,
     selectProfileData
 } from '@store'
 import { clearRouterStack, formatTimeWithIntl, isWithin15Minutes } from '@utils'
+import { useNavigation } from 'expo-router'
 
 const { width: screenWidth } = Dimensions.get('window')
 

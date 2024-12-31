@@ -1,0 +1,9 @@
+{
+    "linter": {
+        "rules": {
+            "correctness": { "useExhaustiveDependencies": "off" },
+            "style": { "useDefaultParameterLast": "off" }
+        }
+    },
+    "formatter": { "enabled": false }
+}

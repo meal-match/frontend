@@ -1,17 +1,17 @@
 import {
-    SET_RESTAURANT,
+    CLEAR_ORDER,
+    ORDER_CANCELLED,
     ORDER_ERROR,
+    ORDER_LOADING,
+    ORDER_PLACED,
+    SET_DRINK,
     SET_ENTREE,
     SET_ENTREE_CUSTOMIZATIONS,
-    SET_DRINK,
     SET_PICKUP_TIME,
+    SET_RESTAURANT,
     SET_SAUCE,
     SET_SIDE,
-    SET_SIDE_CUSTOMIZATIONS,
-    ORDER_PLACED,
-    ORDER_LOADING,
-    ORDER_CANCELLED,
-    CLEAR_ORDER
+    SET_SIDE_CUSTOMIZATIONS
 } from '@constants'
 
 export const setRestaurant = (restaurant) => (dispatch, getState) => {
@@ -172,7 +172,7 @@ export const placeOrder = async (dispatch, getState) => {
         })
 
         const request = await fetch(
-            process.env.EXPO_PUBLIC_API_URL + '/orders/buy',
+            `${process.env.EXPO_PUBLIC_API_URL}/orders/buy`,
             {
                 method: 'POST',
                 headers: {
@@ -225,10 +225,7 @@ export const cancelOrder = async (dispatch, getState) => {
         })
 
         const request = await fetch(
-            process.env.EXPO_PUBLIC_API_URL +
-                '/orders/' +
-                order.orderID +
-                '/cancel-buy',
+            `${process.env.EXPO_PUBLIC_API_URL}/orders/${order.orderID}/cancel-buy`,
             {
                 method: 'DELETE',
                 headers: {

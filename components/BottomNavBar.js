@@ -1,8 +1,8 @@
-import React from 'react'
-import { View, TouchableOpacity, StyleSheet } from 'react-native'
-import { usePathname, useRouter } from 'expo-router'
-import { useTheme } from 'react-native-paper'
 import Ionicons from '@expo/vector-icons/Ionicons'
+import { usePathname, useRouter } from 'expo-router'
+import React from 'react'
+import { StyleSheet, TouchableOpacity, View } from 'react-native'
+import { useTheme } from 'react-native-paper'
 
 const BottomNavBar = () => {
     const pathname = usePathname()

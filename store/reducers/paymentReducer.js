@@ -1,8 +1,8 @@
 import {
-    PAYMENT_SETUP,
-    PAYMENT_SETUP_ERROR,
     PAYMENT_LOADING,
-    PAYMENT_METHOD_SAVED
+    PAYMENT_METHOD_SAVED,
+    PAYMENT_SETUP,
+    PAYMENT_SETUP_ERROR
 } from '@constants'
 
 const initialState = {

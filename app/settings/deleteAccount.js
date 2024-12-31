@@ -1,14 +1,14 @@
+import { useRouter } from 'expo-router'
 import React from 'react'
 import { StyleSheet, Text } from 'react-native'
 import { Button, HelperText } from 'react-native-paper'
-import { useRouter } from 'expo-router'
 import { useDispatch, useSelector } from 'react-redux'
 
 import Page from '@components/Page'
 import {
     deleteProfile,
-    selectProfileLoading,
-    selectDeleteProfileError
+    selectDeleteProfileError,
+    selectProfileLoading
 } from '@store'
 
 const DeleteAccount = () => {

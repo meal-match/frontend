@@ -1,15 +1,15 @@
+import { useFocusEffect, useNavigation } from 'expo-router'
+import { node, object, string } from 'prop-types'
 import React, { useEffect } from 'react'
 import { SafeAreaView, StyleSheet, View } from 'react-native'
-import { node, object, string } from 'prop-types'
-import { useFocusEffect, useNavigation } from 'expo-router'
-import { useDispatch, useSelector } from 'react-redux'
 import { Text } from 'react-native-paper'
+import { useDispatch, useSelector } from 'react-redux'
 
 import {
     checkAuthStatus,
+    selectAuthLoading,
     selectCheckAuthFail,
-    selectIsLoggedIn,
-    selectAuthLoading
+    selectIsLoggedIn
 } from '@store'
 import { clearRouterStack } from '@utils'
 

@@ -1,28 +1,28 @@
-import React, { useEffect, useState } from 'react'
 import DateTimePicker from '@react-native-community/datetimepicker'
+import { useNavigation } from 'expo-router'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet, Text } from 'react-native'
 import { Button, Dialog, HelperText, Portal } from 'react-native-paper'
-import { useSelector, useDispatch } from 'react-redux'
-import { useNavigation } from 'expo-router'
+import { useDispatch, useSelector } from 'react-redux'
 
+import LoadingSpinner from '@components/LoadingSpinner'
+import Page from '@components/Page'
 import {
     placeOrder,
     selectOrder,
-    selectOrderID,
     selectOrderError,
+    selectOrderID,
     selectOrderLoading,
-    setPickupTime,
-    selectRestaurantData
+    selectRestaurantData,
+    setPickupTime
 } from '@store'
 import {
     clearRouterStack,
+    convertTimeToDateObject,
     displayPickerTime,
     getCloseTimeFromHoursObject,
-    convertTimeToDateObject,
     getOpenTimeFromHoursObject
 } from '@utils'
-import LoadingSpinner from '@components/LoadingSpinner'
-import Page from '@components/Page'
 
 const PickTime = () => {
     const dispatch = useDispatch()
@@ -113,22 +113,18 @@ const PickTime = () => {
                             {'\n\n'}
                             Entree: {order.entree}
                             {order.entreeCustomizations.length > 0
-                                ? ' (' +
-                                  order.entreeCustomizations.join(', ') +
-                                  ')'
+                                ? ` (${order.entreeCustomizations.join(', ')})`
                                 : ' '}
                             {'\n'}
                             Side: {order.side}
                             {order.sideCustomizations.length > 0
-                                ? ' (' +
-                                  order.sideCustomizations.join(', ') +
-                                  ')'
+                                ? ` (${order.sideCustomizations.join(', ')})`
                                 : ' '}
                             {'\n'}
                             Drink: {order.drink}
                             {'\n'}
                             {order.sauce?.length > 0 &&
-                                'Sauce: ' + order.sauce.join(', ')}
+                                `Sauce: ${order.sauce.join(', ')}`}
                         </Text>
                     </Dialog.Content>
                     <Dialog.Actions>

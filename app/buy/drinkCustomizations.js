@@ -1,13 +1,13 @@
+import { useRouter } from 'expo-router'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useRouter } from 'expo-router'
 
 import MultiItemSelector from '@components/MultiItemSelector'
 import Page from '@components/Page'
 import {
-    setDrinkCustomizations,
+    selectOrder,
     selectRestaurantData,
-    selectOrder
+    setDrinkCustomizations
 } from '@store'
 
 const DrinkCustomizations = () => {

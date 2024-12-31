@@ -1,12 +1,13 @@
+import { useNavigation } from 'expo-router'
 import React from 'react'
-import { Button } from 'react-native-paper'
-import { useRouter } from 'expo-router'
 import { StyleSheet, Text, View } from 'react-native'
+import { Button } from 'react-native-paper'
 
 import Page from '@components/Page'
+import { clearRouterStack } from '@utils'
 
 const PaymentSetupRedirect = () => {
-    const router = useRouter()
+    const navigation = useNavigation()
 
     return (
         <Page header="Information Required">
@@ -17,7 +18,7 @@ const PaymentSetupRedirect = () => {
                 </Text>
                 <Button
                     mode="contained"
-                    onPress={() => router.replace('/settings')}
+                    onPress={() => clearRouterStack('/settings', navigation)}
                 >
                     Go to Settings
                 </Button>

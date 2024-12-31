@@ -1,9 +1,9 @@
 import {
+    DELETE_PROFILE_ERROR,
+    PROFILE_ERROR,
     PROFILE_LOADING,
     SET_PROFILE,
-    PROFILE_ERROR,
-    USER_LOGOUT,
-    DELETE_PROFILE_ERROR
+    USER_LOGOUT
 } from '@constants'
 
 export const getProfile = async (dispatch, getState) => {
@@ -21,7 +21,7 @@ export const getProfile = async (dispatch, getState) => {
         })
 
         const request = await fetch(
-            process.env.EXPO_PUBLIC_API_URL + '/profile',
+            `${process.env.EXPO_PUBLIC_API_URL}/profile`,
             {
                 method: 'GET',
                 headers: {
@@ -63,7 +63,7 @@ export const deleteProfile = async (dispatch, getState) => {
         })
 
         const request = await fetch(
-            process.env.EXPO_PUBLIC_API_URL + '/profile',
+            `${process.env.EXPO_PUBLIC_API_URL}/profile`,
             {
                 method: 'DELETE',
                 headers: {

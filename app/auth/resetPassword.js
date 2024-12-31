@@ -1,12 +1,12 @@
+import { useLocalSearchParams, useRouter } from 'expo-router'
 import React, { useEffect, useState } from 'react'
 import {
+    Button,
+    Checkbox,
     HelperText,
     Text,
-    TextInput,
-    Button,
-    Checkbox
+    TextInput
 } from 'react-native-paper'
-import { useLocalSearchParams, useRouter } from 'expo-router'
 import { useDispatch, useSelector } from 'react-redux'
 
 import AuthPage from '@components/AuthPage'
