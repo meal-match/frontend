@@ -1,27 +1,34 @@
+import { Link } from 'expo-router'
 import { React, useEffect, useState } from 'react'
 import {
-    Image,
-    StyleSheet,
-    View,
     Dimensions,
+    Image,
     ScrollView,
-    Text
+    StyleSheet,
+    Text,
+    View
 } from 'react-native'
-import { Link } from 'expo-router'
 import { useDispatch, useSelector } from 'react-redux'
 
-import {
-    getMealOptions,
-    setRestaurant,
-    setRestaurantData,
-    selectMealData,
-    selectRestaurantError,
-    selectRestaurantLoading,
-    selectProfileData
-} from '@store'
 import LoadingSpinner from '@components/LoadingSpinner'
 import Page from '@components/Page'
 import PaymentSetupRedirect from '@components/PaymentSetupRedirect'
+import {
+    getMealOptions,
+    selectMealData,
+    selectPaymentMethods,
+    selectProfileData,
+    selectRestaurantError,
+    selectRestaurantLoading,
+    setRestaurant,
+    setRestaurantData
+} from '@store'
+import {
+    convertTimeToDateObject,
+    getCloseTimeFromHoursObject,
+    getOpenTimeFromHoursObject
+} from '@utils'
+import { FilterImage } from 'react-native-svg/filter-image'
 
 const { width: screenWidth } = Dimensions.get('window')
 
@@ -38,12 +45,14 @@ const Buy = () => {
 
     const dispatch = useDispatch()
 
+    const paymentMethods = useSelector(selectPaymentMethods)
     const profileData = useSelector(selectProfileData)
     const restaurantError = useSelector(selectRestaurantError)
     const restaurantLoading = useSelector(selectRestaurantLoading)
 
     const [errorText, setErrorText] = useState('')
     const [options, setOptions] = useState([])
+    const [disabledRestaurant, setDisabledRestaurant] = useState(false)
 
     useEffect(() => {
         dispatch(getMealOptions)
@@ -60,11 +69,24 @@ const Buy = () => {
             setOptions(
                 mealData.restaurants.map((item) => ({
                     label: item.restaurant,
-                    image: logos[item.restaurant]
+                    image: logos[item.restaurant],
+                    hours: item.hours
                 }))
             )
         }
     }, [mealData])
+
+    useEffect(() => {
+        let tempDisabledRestaurant = false
+        if (Object.keys(options).length > 0) {
+            for (const option of options) {
+                if (isDisabled(option.hours)) {
+                    tempDisabledRestaurant = true
+                }
+            }
+        }
+        setDisabledRestaurant(tempDisabledRestaurant)
+    }, [options])
 
     const populateRestaurantData = (restaurant) => {
         dispatch(setRestaurant(restaurant))
@@ -77,7 +99,20 @@ const Buy = () => {
         )
     }
 
-    if (profileData.paymentSetupIntent) {
+    const isDisabled = (hours) => {
+        if (!hours) {
+            return false
+        }
+
+        const closeTimeString = getCloseTimeFromHoursObject(hours)
+        const closeTime = convertTimeToDateObject(closeTimeString)
+
+        const disabledTime = closeTime.setMinutes(closeTime.getMinutes() - 30)
+
+        return new Date() > disabledTime
+    }
+
+    if (!profileData.paymentMethods?.length && !paymentMethods.length) {
         return <PaymentSetupRedirect />
     }
 
@@ -90,21 +125,54 @@ const Buy = () => {
             {errorText.length > 0 && <Text>{JSON.stringify(errorText)}</Text>}
             <ScrollView contentContainerStyle={styles.scrollContainer}>
                 {options?.map((option) => (
-                    <Link
-                        key={option.label}
-                        style={styles.locationLink}
-                        href={'/buy/entreeChoice'}
-                        onPress={() => populateRestaurantData(option.label)}
-                    >
-                        <View style={styles.locationOption}>
-                            <Image
-                                source={option.image}
-                                style={styles.locationLogo}
-                                resizeMode="contain"
-                            />
-                        </View>
-                    </Link>
+                    <View key={option.label} style={{ alignItems: 'center' }}>
+                        <Link
+                            style={styles.locationLink}
+                            href={'/buy/entreeChoice'}
+                            onPress={(e) => {
+                                if (!isDisabled(option.hours)) {
+                                    populateRestaurantData(option.label)
+                                } else {
+                                    e.preventDefault()
+                                }
+                            }}
+                            disabled={isDisabled(option.hours)}
+                        >
+                            <View style={styles.locationOption}>
+                                {isDisabled(option.hours) ? (
+                                    <FilterImage
+                                        source={option.image}
+                                        style={{
+                                            ...styles.locationLogo,
+                                            filter: 'grayscale(100%)'
+                                        }}
+                                        resizeMode="contain"
+                                    />
+                                ) : (
+                                    <Image
+                                        source={option.image}
+                                        style={styles.locationLogo}
+                                        resizeMode="contain"
+                                    />
+                                )}
+                            </View>
+                        </Link>
+                        {option.hours && (
+                            <Text style={{ fontSize: 9 }}>
+                                Open: {getOpenTimeFromHoursObject(option.hours)}{' '}
+                                - {getCloseTimeFromHoursObject(option.hours)}
+                            </Text>
+                        )}
+                    </View>
                 ))}
+                {disabledRestaurant && (
+                    <View style={{ flexBasis: '90%' }}>
+                        <Text style={{ color: 'red', textAlign: 'center' }}>
+                            Restauraunts that are within 30 minutes of closing
+                            are disabled.
+                        </Text>
+                    </View>
+                )}
             </ScrollView>
         </Page>
     )
@@ -145,9 +213,7 @@ const styles = StyleSheet.create({
         elevation: 5
     },
     locationLogo: {
-        flex: 0.8,
-        marginLeft: '7%',
-        marginTop: '7%'
+        flex: 0.8
     }
 })
 

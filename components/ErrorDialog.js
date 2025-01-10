@@ -1,6 +1,6 @@
+import { func, string } from 'prop-types'
 import React from 'react'
-import { Dialog, Portal, Button, Text } from 'react-native-paper'
-import { string, func } from 'prop-types'
+import { Button, Dialog, Portal, Text } from 'react-native-paper'
 
 const ErrorDialog = ({ error, onClose }) => {
     return (

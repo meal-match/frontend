@@ -1,13 +1,13 @@
 import {
     CLAIM_ORDER,
-    CLAIM_ORDER_LOADING,
     CLAIM_ORDER_ERROR,
-    ORDERS_LOADING,
-    ORDERS_INITIAL_LOADING,
-    SET_ORDERS,
+    CLAIM_ORDER_LOADING,
+    CONFIRM_ORDER,
     GET_ORDERS_ERROR,
-    UNCLAIM_ORDER,
-    CONFIRM_ORDER
+    ORDERS_INITIAL_LOADING,
+    ORDERS_LOADING,
+    SET_ORDERS,
+    UNCLAIM_ORDER
 } from '@constants'
 
 export const getOrders = async (dispatch, getState) => {
@@ -25,7 +25,7 @@ export const getOrders = async (dispatch, getState) => {
         })
 
         const request = await fetch(
-            process.env.EXPO_PUBLIC_API_URL + '/orders',
+            `${process.env.EXPO_PUBLIC_API_URL}/orders`,
             {
                 method: 'GET',
                 headers: {
@@ -67,7 +67,7 @@ export const claimOrder = (order) => async (dispatch, getState) => {
         })
 
         const request = await fetch(
-            process.env.EXPO_PUBLIC_API_URL + '/orders/' + order._id + '/claim',
+            `${process.env.EXPO_PUBLIC_API_URL}/orders/${order._id}/claim`,
             {
                 method: 'PATCH',
                 headers: {
@@ -116,10 +116,7 @@ export const unclaimOrder = async (dispatch, getState) => {
         })
 
         const request = await fetch(
-            process.env.EXPO_PUBLIC_API_URL +
-                '/orders/' +
-                sell.claimedOrder._id +
-                '/unclaim',
+            `${process.env.EXPO_PUBLIC_API_URL}/orders/${sell.claimedOrder._id}/unclaim`,
             {
                 method: 'PATCH',
                 headers: {

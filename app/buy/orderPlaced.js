@@ -1,21 +1,21 @@
+import { useNavigation } from 'expo-router'
 import React, { useEffect } from 'react'
-import { Text, View, StyleSheet } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import { Button, HelperText } from 'react-native-paper'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigation } from 'expo-router'
 
-import {
-    cancelOrder,
-    selectOrder,
-    selectOrderLoading,
-    selectOrderError,
-    selectOrderID,
-    clearOrder
-} from '@store'
 import Divider from '@components/Divider'
 import LoadingSpinner from '@components/LoadingSpinner'
 import Page from '@components/Page'
-import { displayPickerTime, clearRouterStack } from '@utils'
+import {
+    cancelOrder,
+    clearOrder,
+    selectOrder,
+    selectOrderError,
+    selectOrderID,
+    selectOrderLoading
+} from '@store'
+import { clearRouterStack, displayPickerTime } from '@utils'
 
 const OrderPlaced = () => {
     const dispatch = useDispatch()

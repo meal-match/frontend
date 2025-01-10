@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
 import { useRouter } from 'expo-router'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import MultiItemSelector from '@components/MultiItemSelector'
 import Page from '@components/Page'
-import { setSauce, selectRestaurantData, selectOrder } from '@store'
+import { selectOrder, selectRestaurantData, setSauce } from '@store'
 
 const SauceChoice = () => {
     const router = useRouter()

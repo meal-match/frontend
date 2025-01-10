@@ -1,29 +1,29 @@
+import { Redirect, useNavigation } from 'expo-router'
 import React, { Fragment, useEffect, useState } from 'react'
 import {
-    StyleSheet,
-    Text,
-    View,
     Image,
     ScrollView,
-    TouchableOpacity
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View
 } from 'react-native'
-import { useDispatch, useSelector } from 'react-redux'
 import { Button, TextInput } from 'react-native-paper'
-import { Redirect, useNavigation } from 'expo-router'
+import { useDispatch, useSelector } from 'react-redux'
 
 import Divider from '@components/Divider'
 import ErrorDialog from '@components/ErrorDialog'
 import LoadingSpinner from '@components/LoadingSpinner'
 import Page from '@components/Page'
 import {
+    confirmOrder,
     resetClaimOrderError,
     selectClaimedOrder,
     selectClaimedOrderError,
     selectClaimedOrderLoading,
-    unclaimOrder,
-    confirmOrder
+    unclaimOrder
 } from '@store'
-import { formatTimeWithIntl, clearRouterStack } from '@utils'
+import { clearRouterStack, formatTimeWithIntl } from '@utils'
 import * as ImagePicker from 'expo-image-picker'
 
 const OrderDetails = () => {
@@ -48,6 +48,10 @@ const OrderDetails = () => {
         clearRouterStack('/sell/success', navigation)
     }
 
+    useEffect(() => {
+        setOrderDetailsError(claimedOrderError)
+    }, [claimedOrderError])
+
     if (!orderData) {
         return <Redirect href="/sell/success" />
     }
@@ -55,10 +59,6 @@ const OrderDetails = () => {
     if (claimedOrderLoading) {
         return <LoadingSpinner />
     }
-
-    useEffect(() => {
-        setOrderDetailsError(claimedOrderError)
-    }, [claimedOrderError])
 
     const uploadImage = async () => {
         try {

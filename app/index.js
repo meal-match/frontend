@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react'
-import { Text } from 'react-native-paper'
 import { StyleSheet, View } from 'react-native'
+import { Text } from 'react-native-paper'
 import { useDispatch, useSelector } from 'react-redux'
 
+import Button from '@components/Button'
 import Divider from '@components/Divider'
 import Page from '@components/Page'
-import Button from '@components/Button'
-import { getProfile, selectProfileData, selectIsLoggedIn } from '@store'
+import { getProfile, selectIsLoggedIn, selectProfileData } from '@store'
 
 const Index = () => {
     const dispatch = useDispatch()
@@ -41,9 +41,9 @@ const Index = () => {
         <Page header={name ? `Hello, ${name}!` : 'Hello!'} style={styles.page}>
             <View style={styles.buttonContainer}>
                 <Text style={styles.question}>Would you like to...</Text>
-                <Button url="buy/" text="Buy" height={buttonHeight}></Button>
+                <Button url="buy/" text="Buy" height={buttonHeight} />
                 <Divider width={'40%'} />
-                <Button url="sell/" text="Sell" height={buttonHeight}></Button>
+                <Button url="sell/" text="Sell" height={buttonHeight} />
                 {openOrders && openOrders.length > 0 && openOrdersContent}
             </View>
         </Page>

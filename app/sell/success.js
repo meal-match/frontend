@@ -1,10 +1,10 @@
-import React from 'react'
-import Page from '@components/Page'
 import Divider from '@components/Divider'
-import { Text, Button } from 'react-native-paper'
-import { StyleSheet, View } from 'react-native'
-import { useNavigation } from 'expo-router'
+import Page from '@components/Page'
 import { clearRouterStack } from '@utils'
+import { useNavigation } from 'expo-router'
+import React from 'react'
+import { StyleSheet, View } from 'react-native'
+import { Button, Text } from 'react-native-paper'
 
 const Success = () => {
     const navigation = useNavigation()

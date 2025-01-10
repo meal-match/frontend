@@ -25,6 +25,8 @@ This is a [JavaScript](https://en.wikipedia.org/wiki/JavaScript) application bui
     - ESLint
     - Prettier
     - Prettier ESLint
+    - Biome
+    - SonarQube
 
 1. Optionally install the following additional extensions
 
@@ -81,6 +83,12 @@ Review the documentation of the following key libraries:
 -   [React Native Paper](https://callstack.github.io/react-native-paper/) for components and theming
 -   [React Redux](https://react-redux.js.org/) for state management
 -   [Expo Vector Icons](https://icons.expo.fyi/Index) and [Ionicons](https://ionic.io/ionicons) for icons
+
+## Building
+
+1. Run `eas login` and authenticate with Expo.
+
+2. Run `eas build --platform ios` and authenticate with Apple Developer.
 
 ## Learn More
 

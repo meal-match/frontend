@@ -1,12 +1,12 @@
+import { useFocusEffect, useRouter } from 'expo-router'
+import { node, object, string } from 'prop-types'
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import { node, object, string } from 'prop-types'
-import { useRouter, useFocusEffect } from 'expo-router'
-import { useSelector } from 'react-redux'
 import { Text } from 'react-native-paper'
+import { useSelector } from 'react-redux'
 
-import { selectIsLoggedIn } from '@store'
 import Container from '@components/Container'
+import { selectIsLoggedIn } from '@store'
 
 const AuthPage = ({ header, style, children }) => {
     const router = useRouter()

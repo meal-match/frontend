@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import { HelperText, Text, ActivityIndicator } from 'react-native-paper'
 import { useLocalSearchParams, useRouter } from 'expo-router'
+import React, { useEffect, useState } from 'react'
+import { ActivityIndicator, HelperText, Text } from 'react-native-paper'
 import { useDispatch, useSelector } from 'react-redux'
 
 import AuthPage from '@components/AuthPage'
 import {
     selectAuthError,
     selectAuthLoading,
-    verifyEmail,
-    selectVerifyEmail
+    selectVerifyEmail,
+    verifyEmail
 } from '@store'
 
 const VerifyEmail = () => {

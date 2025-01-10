@@ -1,25 +1,25 @@
+import { useRouter } from 'expo-router'
 import React, { useState, useEffect, useRef } from 'react'
 import {
-    TextInput,
-    HelperText,
+    KeyboardAvoidingView,
+    Platform,
+    ScrollView,
+    StyleSheet
+} from 'react-native'
+import {
     Button,
     Checkbox,
-    Text
+    HelperText,
+    Text,
+    TextInput
 } from 'react-native-paper'
 import { useDispatch, useSelector } from 'react-redux'
-import { useRouter } from 'expo-router'
-import {
-    ScrollView,
-    Platform,
-    StyleSheet,
-    KeyboardAvoidingView
-} from 'react-native'
 
 import AuthPage from '@components/AuthPage'
 import {
     createUser,
-    selectAuthLoading,
     selectAuthError,
+    selectAuthLoading,
     selectCreateAccount
 } from '@store'
 import { checkPasswordRequirements } from '@utils'
@@ -86,7 +86,7 @@ const CreateAccount = () => {
             createUser({
                 firstName,
                 lastName,
-                email: email + '@crimson.ua.edu',
+                email: `${email}@crimson.ua.edu`,
                 password
             })
         )
