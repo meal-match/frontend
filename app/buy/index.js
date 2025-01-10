@@ -16,6 +16,7 @@ import PaymentSetupRedirect from '@components/PaymentSetupRedirect'
 import {
     getMealOptions,
     selectMealData,
+    selectPaymentMethods,
     selectProfileData,
     selectRestaurantError,
     selectRestaurantLoading,
@@ -44,6 +45,7 @@ const Buy = () => {
 
     const dispatch = useDispatch()
 
+    const paymentMethods = useSelector(selectPaymentMethods)
     const profileData = useSelector(selectProfileData)
     const restaurantError = useSelector(selectRestaurantError)
     const restaurantLoading = useSelector(selectRestaurantLoading)
@@ -110,7 +112,7 @@ const Buy = () => {
         return new Date() > disabledTime
     }
 
-    if (profileData.paymentSetupIntent) {
+    if (!profileData.paymentMethods?.length && !paymentMethods.length) {
         return <PaymentSetupRedirect />
     }
 
@@ -156,7 +158,7 @@ const Buy = () => {
                             </View>
                         </Link>
                         {option.hours && (
-                            <Text style={{ fontSize: 8 }}>
+                            <Text style={{ fontSize: 9 }}>
                                 Open: {getOpenTimeFromHoursObject(option.hours)}{' '}
                                 - {getCloseTimeFromHoursObject(option.hours)}
                             </Text>
@@ -165,9 +167,9 @@ const Buy = () => {
                 ))}
                 {disabledRestaurant && (
                     <View style={{ flexBasis: '90%' }}>
-                        <Text style={{ color: 'red' }}>
+                        <Text style={{ color: 'red', textAlign: 'center' }}>
                             Restauraunts that are within 30 minutes of closing
-                            are disabled
+                            are disabled.
                         </Text>
                     </View>
                 )}
@@ -211,9 +213,7 @@ const styles = StyleSheet.create({
         elevation: 5
     },
     locationLogo: {
-        flex: 0.8,
-        marginLeft: '7%',
-        marginTop: '7%'
+        flex: 0.8
     }
 })
 
