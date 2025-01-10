@@ -1,7 +1,13 @@
-import { PROFILE_LOADING, PROFILE_ERROR, SET_PROFILE } from '@constants'
+import {
+    PROFILE_LOADING,
+    PROFILE_ERROR,
+    SET_PROFILE,
+    SET_SELECTED_ORDER
+} from '@constants'
 
 const initialState = {
     profileData: {},
+    selectedOrder: null,
     loading: false,
     error: null
 }
@@ -26,6 +32,11 @@ const profileReducer = (state = initialState, action) => {
                 ...state,
                 loading: false,
                 error: action.payload
+            }
+        case SET_SELECTED_ORDER:
+            return {
+                ...state,
+                selectedOrder: action.payload
             }
         default:
             return state

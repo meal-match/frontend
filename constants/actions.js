@@ -13,6 +13,7 @@ export const VERIFY_EMAIL = 'VERIFY_EMAIL'
 export const PROFILE_LOADING = 'PROFILE_LOADING'
 export const PROFILE_ERROR = 'PROFILE_ERROR'
 export const SET_PROFILE = 'SET_PROFILE'
+export const SET_SELECTED_ORDER = 'SET_SELECTED_ORDER'
 
 // meal
 export const MEAL_ERROR = 'MEAL_ERROR'
@@ -34,6 +35,7 @@ export const ORDER_LOADING = 'ORDER_LOADING'
 export const ORDER_PLACED = 'ORDER_PLACED'
 export const ORDER_CANCELLED = 'ORDER_CANCELLED'
 export const CLEAR_ORDER = 'CLEAR_ORDER'
+export const SET_OPEN_ORDERS = 'SET_OPEN_ORDERS'
 
 // sell
 export const ORDERS_LOADING = 'ORDERS_LOADING'

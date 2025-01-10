@@ -1,4 +1,9 @@
-import { PROFILE_LOADING, SET_PROFILE, PROFILE_ERROR } from '@constants'
+import {
+    PROFILE_LOADING,
+    SET_PROFILE,
+    PROFILE_ERROR,
+    SET_SELECTED_ORDER
+} from '@constants'
 
 export const getProfile = async (dispatch, getState) => {
     const { profile } = getState()
@@ -43,4 +48,11 @@ export const getProfile = async (dispatch, getState) => {
             payload: 'An unknown error occured'
         })
     }
+}
+
+export const setSelectedOrder = (order) => (dispatch) => {
+    dispatch({
+        type: SET_SELECTED_ORDER,
+        payload: order
+    })
 }
