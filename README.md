@@ -84,6 +84,12 @@ Review the documentation of the following key libraries:
 -   [React Redux](https://react-redux.js.org/) for state management
 -   [Expo Vector Icons](https://icons.expo.fyi/Index) and [Ionicons](https://ionic.io/ionicons) for icons
 
+## Building
+
+1. Run `eas login` and authenticate with Expo.
+
+2. Run `eas build --platform ios` and authenticate with Apple Developer.
+
 ## Learn More
 
 To learn more about developing this project with Expo, look at the following resources:
