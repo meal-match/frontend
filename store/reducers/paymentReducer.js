@@ -1,15 +1,16 @@
 import {
+    CLEAR_PAYMENT_SETUP,
+    PAYMENT_ERROR,
     PAYMENT_LOADING,
-    PAYMENT_METHOD_SAVED,
-    PAYMENT_SETUP,
-    PAYMENT_SETUP_ERROR
+    SET_PAYMENT_METHODS,
+    SET_PAYMENT_SETUP
 } from '@constants'
 
 const initialState = {
-    paymentLoading: false,
-    paymentSetup: {},
-    paymentSetupError: false,
-    paymentSetupSaved: null
+    loading: false,
+    error: false,
+    methods: {},
+    setupInfo: {}
 }
 
 const paymentReducer = (state = initialState, action) => {
@@ -17,28 +18,35 @@ const paymentReducer = (state = initialState, action) => {
         case PAYMENT_LOADING:
             return {
                 ...state,
-                paymentLoading: true,
-                paymentSetupError: false
+                loading: true,
+                error: false
             }
-        case PAYMENT_SETUP:
+        case PAYMENT_ERROR:
             return {
                 ...state,
-                paymentLoading: false,
-                paymentSetup: action.payload,
-                paymentSetupError: false
+                loading: false,
+                error: action.payload || true
             }
-        case PAYMENT_SETUP_ERROR:
+        case SET_PAYMENT_METHODS:
             return {
                 ...state,
-                paymentLoading: false,
-                paymentSetup: {},
-                paymentSetupError: true
+                loading: false,
+                error: false,
+                methods: action.payload
             }
-        case PAYMENT_METHOD_SAVED:
+        case SET_PAYMENT_SETUP:
             return {
                 ...state,
-                paymentLoading: false,
-                paymentSetupSaved: action.payload
+                loading: false,
+                error: false,
+                setupInfo: action.payload
+            }
+        case CLEAR_PAYMENT_SETUP:
+            return {
+                ...state,
+                loading: false,
+                error: false,
+                setupInfo: {}
             }
         default:
             return state
