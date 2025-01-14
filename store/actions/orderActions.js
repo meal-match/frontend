@@ -11,8 +11,7 @@ import {
     SET_RESTAURANT,
     SET_SAUCE,
     SET_SIDE,
-    SET_SIDE_CUSTOMIZATIONS,
-    SET_OPEN_ORDERS
+    SET_SIDE_CUSTOMIZATIONS
 } from '@constants'
 
 export const setRestaurant = (restaurant) => (dispatch, getState) => {
@@ -264,43 +263,6 @@ export const clearOrder = async (dispatch, getState) => {
         dispatch({
             type: CLEAR_ORDER
         })
-    } catch (error) {
-        dispatch({
-            type: ORDER_ERROR,
-            payload: 'An unknown error occured'
-        })
-    }
-}
-
-export const getOpenOrders = async (dispatch, getState) => {
-    const { order } = getState()
-    if (order.orderLoading || !order.orderID) {
-        return
-    }
-    try {
-        const request = await fetch(
-            process.env.EXPO_PUBLIC_API_URL + '/orders/open',
-            {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                credentials: 'include'
-            }
-        )
-        const response = await request.json()
-
-        if (request.status === 200) {
-            dispatch({
-                type: SET_OPEN_ORDERS,
-                payload: response.orders
-            })
-        } else {
-            dispatch({
-                type: ORDER_ERROR,
-                payload: response.message
-            })
-        }
     } catch (error) {
         dispatch({
             type: ORDER_ERROR,

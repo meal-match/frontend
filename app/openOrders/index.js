@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Text, View, ScrollView, Image } from 'react-native'
+import { Text, ScrollView, Image, RefreshControl } from 'react-native'
 import { List } from 'react-native-paper'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { useRouter } from 'expo-router'
@@ -12,9 +12,24 @@ const OpenOrders = () => {
     const dispatch = useDispatch()
     const router = useRouter()
     const [expandedId, setExpandedId] = useState(null)
+    const [refreshing, setRefreshing] = useState(false)
+    const [timeInterval, setTimeInterval] = useState(null)
+
+    const resetRefreshTimer = () => {
+        // Refresh orders every 60 seconds
+        setTimeInterval(setInterval(() => dispatch(getOpenOrders), 60000))
+    }
+    const onRefresh = useCallback(() => {
+        setRefreshing(true)
+        dispatch(getOpenOrders)
+        resetRefreshTimer()
+        setRefreshing(false)
+    }, [])
 
     useEffect(() => {
         dispatch(getOpenOrders)
+        resetRefreshTimer()
+        return () => clearInterval(timeInterval)
     }, [])
 
     const orders = useSelector(selectOpenOrders)
@@ -42,7 +57,16 @@ const OpenOrders = () => {
     }
 
     const orderList = (
-        <ScrollView>
+        <ScrollView
+            refreshControl={
+                <RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={onRefresh}
+                    tintColor={'black'}
+                    colors={['black']}
+                />
+            }
+        >
             <List.AccordionGroup
                 expandedId={expandedId}
                 onAccordionPress={(id) => handleAccordianPress(id)}
@@ -154,9 +178,18 @@ const OpenOrders = () => {
     )
 
     const emptyOrders = (
-        <View>
+        <ScrollView
+            refreshControl={
+                <RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={onRefresh}
+                    tintColor={'black'}
+                    colors={['black']}
+                />
+            }
+        >
             <Text>You have no open orders</Text>
-        </View>
+        </ScrollView>
     )
 
     return (

@@ -1,5 +1,6 @@
 export * from './authSelectors'
 export * from './orderSelectors'
+export * from './openOrderSelectors'
 export * from './paymentSelectors'
 export * from './profileSelectors'
 export * from './restaurantSelectors'
