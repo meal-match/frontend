@@ -17,7 +17,6 @@ import {
     getMealOptions,
     selectMealData,
     selectPaymentMethods,
-    selectProfileData,
     selectRestaurantError,
     selectRestaurantLoading,
     setRestaurant,
@@ -46,7 +45,6 @@ const Buy = () => {
     const dispatch = useDispatch()
 
     const paymentMethods = useSelector(selectPaymentMethods)
-    const profileData = useSelector(selectProfileData)
     const restaurantError = useSelector(selectRestaurantError)
     const restaurantLoading = useSelector(selectRestaurantLoading)
 
@@ -112,8 +110,8 @@ const Buy = () => {
         return new Date() > disabledTime
     }
 
-    if (!profileData.paymentMethods?.length && !paymentMethods.length) {
-        return <PaymentSetupRedirect />
+    if (!paymentMethods.length) {
+        return <PaymentSetupRedirect type="buy" />
     }
 
     if (restaurantLoading) {

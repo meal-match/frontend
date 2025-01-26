@@ -130,8 +130,8 @@ const PaymentSetup = () => {
             <Page header="Payment Setup" style={styles.page}>
                 <Text style={styles.text}>
                     We use Stripe to securely store your payment information. In
-                    order to have access to our services, you must set up a
-                    payment method for future payments.
+                    order to be able to buy meals, you must set up a payment
+                    method for future payments.
                 </Text>
                 <Divider />
                 {paymentMethodTable}

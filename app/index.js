@@ -6,7 +6,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import Button from '@components/Button'
 import Divider from '@components/Divider'
 import Page from '@components/Page'
-import { getProfile, selectIsLoggedIn, selectProfileData } from '@store'
+import {
+    fetchPaymentMethods,
+    getProfile,
+    selectIsLoggedIn,
+    selectProfileData
+} from '@store'
 
 const Index = () => {
     const dispatch = useDispatch()
@@ -16,6 +21,7 @@ const Index = () => {
 
     useEffect(() => {
         if (isLoggedIn) {
+            dispatch(fetchPaymentMethods)
             dispatch(getProfile)
         }
     })
