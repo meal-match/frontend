@@ -1,4 +1,5 @@
 import { useNavigation } from 'expo-router'
+import { string } from 'prop-types'
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { Button } from 'react-native-paper'
@@ -6,15 +7,17 @@ import { Button } from 'react-native-paper'
 import Page from '@components/Page'
 import { clearRouterStack } from '@utils'
 
-const PaymentSetupRedirect = () => {
+const PaymentSetupRedirect = ({ type }) => {
     const navigation = useNavigation()
+
+    const payType = type === 'buy' ? 'payment' : 'payout'
 
     return (
         <Page header="Information Required">
             <View style={styles.content}>
                 <Text style={styles.text}>
-                    Before you can buy or sell meals, you must finish setting up
-                    your payment information.
+                    Before you can {type} meals, you must finish setting up your{' '}
+                    {payType} information.
                 </Text>
                 <Button
                     mode="contained"
@@ -37,5 +40,9 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     }
 })
+
+PaymentSetupRedirect.propTypes = {
+    type: string.isRequired
+}
 
 export default PaymentSetupRedirect
