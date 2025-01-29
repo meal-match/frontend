@@ -9,7 +9,7 @@ import {
 const initialState = {
     loading: false,
     error: false,
-    methods: {},
+    methods: [],
     setupInfo: {}
 }
 
@@ -32,7 +32,7 @@ const payoutReducer = (state = initialState, action) => {
                 ...state,
                 loading: false,
                 error: false,
-                methods: action.payload
+                methods: action.payload || []
             }
         case SET_PAYOUT_SETUP:
             return {

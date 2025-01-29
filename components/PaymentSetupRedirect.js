@@ -21,7 +21,12 @@ const PaymentSetupRedirect = ({ type }) => {
                 </Text>
                 <Button
                     mode="contained"
-                    onPress={() => clearRouterStack('/settings', navigation)}
+                    onPress={() =>
+                        clearRouterStack(
+                            `/settings/${payType}Setup`,
+                            navigation
+                        )
+                    }
                 >
                     Go to Settings
                 </Button>
