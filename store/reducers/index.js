@@ -3,6 +3,7 @@ import { combineReducers } from 'redux'
 import authReducer from './authReducer'
 import orderReducer from './orderReducer'
 import paymentReducer from './paymentReducer'
+import payoutReducer from './payoutReducer'
 import profileReducer from './profileReducer'
 import restaurantReducer from './restaurantReducer'
 import sellReducer from './sellReducer'
@@ -13,6 +14,7 @@ const appReducer = combineReducers({
     auth: authReducer,
     order: orderReducer,
     payment: paymentReducer,
+    payout: payoutReducer,
     profile: profileReducer,
     restaurant: restaurantReducer,
     sell: sellReducer
