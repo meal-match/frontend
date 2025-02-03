@@ -32,6 +32,10 @@ export const isWithin15Minutes = (optionTime) => {
 export const convertTimeToDateObject = (timeString) => {
     const d = new Date()
 
+    if (!timeString) {
+        return d
+    }
+
     const regexTime = /(1?\d):(\d\d) (AM|PM)/
     const timeArr = regexTime.exec(timeString)
     const isoTimeString = `${
@@ -54,13 +58,13 @@ export const convertTimeToDateObject = (timeString) => {
 export const getCloseTimeFromHoursObject = (hours) => {
     const d = new Date()
     const day = d.toLocaleDateString('en-US', { weekday: 'long' }).toLowerCase()
-    const closeTime = hours[day].close
+    const closeTime = hours[day]?.close
     return closeTime
 }
 
 export const getOpenTimeFromHoursObject = (hours) => {
     const d = new Date()
     const day = d.toLocaleDateString('en-US', { weekday: 'long' }).toLowerCase()
-    const openTime = hours[day].open
+    const openTime = hours[day]?.open
     return openTime
 }

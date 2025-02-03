@@ -5,6 +5,7 @@ import orderReducer from './orderReducer'
 import paymentReducer from './paymentReducer'
 import payoutReducer from './payoutReducer'
 import profileReducer from './profileReducer'
+import pushTokenReducer from './pushTokenReducer'
 import restaurantReducer from './restaurantReducer'
 import sellReducer from './sellReducer'
 
@@ -17,6 +18,7 @@ const appReducer = combineReducers({
     payout: payoutReducer,
     profile: profileReducer,
     restaurant: restaurantReducer,
+    pushToken: pushTokenReducer,
     sell: sellReducer
 })
 
