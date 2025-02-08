@@ -22,6 +22,14 @@ const Settings = () => {
             }
         },
         {
+            title: 'Payout Information',
+            onPress: () => {
+                router.push({
+                    pathname: 'settings/payoutSetup'
+                })
+            }
+        },
+        {
             title: 'Report an Issue' // page that interfaces with report API?
         },
         {

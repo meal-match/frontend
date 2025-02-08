@@ -1,9 +1,9 @@
 import {
-    CLEAR_PAYMENT_SETUP,
-    PAYMENT_ERROR,
-    PAYMENT_LOADING,
-    SET_PAYMENT_METHODS,
-    SET_PAYMENT_SETUP
+    CLEAR_PAYOUT_SETUP,
+    PAYOUT_ERROR,
+    PAYOUT_LOADING,
+    SET_PAYOUT_METHODS,
+    SET_PAYOUT_SETUP
 } from '@constants'
 
 const initialState = {
@@ -13,35 +13,35 @@ const initialState = {
     setupInfo: {}
 }
 
-const paymentReducer = (state = initialState, action) => {
+const payoutReducer = (state = initialState, action) => {
     switch (action.type) {
-        case PAYMENT_LOADING:
+        case PAYOUT_LOADING:
             return {
                 ...state,
                 loading: true,
                 error: false
             }
-        case PAYMENT_ERROR:
+        case PAYOUT_ERROR:
             return {
                 ...state,
                 loading: false,
                 error: action.payload || true
             }
-        case SET_PAYMENT_METHODS:
+        case SET_PAYOUT_METHODS:
             return {
                 ...state,
                 loading: false,
                 error: false,
                 methods: action.payload || []
             }
-        case SET_PAYMENT_SETUP:
+        case SET_PAYOUT_SETUP:
             return {
                 ...state,
                 loading: false,
                 error: false,
                 setupInfo: action.payload
             }
-        case CLEAR_PAYMENT_SETUP:
+        case CLEAR_PAYOUT_SETUP:
             return {
                 ...state,
                 loading: false,
@@ -53,4 +53,4 @@ const paymentReducer = (state = initialState, action) => {
     }
 }
 
-export default paymentReducer
+export default payoutReducer

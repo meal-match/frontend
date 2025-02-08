@@ -6,17 +6,37 @@ import { useDispatch, useSelector } from 'react-redux'
 import Button from '@components/Button'
 import Divider from '@components/Divider'
 import Page from '@components/Page'
-import { getProfile, selectIsLoggedIn, selectProfileData } from '@store'
+import {
+    fetchPaymentMethods,
+    getProfile,
+    selectIsLoggedIn,
+    selectProfileData,
+    selectPushToken,
+    setPushToken
+} from '@store'
+import { registerForPushNotificationsAsync } from '@utils'
 
 const Index = () => {
     const dispatch = useDispatch()
 
     const profileData = useSelector(selectProfileData)
+    const pushToken = useSelector(selectPushToken)
     const isLoggedIn = useSelector(selectIsLoggedIn)
 
     useEffect(() => {
         if (isLoggedIn) {
+            dispatch(fetchPaymentMethods)
             dispatch(getProfile)
+
+            if (!pushToken) {
+                registerForPushNotificationsAsync()
+                    .then((token) => {
+                        if (token) {
+                            dispatch(setPushToken(token))
+                        }
+                    })
+                    .catch(() => {})
+            }
         }
     })
 

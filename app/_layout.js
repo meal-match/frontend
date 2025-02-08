@@ -1,4 +1,5 @@
 import * as Linking from 'expo-linking'
+import * as Notifications from 'expo-notifications'
 import { Stack, useRouter } from 'expo-router'
 import React, { useEffect, useState } from 'react'
 import { DefaultTheme, PaperProvider } from 'react-native-paper'
@@ -40,6 +41,34 @@ const RootLayout = () => {
         setIsMounted(true)
         return () => subscription.remove()
     }, [])
+
+    useEffect(() => {
+        Notifications.setNotificationHandler({
+            handleNotification: async () => ({
+                shouldShowAlert: true,
+                shouldPlaySound: false,
+                shouldSetBadge: false
+            })
+        })
+
+        const notificationResponseListener =
+            Notifications.addNotificationResponseReceivedListener(
+                (response) => {
+                    const data = response.notification.request.content.data
+                    if (data?.route) {
+                        router.push({
+                            pathname: data.route
+                        })
+                    }
+                }
+            )
+
+        return () => {
+            Notifications.removeNotificationSubscription(
+                notificationResponseListener
+            )
+        }
+    })
 
     return (
         <Provider store={store}>
