@@ -10,19 +10,33 @@ import {
     fetchPaymentMethods,
     getProfile,
     selectIsLoggedIn,
-    selectProfileData
+    selectProfileData,
+    selectPushToken,
+    setPushToken
 } from '@store'
+import { registerForPushNotificationsAsync } from '@utils'
 
 const Index = () => {
     const dispatch = useDispatch()
 
     const profileData = useSelector(selectProfileData)
+    const pushToken = useSelector(selectPushToken)
     const isLoggedIn = useSelector(selectIsLoggedIn)
 
     useEffect(() => {
         if (isLoggedIn) {
             dispatch(fetchPaymentMethods)
             dispatch(getProfile)
+
+            if (!pushToken) {
+                registerForPushNotificationsAsync()
+                    .then((token) => {
+                        if (token) {
+                            dispatch(setPushToken(token))
+                        }
+                    })
+                    .catch(() => {})
+            }
         }
     })
 
