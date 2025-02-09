@@ -1,16 +1,17 @@
 import {
-    CLEAR_PAYOUT_SETUP,
     PAYOUT_ERROR,
     PAYOUT_LOADING,
-    SET_PAYOUT_METHODS,
-    SET_PAYOUT_SETUP
+    SET_PAYOUT_ACCOUNT,
+    SET_PAYOUT_ACCOUNT_SETUP_LINK,
+    SET_PAYOUT_ACCOUNT_SETUP_STATUS
 } from '@constants'
 
 const initialState = {
     loading: false,
-    error: false,
-    methods: [],
-    setupInfo: {}
+    error: null,
+    account: null,
+    accountSetupLink: null,
+    setupIsComplete: false
 }
 
 const payoutReducer = (state = initialState, action) => {
@@ -19,34 +20,32 @@ const payoutReducer = (state = initialState, action) => {
             return {
                 ...state,
                 loading: true,
-                error: false
+                error: null
             }
         case PAYOUT_ERROR:
             return {
                 ...state,
                 loading: false,
-                error: action.payload || true
+                error: action.payload
             }
-        case SET_PAYOUT_METHODS:
+        case SET_PAYOUT_ACCOUNT:
             return {
                 ...state,
                 loading: false,
-                error: false,
-                methods: action.payload || []
+                account: action.payload.account,
+                setupIsComplete: action.payload.setupIsComplete
             }
-        case SET_PAYOUT_SETUP:
+        case SET_PAYOUT_ACCOUNT_SETUP_LINK:
             return {
                 ...state,
                 loading: false,
-                error: false,
-                setupInfo: action.payload
+                accountSetupLink: action.payload
             }
-        case CLEAR_PAYOUT_SETUP:
+        case SET_PAYOUT_ACCOUNT_SETUP_STATUS:
             return {
                 ...state,
                 loading: false,
-                error: false,
-                setupInfo: {}
+                setupIsComplete: action.payload
             }
         default:
             return state

@@ -68,7 +68,7 @@ const RootLayout = () => {
                 notificationResponseListener
             )
         }
-    })
+    }, [])
 
     return (
         <Provider store={store}>

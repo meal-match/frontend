@@ -30,21 +30,15 @@ const Settings = () => {
             }
         },
         {
-            title: 'Report an Issue' // page that interfaces with report API?
-        },
-        {
             title: 'Privacy Policy',
             onPress: () => {
-                Linking.openURL(
-                    'https://www.privacypolicies.com/live/c27eaadc-e241-48ce-be38-3be7315d7cdf'
-                )
+                Linking.openURL(process.env.EXPO_PUBLIC_PRIVACY_POLICY_URL)
             }
         },
         {
             title: 'About Us',
             onPress: () => {
-                // TODO: Update link
-                Linking.openURL('https://google.com')
+                Linking.openURL(process.env.EXPO_PUBLIC_WEBSITE_URL)
             }
         },
         {

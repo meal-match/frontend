@@ -3,13 +3,12 @@ import {
     PAYMENT_ERROR,
     PAYMENT_LOADING,
     SET_PAYMENT_METHODS,
-    SET_PAYMENT_SETUP,
-    SET_PAYOUT_METHODS
+    SET_PAYMENT_SETUP
 } from '@constants'
 
 export const fetchPaymentMethods = async (dispatch, getState) => {
-    const { payment, payout } = getState()
-    if (payment.loading || (payment.methods.length && payout.methods.length)) {
+    const { payment } = getState()
+    if (payment.loading || payment.methods.length) {
         return
     }
 
@@ -34,10 +33,6 @@ export const fetchPaymentMethods = async (dispatch, getState) => {
             dispatch({
                 type: SET_PAYMENT_METHODS,
                 payload: response.paymentMethods
-            })
-            dispatch({
-                type: SET_PAYOUT_METHODS,
-                payload: response.payoutMethods
             })
         } else {
             dispatch({

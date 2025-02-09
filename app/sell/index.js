@@ -27,7 +27,7 @@ import {
     selectOrders,
     selectOrdersError,
     selectOrdersLoading,
-    selectPayoutMethods
+    selectPayoutSetupIsComplete
 } from '@store'
 import { clearRouterStack, formatTimeWithIntl, isWithin15Minutes } from '@utils'
 import { useNavigation } from 'expo-router'
@@ -46,7 +46,7 @@ const Sell = () => {
     const claimedOrderLoading = useSelector(selectClaimedOrderLoading)
     const claimedOrderError = useSelector(selectClaimedOrderError)
 
-    const payoutMethods = useSelector(selectPayoutMethods)
+    const payoutSetupIsComplete = useSelector(selectPayoutSetupIsComplete)
 
     const [refreshing, setRefreshing] = useState(false)
     const [timeInterval, setTimeInterval] = useState(null)
@@ -89,7 +89,7 @@ const Sell = () => {
         return () => clearInterval(timeInterval)
     }, [])
 
-    if (!payoutMethods.length) {
+    if (!payoutSetupIsComplete) {
         return <PaymentSetupRedirect type="sell" />
     }
 
