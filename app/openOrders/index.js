@@ -6,7 +6,7 @@ import Ionicons from '@expo/vector-icons/Ionicons'
 import { useRouter } from 'expo-router'
 
 import Page from '@components/Page'
-import { setSelectedOrder, selectOpenOrders, getOpenOrders } from '@store'
+import { setActiveOpenOrder, selectOpenOrders, getOpenOrders } from '@store'
 
 const OpenOrders = () => {
     const dispatch = useDispatch()
@@ -32,7 +32,9 @@ const OpenOrders = () => {
         return () => clearInterval(timeInterval)
     }, [])
 
-    const orders = useSelector(selectOpenOrders)
+    const orders = useSelector(selectOpenOrders).filter(
+        (order) => order.status !== 'Completed'
+    )
 
     const buyOrders = orders.filter((order) => order.type === 'buy')
     const sellOrders = orders.filter((order) => order.type === 'sell')
@@ -52,7 +54,7 @@ const OpenOrders = () => {
     }
 
     const handleItemPress = (item) => {
-        dispatch(setSelectedOrder(item))
+        dispatch(setActiveOpenOrder(item))
         router.push('/openOrders/orderDetails')
     }
 

@@ -1,4 +1,4 @@
-import { Redirect, useNavigation } from 'expo-router'
+import { useNavigation } from 'expo-router'
 import React, { Fragment, useEffect, useState } from 'react'
 import {
     Image,
@@ -21,7 +21,10 @@ import {
     selectClaimedOrder,
     selectClaimedOrderError,
     selectClaimedOrderLoading,
-    unclaimOrder
+    unclaimOrder,
+    setReceiptUri as setReceiptUriAction,
+    setWaitTime,
+    selectOrderConfirmed
 } from '@store'
 import { clearRouterStack, formatTimeWithIntl } from '@utils'
 import * as ImagePicker from 'expo-image-picker'
@@ -33,6 +36,7 @@ const OrderDetails = () => {
     const orderData = useSelector(selectClaimedOrder)
     const claimedOrderError = useSelector(selectClaimedOrderError)
     const claimedOrderLoading = useSelector(selectClaimedOrderLoading)
+    const orderConfirmed = useSelector(selectOrderConfirmed)
 
     const [receiptUri, setReceiptUri] = useState(null)
     const [orderDetailsError, setOrderDetailsError] =
@@ -44,17 +48,31 @@ const OrderDetails = () => {
     }
 
     const onConfirmPress = () => {
-        dispatch(confirmOrder(orderData))
-        clearRouterStack('/sell/success', navigation)
+        dispatch(confirmOrder)
     }
 
     useEffect(() => {
         setOrderDetailsError(claimedOrderError)
     }, [claimedOrderError])
 
-    if (!orderData) {
-        return <Redirect href="/sell/success" />
-    }
+    useEffect(() => {
+        if (estimatedWaitTime !== 0) {
+            dispatch(setWaitTime(estimatedWaitTime))
+        }
+    }, [estimatedWaitTime])
+
+    useEffect(() => {
+        if (receiptUri) {
+            dispatch(setReceiptUriAction(receiptUri))
+        }
+        print(receiptUri)
+    }, [receiptUri])
+
+    useEffect(() => {
+        if (orderConfirmed) {
+            clearRouterStack('/sell/success', navigation)
+        }
+    }, [orderConfirmed])
 
     if (claimedOrderLoading) {
         return <LoadingSpinner />
@@ -80,12 +98,12 @@ const OrderDetails = () => {
             <ScrollView>
                 <View style={styles.orderDetails}>
                     <Text style={styles.text}>
-                        Restaurant: {orderData.restaurant}
+                        Restaurant: {orderData?.restaurant}
                         {'\n'}
                     </Text>
-                    {Object.keys(orderData.meal).map((key) => {
+                    {Object.keys(orderData?.meal).map((key) => {
                         if (
-                            (Array.isArray(orderData.meal[key]) &&
+                            (Array.isArray(orderData?.meal[key]) &&
                                 !orderData.meal[key].length) ||
                             key === '_id'
                         ) {

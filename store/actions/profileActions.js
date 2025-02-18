@@ -3,8 +3,7 @@ import {
     PROFILE_ERROR,
     PROFILE_LOADING,
     SET_PROFILE,
-    USER_LOGOUT,
-    SET_SELECTED_ORDER
+    USER_LOGOUT
 } from '@constants'
 
 export const getProfile = async (dispatch, getState) => {
@@ -91,11 +90,4 @@ export const deleteProfile = async (dispatch, getState) => {
             payload: 'An unknown error occured'
         })
     }
-}
-
-export const setSelectedOrder = (order) => (dispatch) => {
-    dispatch({
-        type: SET_SELECTED_ORDER,
-        payload: order
-    })
 }
