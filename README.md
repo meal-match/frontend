@@ -43,10 +43,10 @@ This is a [JavaScript](https://en.wikipedia.org/wiki/JavaScript) application bui
 
 In the output, you'll find options to open the app in a
 
--   [development build](https://docs.expo.dev/develop/development-builds/introduction/)
--   [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
--   [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
--   [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
+- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
+- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
+- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
 
 You can start developing by editing the files inside the `app` directory.
 
@@ -79,20 +79,34 @@ When commiting your changes, please note that we use [Husky](https://github.com/
 
 Review the documentation of the following key libraries:
 
--   [Expo Router](https://docs.expo.dev/router/introduction/) for navigation
--   [React Native Paper](https://callstack.github.io/react-native-paper/) for components and theming
--   [React Redux](https://react-redux.js.org/) for state management
--   [Expo Vector Icons](https://icons.expo.fyi/Index) and [Ionicons](https://ionic.io/ionicons) for icons
+- [Expo Router](https://docs.expo.dev/router/introduction/) for navigation
+- [React Native Paper](https://callstack.github.io/react-native-paper/) for components and theming
+- [React Redux](https://react-redux.js.org/) for state management
+- [Expo Vector Icons](https://icons.expo.fyi/Index) and [Ionicons](https://ionic.io/ionicons) for icons
 
 ## Building
 
-1. Run `eas login` and authenticate with Expo.
+1. Create an `eas.json` file based on [this example](/eas.example.json).
 
-2. Run `eas build --platform ios` and authenticate with Apple Developer.
+2. Run `eas login` and authenticate with Expo.
+
+3. Run `eas build --platform ios` and authenticate with Apple Developer.
+
+4. Fill in the `submit.production` field of your `eas.json` file with the following:
+
+```json
+"ios": {
+    "appleId": "yourappledeveloperaddress@email.com",
+    "ascAppId": "yourappid",
+    "appleTeamId": "yourteamid"
+}
+```
+
+5. Run `eas submit -p ious --latest` to submit the build to the Apple Developer portal.
 
 ## Learn More
 
 To learn more about developing this project with Expo, look at the following resources:
 
--   [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics [here](https://docs.expo.dev/guides).
--   [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics [here](https://docs.expo.dev/guides).
+- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
