@@ -14,7 +14,10 @@
         },
         "ios": {
             "supportsTablet": true,
-            "bundleIdentifier": "com.mealmatch.mealMatch"
+            "bundleIdentifier": "com.mealmatch.mealMatch",
+            "infoPlist": {
+                "ITSAppUsesNonExemptEncryption": false
+            }
         },
         "android": {
             "adaptiveIcon": {
