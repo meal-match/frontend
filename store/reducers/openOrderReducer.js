@@ -3,7 +3,7 @@ import {
     OPEN_ORDERS_ERROR,
     OPEN_ORDERS_LOADING,
     SET_OPEN_ORDERS
-} from '../../constants/actions'
+} from '@constants'
 
 const initialState = {
     openOrders: [],

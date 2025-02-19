@@ -9,12 +9,23 @@ import { Button } from 'react-native-paper'
 const OrderDetails = () => {
     const order = useSelector(selectActiveOpenOrder)
 
+    const icons = {
+        'Chick-Fil-A': require('@assets/images/icons/Chick-Fil-A.png'),
+        "Dunkin' Donuts": require("@assets/images/icons/Dunkin' Donuts.png"),
+        "Julia's Market": require("@assets/images/icons/Julia's Market.png"),
+        'Panda Express': require('@assets/images/icons/Panda Express.png'),
+        'Presidential Village': require('@assets/images/icons/Presidential Village.png'),
+        "Raising Cane's": require("@assets/images/icons/Raising Cane's.png"),
+        "Wendy's": require("@assets/images/icons/Wendy's.png")
+    }
+
     const buyActionsComponent = (
         <View style={styles.buttonContainer}>
             {order.status === 'Confirmed' && (
                 <Button
                     mode="contained"
                     style={styles.footerButton}
+                    // TODO: Implement this report issue functionality
                     onPress={() => {}}
                 >
                     Report Issue
@@ -24,6 +35,7 @@ const OrderDetails = () => {
                 <Button
                     mode="contained"
                     style={styles.footerButton}
+                    // TODO: Implement this cancel order functionality
                     onPress={() => {}}
                 >
                     Cancel Order
@@ -37,6 +49,7 @@ const OrderDetails = () => {
                 <Button
                     mode="contained"
                     style={styles.footerButton}
+                    // TODO: Implement this report issue functionality
                     onPress={() => {}}
                 >
                     Report Issue
@@ -48,10 +61,20 @@ const OrderDetails = () => {
     const content = (
         <ScrollView style={styles.scrollContainer}>
             <View>
+                <View
+                    style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        display: 'flex'
+                    }}
+                >
+                    <Text style={{ ...styles.bold, ...styles.text }}>
+                        Restaurant:
+                    </Text>
+                    <Image source={icons[order.restaurant]} />
+                    <Text style={styles.text}>{order.restaurant}</Text>
+                </View>
                 <Text style={styles.text}>
-                    <Text style={styles.bold}>Restaurant:</Text>{' '}
-                    {order.restaurant}
-                    {'\n\n'}
                     <Text style={styles.bold}>Entree: </Text>
                     {order.meal.entree}{' '}
                     {order.meal.entreeCustomizations.length > 0

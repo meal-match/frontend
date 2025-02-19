@@ -65,7 +65,6 @@ const OrderDetails = () => {
         if (receiptUri) {
             dispatch(setReceiptUriAction(receiptUri))
         }
-        print(receiptUri)
     }, [receiptUri])
 
     useEffect(() => {

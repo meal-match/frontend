@@ -165,13 +165,6 @@ export const confirmOrder = async (dispatch, getState) => {
             hour12: true
         })
     )
-    console.log(
-        time.toLocaleTimeString('en-US', {
-            hour: 'numeric',
-            minute: '2-digit',
-            hour12: true
-        })
-    )
     formData.append('receipt', {
         uri: sell.claimedOrder.receiptUri,
         name: 'receipt.png',
@@ -182,7 +175,6 @@ export const confirmOrder = async (dispatch, getState) => {
         dispatch({
             type: CLAIM_ORDER_LOADING
         })
-        print('id', sell.claimedOrder._id)
         const request = await fetch(
             process.env.EXPO_PUBLIC_API_URL +
                 '/orders/' +
