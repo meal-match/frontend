@@ -91,9 +91,23 @@ Review the documentation of the following key libraries:
 
 ## Building
 
-1. Run `eas login` and authenticate with Expo.
+1. Create an `eas.json` file based on [this example](/eas.example.json).
 
-2. Run `eas build --platform ios` and authenticate with Apple Developer.
+2. Run `eas login` and authenticate with Expo.
+
+3. Run `eas build --platform ios` and authenticate with Apple Developer.
+
+4. Fill in the `submit.production` field of your `eas.json` file with the following:
+
+```json
+"ios": {
+    "appleId": "yourappledeveloperaddress@email.com",
+    "ascAppId": "yourappid",
+    "appleTeamId": "yourteamid"
+}
+```
+
+5. Run `eas submit -p ious --latest` to submit the build to the Apple Developer portal.
 
 ## Learn More
 
