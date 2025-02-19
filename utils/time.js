@@ -68,3 +68,9 @@ export const getOpenTimeFromHoursObject = (hours) => {
     const openTime = hours[day]?.open
     return openTime
 }
+
+export const getIsOpenTodayFromHoursObject = (hours) => {
+    const d = new Date()
+    const day = d.toLocaleDateString('en-US', { weekday: 'long' }).toLowerCase()
+    return hours[day] !== undefined
+}

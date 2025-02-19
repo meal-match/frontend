@@ -7,7 +7,10 @@ import {
     ORDERS_INITIAL_LOADING,
     ORDERS_LOADING,
     SET_ORDERS,
-    UNCLAIM_ORDER
+    UNCLAIM_ORDER,
+    SET_WAIT_TIME,
+    SET_RECEIPT_URI,
+    UNCONFIRM_ORDER
 } from '@constants'
 
 const initialState = {
@@ -17,7 +20,8 @@ const initialState = {
     ordersError: null,
     claimedOrder: null,
     claimedOrderLoading: false,
-    claimedOrderError: null
+    claimedOrderError: null,
+    orderConfirmed: false
 }
 
 const sellReducer = (state = initialState, action) => {
@@ -78,9 +82,35 @@ const sellReducer = (state = initialState, action) => {
         case CONFIRM_ORDER:
             return {
                 ...state,
+                orders: state.orders.map((order) =>
+                    order.id === action.payload.id ? action.payload : order
+                ),
                 claimedOrder: action.payload,
                 claimedOrderLoading: false,
-                claimedOrderError: null
+                claimedOrderError: null,
+                orderConfirmed: true
+            }
+        case UNCONFIRM_ORDER:
+            return {
+                ...state,
+                orderConfirmed: false,
+                claimedOrder: null
+            }
+        case SET_WAIT_TIME:
+            return {
+                ...state,
+                claimedOrder: {
+                    ...state.claimedOrder,
+                    waitTime: action.payload
+                }
+            }
+        case SET_RECEIPT_URI:
+            return {
+                ...state,
+                claimedOrder: {
+                    ...state.claimedOrder,
+                    receiptUri: action.payload
+                }
             }
         default:
             return state

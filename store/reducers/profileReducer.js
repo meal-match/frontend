@@ -2,11 +2,13 @@ import {
     DELETE_PROFILE_ERROR,
     PROFILE_ERROR,
     PROFILE_LOADING,
-    SET_PROFILE
+    SET_PROFILE,
+    SET_SELECTED_ORDER
 } from '@constants'
 
 const initialState = {
     profileData: {},
+    selectedOrder: null,
     loading: false,
     error: null,
     deleteError: null
@@ -40,6 +42,11 @@ const profileReducer = (state = initialState, action) => {
                 ...state,
                 loading: false,
                 deleteError: action.payload
+            }
+        case SET_SELECTED_ORDER:
+            return {
+                ...state,
+                selectedOrder: action.payload
             }
         default:
             return state

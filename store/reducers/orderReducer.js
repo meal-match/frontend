@@ -27,7 +27,8 @@ const initialState = {
     pickupTime: new Date(),
     orderLoading: false,
     orderError: null,
-    orderID: null
+    orderID: null,
+    openOrders: []
 }
 
 const orderReducer = (state = initialState, action) => {

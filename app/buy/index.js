@@ -25,7 +25,8 @@ import {
 import {
     convertTimeToDateObject,
     getCloseTimeFromHoursObject,
-    getOpenTimeFromHoursObject
+    getOpenTimeFromHoursObject,
+    getIsOpenTodayFromHoursObject
 } from '@utils'
 import { FilterImage } from 'react-native-svg/filter-image'
 
@@ -142,7 +143,8 @@ const Buy = () => {
                                         source={option.image}
                                         style={{
                                             ...styles.locationLogo,
-                                            filter: 'grayscale(100%)'
+                                            filter: 'grayscale(100%)',
+                                            opacity: 0.2
                                         }}
                                         resizeMode="contain"
                                     />
@@ -155,12 +157,12 @@ const Buy = () => {
                                 )}
                             </View>
                         </Link>
-                        {option.hours && (
-                            <Text style={{ fontSize: 9 }}>
-                                Open: {getOpenTimeFromHoursObject(option.hours)}{' '}
-                                - {getCloseTimeFromHoursObject(option.hours)}
-                            </Text>
-                        )}
+                        <Text style={{ fontSize: 9 }}>
+                            {option.hours &&
+                            getIsOpenTodayFromHoursObject(option.hours)
+                                ? `Open: ${getOpenTimeFromHoursObject(option.hours)} - ${getCloseTimeFromHoursObject(option.hours)}`
+                                : 'Closed today'}
+                        </Text>
                     </View>
                 ))}
                 {disabledRestaurant && (
