@@ -107,7 +107,7 @@ Review the documentation of the following key libraries:
 }
 ```
 
-5. Run `eas submit -p ious --latest` to submit the build to the Apple Developer portal.
+5. Run `eas submit -p ios --latest` to submit the build to the Apple Developer portal.
 
 ## Learn More
 

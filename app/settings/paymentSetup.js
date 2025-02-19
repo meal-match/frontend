@@ -36,13 +36,14 @@ const PaymentSetup = () => {
     const initializePaymentSheet = async (paymentSetup) => {
         const { paymentSetupIntent, ephemeralKey, customer } = paymentSetup
 
-        // TODO: add a returnURL
         const { error } = await initPaymentSheet({
             merchantDisplayName: 'MealMatch',
             customerId: customer,
             customerEphemeralKeySecret: ephemeralKey,
-            setupIntentClientSecret: paymentSetupIntent
+            setupIntentClientSecret: paymentSetupIntent,
+            returnURL: `${process.env.EXPO_PUBLIC_WEBSITE_URL}/stripe/complete`
         })
+
         if (error) {
             setHasError(true)
         } else if (shouldOpen) {
@@ -121,11 +122,11 @@ const PaymentSetup = () => {
     ) : null
 
     return (
-        // TODO: fiill in with real merchantIdentifier and urlScheme
+        // TODO: fiill in with real merchantIdentifier
         <StripeProvider
             publishableKey={process.env.EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY}
             merchantIdentifier="merchant.identifier"
-            urlScheme="your.url.scheme"
+            urlScheme="mealMatch"
         >
             <Page header="Payment Setup" style={styles.page}>
                 <Text style={styles.text}>
