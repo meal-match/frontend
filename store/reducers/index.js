@@ -8,12 +8,14 @@ import profileReducer from './profileReducer'
 import pushTokenReducer from './pushTokenReducer'
 import restaurantReducer from './restaurantReducer'
 import sellReducer from './sellReducer'
+import openOrderReducer from './openOrderReducer'
 
 import { USER_LOGOUT } from '@constants'
 
 const appReducer = combineReducers({
     auth: authReducer,
     order: orderReducer,
+    openOrders: openOrderReducer,
     payment: paymentReducer,
     payout: payoutReducer,
     profile: profileReducer,

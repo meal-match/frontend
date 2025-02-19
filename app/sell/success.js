@@ -2,16 +2,24 @@ import Divider from '@components/Divider'
 import Page from '@components/Page'
 import { clearRouterStack } from '@utils'
 import { useNavigation } from 'expo-router'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Button, Text } from 'react-native-paper'
+import { useDispatch } from 'react-redux'
+import { unconfirmOrder } from '@store'
 
 const Success = () => {
     const navigation = useNavigation()
+    const dispatch = useDispatch()
 
     const returnHome = () => {
         clearRouterStack('/', navigation)
     }
+
+    useEffect(() => {
+        dispatch(unconfirmOrder)
+    }, [])
+
     return (
         <Page header="Success!">
             <View style={styles.success}>

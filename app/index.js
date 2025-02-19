@@ -66,7 +66,7 @@ const Index = () => {
                 <Button url="buy/" text="Buy" height={buttonHeight} />
                 <Divider width={'40%'} />
                 <Button url="sell/" text="Sell" height={buttonHeight} />
-                {openOrders && openOrders.length > 0 && openOrdersContent}
+                {openOrdersContent}
             </View>
         </Page>
     )
