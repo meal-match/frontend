@@ -157,18 +157,12 @@ const Buy = () => {
                                 )}
                             </View>
                         </Link>
-                        {option.hours &&
-                            (getIsOpenTodayFromHoursObject(option.hours) ? (
-                                <Text style={{ fontSize: 9 }}>
-                                    Open:{' '}
-                                    {getOpenTimeFromHoursObject(option.hours)} -{' '}
-                                    {getCloseTimeFromHoursObject(option.hours)}
-                                </Text>
-                            ) : (
-                                <Text style={{ fontSize: 9 }}>
-                                    Closed today
-                                </Text>
-                            ))}
+                        <Text style={{ fontSize: 9 }}>
+                            {option.hours &&
+                            getIsOpenTodayFromHoursObject(option.hours)
+                                ? `Open: ${getOpenTimeFromHoursObject(option.hours)} - ${getCloseTimeFromHoursObject(option.hours)}`
+                                : 'Closed today'}
+                        </Text>
                     </View>
                 ))}
                 {disabledRestaurant && (
