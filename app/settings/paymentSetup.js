@@ -14,6 +14,7 @@ import {
     deletePaymentMethod,
     fetchPaymentMethods,
     fetchPaymentSetupInfo,
+    selectOpenOrders,
     selectPaymentError,
     selectPaymentLoading,
     selectPaymentMethods,
@@ -32,6 +33,7 @@ const PaymentSetup = () => {
     const paymentError = useSelector(selectPaymentError)
     const paymentMethods = useSelector(selectPaymentMethods)
     const paymentSetup = useSelector(selectPaymentSetup)
+    const openOrders = useSelector(selectOpenOrders)
 
     const initializePaymentSheet = async (paymentSetup) => {
         const { paymentSetupIntent, ephemeralKey, customer } = paymentSetup
@@ -76,48 +78,61 @@ const PaymentSetup = () => {
         return <LoadingSpinner />
     }
 
+    const hasUnconfirmedOpenOrders = openOrders?.some(
+        (order) => order.type === 'buy' && order.status !== 'Confirmed'
+    )
+
     const paymentMethodTable = paymentMethods.length ? (
         <ScrollView
             style={styles.paymentMethodTable}
             contentContainerStyle={styles.scrollContent}
         >
-            {paymentMethods.map((method) => (
-                <Fragment key={method.id}>
-                    <View style={styles.paymentMethodRow}>
-                        <PaymentIcon type={method.card.brand} />
-                        <View>
-                            <Text>**** **** **** {method.card.last4}</Text>
-                            <Text>
-                                Expires: {method.card.exp_month}/
-                                {method.card.exp_year}
-                            </Text>
-                        </View>
-                        {method.default ? (
-                            <Text style={styles.defaultMethodText}>
-                                Default Method
-                            </Text>
-                        ) : (
+            {paymentMethods.map((method) => {
+                const methodDeletionDisabled =
+                    hasUnconfirmedOpenOrders &&
+                    (method.default || paymentMethods.length === 1)
+
+                return (
+                    <Fragment key={method.id}>
+                        <View style={styles.paymentMethodRow}>
+                            <PaymentIcon type={method.card.brand} />
+                            <View>
+                                <Text>**** **** **** {method.card.last4}</Text>
+                                <Text>
+                                    Expires: {method.card.exp_month}/
+                                    {method.card.exp_year}
+                                </Text>
+                            </View>
+                            {method.default ? (
+                                <Text style={styles.defaultMethodText}>
+                                    Default Method
+                                </Text>
+                            ) : (
+                                <Button
+                                    mode="text"
+                                    onPress={() =>
+                                        dispatch(
+                                            setDefaultPaymentMethod(method.id)
+                                        )
+                                    }
+                                >
+                                    Make Default
+                                </Button>
+                            )}
                             <Button
                                 mode="text"
                                 onPress={() =>
-                                    dispatch(setDefaultPaymentMethod(method.id))
+                                    dispatch(deletePaymentMethod(method.id))
                                 }
+                                disabled={methodDeletionDisabled}
                             >
-                                Make Default
+                                <Ionicons name="trash-outline" size={20} />
                             </Button>
-                        )}
-                        <Button
-                            mode="text"
-                            onPress={() =>
-                                dispatch(deletePaymentMethod(method.id))
-                            }
-                        >
-                            <Ionicons name="trash-outline" size={20} />
-                        </Button>
-                    </View>
-                    <Divider />
-                </Fragment>
-            ))}
+                        </View>
+                        <Divider />
+                    </Fragment>
+                )
+            })}
         </ScrollView>
     ) : null
 
