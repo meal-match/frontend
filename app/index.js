@@ -8,6 +8,7 @@ import Divider from '@components/Divider'
 import Page from '@components/Page'
 import {
     fetchPaymentMethods,
+    fetchPayoutAccountSetupStatus,
     getProfile,
     selectIsLoggedIn,
     selectProfileData,
@@ -27,6 +28,7 @@ const Index = () => {
         if (isLoggedIn) {
             dispatch(fetchPaymentMethods)
             dispatch(getProfile)
+            dispatch(fetchPayoutAccountSetupStatus)
 
             if (!pushToken) {
                 registerForPushNotificationsAsync()
@@ -38,7 +40,7 @@ const Index = () => {
                     .catch(() => {})
             }
         }
-    })
+    }, [])
 
     const name = profileData.firstName
     const openOrders = profileData.openOrders

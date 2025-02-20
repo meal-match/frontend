@@ -33,7 +33,12 @@ This is a [JavaScript](https://en.wikipedia.org/wiki/JavaScript) application bui
     - GitHub Copilot ([instructions for free student access](https://docs.github.com/en/copilot/managing-copilot/managing-copilot-as-an-individual-subscriber/managing-your-copilot-subscription/getting-free-access-to-copilot-as-a-student-teacher-or-maintainer)) **OR** Codeium
     - GitLens
 
-1. Create a `.env` file with a `EXPO_PUBLIC_API_URL` variable. All API requests to the backend will route through this URL.
+1. Create a `.env` file with the following variables:
+
+    - `EXPO_PUBLIC_API_URL` - all API requests to the backend will route through this URL.
+    - `EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY` - key to interact with [Stripe](https://docs.stripe.com/sdks/react-native).
+    - `EXPO_PUBLIC_WEBSITE_URL` - URL to the [project website](https://github.com/meal-match/website).
+    - `EXPO_PUBLIC_PRIVACY_POLICY_URL` - URL to the project's Privacy Policy.
 
 1. Start the app
 
@@ -102,7 +107,7 @@ Review the documentation of the following key libraries:
 }
 ```
 
-5. Run `eas submit -p ious --latest` to submit the build to the Apple Developer portal.
+5. Run `eas submit -p ios --latest` to submit the build to the Apple Developer portal.
 
 ## Learn More
 
