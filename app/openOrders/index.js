@@ -3,9 +3,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Text, ScrollView, Image, RefreshControl } from 'react-native'
 import { List } from 'react-native-paper'
 import Ionicons from '@expo/vector-icons/Ionicons'
-import { useRouter } from 'expo-router'
+import { useRouter, useFocusEffect } from 'expo-router'
 
 import Page from '@components/Page'
+import LoadingSpinner from '@components/LoadingSpinner'
 import { setActiveOpenOrder, selectOpenOrders, getOpenOrders } from '@store'
 
 const OpenOrders = () => {
@@ -14,6 +15,7 @@ const OpenOrders = () => {
     const [expandedId, setExpandedId] = useState(null)
     const [refreshing, setRefreshing] = useState(false)
     const [timeInterval, setTimeInterval] = useState(null)
+    const [loading, setLoading] = useState(true)
 
     const resetRefreshTimer = () => {
         // Refresh orders every 60 seconds
@@ -27,10 +29,17 @@ const OpenOrders = () => {
     }, [])
 
     useEffect(() => {
-        dispatch(getOpenOrders)
         resetRefreshTimer()
         return () => clearInterval(timeInterval)
     }, [])
+
+    useFocusEffect(
+        useCallback(() => {
+            setLoading(true)
+            dispatch(getOpenOrders)
+            setLoading(false)
+        }, [])
+    )
 
     const orders = useSelector(selectOpenOrders).filter(
         (order) => order.status !== 'Completed'
@@ -166,18 +175,22 @@ const OpenOrders = () => {
 
     return (
         <Page header="Open Orders">
-            <ScrollView
-                refreshControl={
-                    <RefreshControl
-                        refreshing={refreshing}
-                        onRefresh={onRefresh}
-                        tintColor={'black'}
-                        colors={['black']}
-                    />
-                }
-            >
-                {orders && orders.length > 0 ? orderList : emptyOrders}
-            </ScrollView>
+            {loading ? (
+                <LoadingSpinner />
+            ) : (
+                <ScrollView
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={onRefresh}
+                            tintColor={'black'}
+                            colors={['black']}
+                        />
+                    }
+                >
+                    {orders && orders.length > 0 ? orderList : emptyOrders}
+                </ScrollView>
+            )}
         </Page>
     )
 }
