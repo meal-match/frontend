@@ -1,6 +1,6 @@
 import { useNavigation } from 'expo-router'
 import React, { useEffect } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, Alert } from 'react-native'
 import { Button, HelperText } from 'react-native-paper'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -41,6 +41,26 @@ const OrderPlaced = () => {
         dispatch(clearOrder)
     }
 
+    const cancel = async () => {
+        Alert.alert(
+            'Cancel Order',
+            'Are you sure you want to cancel your order?',
+            [
+                {
+                    text: 'Go back',
+                    style: 'cancel'
+                },
+                {
+                    text: 'Yes',
+                    onPress: () => {
+                        dispatch(cancelOrder)
+                        clearRouterStack('/', navigation)
+                    }
+                }
+            ]
+        )
+    }
+
     return (
         <Page header="Order Placed" style={styles.page}>
             <Text style={styles.text}>
@@ -59,7 +79,7 @@ const OrderPlaced = () => {
             )}
             <View style={styles.buttonContainer}>
                 <Button
-                    onPress={() => dispatch(cancelOrder)}
+                    onPress={cancel}
                     mode="contained"
                     style={styles.footerButton}
                 >
