@@ -173,7 +173,9 @@ const OrderDetails = () => {
             {order ? (
                 content
             ) : (
-                <Text style={styles.errorText}>Error occurred</Text>
+                <Text style={styles.errorText}>
+                    An unknown error has occured. Please try again later.
+                </Text>
             )}
         </Page>
     )
