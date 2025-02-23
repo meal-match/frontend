@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import Divider from '@components/Divider'
 import LoadingSpinner from '@components/LoadingSpinner'
 import Page from '@components/Page'
+import ImageViewer from '../../components/ImageViewer'
 
 const OrderDetails = () => {
     const params = useLocalSearchParams()
@@ -185,10 +186,9 @@ const OrderDetails = () => {
                             </Text>
                             {order.sellerName}
                         </Text>
-                        <Image
-                            source={{ uri: order.receiptImage }}
+                        <ImageViewer
+                            imageUri={order.receiptImage}
                             style={styles.receiptImage}
-                            resizeMode="contain"
                         />
                     </>
                 ) : null}
