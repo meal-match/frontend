@@ -13,7 +13,6 @@ import { Button, TextInput } from 'react-native-paper'
 import { useDispatch, useSelector } from 'react-redux'
 
 import Divider from '@components/Divider'
-import ErrorDialog from '@components/ErrorDialog'
 import LoadingSpinner from '@components/LoadingSpinner'
 import Page from '@components/Page'
 import {
@@ -31,7 +30,7 @@ import {
     resetTargetTime,
     setOrderExpired
 } from '@store'
-import { clearRouterStack, formatTimeWithIntl } from '@utils'
+import { clearRouterStack, formatTimeWithIntl, displayError } from '@utils'
 import * as ImagePicker from 'expo-image-picker'
 
 const OrderDetails = () => {
@@ -122,6 +121,14 @@ const OrderDetails = () => {
 
         return () => clearInterval(interval) // Cleanup interval on unmount
     }, [targetTime])
+
+    useEffect(() => {
+        if (orderDetailsError) {
+            displayError(orderDetailsError, () =>
+                dispatch(resetClaimOrderError)
+            )
+        }
+    }, [orderDetailsError])
 
     if (claimedOrderLoading) {
         return <LoadingSpinner />
@@ -282,10 +289,6 @@ const OrderDetails = () => {
                                 Unclaim Order
                             </Button>
                         </View>
-                        <ErrorDialog
-                            error={orderDetailsError}
-                            onClose={() => dispatch(resetClaimOrderError)}
-                        />
                     </ScrollView>
                 </>
             )}
