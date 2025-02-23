@@ -21,10 +21,10 @@ import {
     selectClaimedOrder,
     selectClaimedOrderError,
     selectClaimedOrderLoading,
-    unclaimOrder,
+    selectOrderConfirmed,
     setReceiptUri as setReceiptUriAction,
     setWaitTime,
-    selectOrderConfirmed
+    unclaimOrder
 } from '@store'
 import { clearRouterStack, formatTimeWithIntl } from '@utils'
 import * as ImagePicker from 'expo-image-picker'
@@ -207,7 +207,7 @@ const OrderDetails = () => {
                 </View>
                 <Divider />
                 <View style={styles.buttonMenu}>
-                    <Button mode="contained" onPress={onUnclaimPress}>
+                    <Button mode="outlined" onPress={onUnclaimPress}>
                         Unclaim Order
                     </Button>
                 </View>

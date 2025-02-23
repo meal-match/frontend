@@ -1,22 +1,34 @@
-import React, { useEffect } from 'react'
-import { ScrollView, Text, StyleSheet, Image, View, Alert } from 'react-native'
-import Page from '@components/Page'
 import {
-    selectActiveOpenOrder,
     cancelOrderBuy,
-    selectOpenOrdersError
+    getOpenOrders,
+    selectActiveOpenOrder,
+    selectOpenOrders,
+    selectOpenOrdersError,
+    selectOpenOrdersLoading,
+    setActiveOpenOrder
 } from '@store'
-import { useSelector, useDispatch } from 'react-redux'
-import Divider from '@components/Divider'
+import { useLocalSearchParams } from 'expo-router'
+import React, { useEffect, useState } from 'react'
+import { Alert, Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { Button } from 'react-native-paper'
-import { useRouter } from 'expo-router'
+import { useDispatch, useSelector } from 'react-redux'
+
+import Divider from '@components/Divider'
+import LoadingSpinner from '@components/LoadingSpinner'
+import Page from '@components/Page'
 
 const OrderDetails = () => {
+    const params = useLocalSearchParams()
+
     const order = useSelector(selectActiveOpenOrder)
+
     const openOrdersError = useSelector(selectOpenOrdersError)
+    const openOrders = useSelector(selectOpenOrders)
+    const openOrdersLoading = useSelector(selectOpenOrdersLoading)
 
     const dispatch = useDispatch()
-    const router = useRouter()
+
+    const [loading, setLoading] = useState(false)
 
     const cancelOrder = () => {
         Alert.alert(
@@ -36,16 +48,38 @@ const OrderDetails = () => {
     }
 
     useEffect(() => {
-        if (!order) {
-            router.back()
+        if (!openOrdersLoading) {
+            if (!order && params.id) {
+                const orderFromParam = openOrders.find(
+                    (_order) => _order._id === params.id
+                )
+                if (orderFromParam) {
+                    dispatch(setActiveOpenOrder(orderFromParam))
+                }
+            }
+
+            if (loading) {
+                setLoading(false)
+            }
         }
-    }, [order])
+    }, [order, openOrdersLoading, loading])
 
     useEffect(() => {
         if (openOrdersError) {
             Alert.alert('Error', JSON.stringify(openOrdersError))
         }
     }, [openOrdersError])
+
+    useEffect(() => {
+        if (!openOrders.length) {
+            dispatch(getOpenOrders)
+            setLoading(true)
+        }
+    }, [])
+
+    if (loading) {
+        return <LoadingSpinner />
+    }
 
     const icons = {
         'Chick-Fil-A': require('@assets/images/icons/Chick-Fil-A.png'),
@@ -140,13 +174,20 @@ const OrderDetails = () => {
                                 Ready at:{' '}
                             </Text>
                             {order.readyTime}
+                            {'\n'}
+                            <Text
+                                style={{
+                                    ...styles.text,
+                                    ...styles.bold
+                                }}
+                            >
+                                Order name:{' '}
+                            </Text>
+                            {order.sellerName}
                         </Text>
                         <Image
                             source={{ uri: order.receiptImage }}
-                            style={{
-                                width: '100%',
-                                height: 400
-                            }}
+                            style={styles.receiptImage}
                             resizeMode="contain"
                         />
                     </>
@@ -168,15 +209,15 @@ const OrderDetails = () => {
             {order ? (
                 content
             ) : (
-                <Text style={styles.errorText}>
-                    An unknown error has occured. Please try again later.
-                </Text>
+                <View style={styles.errorContent}>
+                    <Text style={styles.errorText}>
+                        An unknown error has occured. Please try again later.
+                    </Text>
+                </View>
             )}
         </Page>
     )
 }
-
-export default OrderDetails
 
 const styles = StyleSheet.create({
     buttonContainer: {
@@ -195,7 +236,12 @@ const styles = StyleSheet.create({
         marginBottom: 10
     },
     errorText: {
-        fontSize: 18
+        fontSize: 24
+    },
+    errorContent: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     page: {
         display: 'flex',
@@ -208,5 +254,12 @@ const styles = StyleSheet.create({
     scrollContainer: {
         flexDirection: 'column',
         flex: 1
+    },
+    receiptImage: {
+        width: '100%',
+        height: 400,
+        marginBottom: 10
     }
 })
+
+export default OrderDetails
