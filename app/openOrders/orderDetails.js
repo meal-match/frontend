@@ -18,7 +18,7 @@ const OrderDetails = () => {
     const dispatch = useDispatch()
     const router = useRouter()
 
-    const cancelOrder = async () => {
+    const cancelOrder = () => {
         Alert.alert(
             'Cancel Order',
             'Are you sure you want to cancel this order?',
@@ -29,9 +29,7 @@ const OrderDetails = () => {
                 },
                 {
                     text: 'Yes',
-                    onPress: async () => {
-                        dispatch(cancelOrderBuy)
-                    }
+                    onPress: () => dispatch(cancelOrderBuy)
                 }
             ]
         )
@@ -75,10 +73,7 @@ const OrderDetails = () => {
                 <Button
                     mode="contained"
                     style={styles.footerButton}
-                    // TODO: Implement this cancel order functionality
-                    onPress={async () => {
-                        await cancelOrder()
-                    }}
+                    onPress={cancelOrder}
                 >
                     Cancel Order
                 </Button>
