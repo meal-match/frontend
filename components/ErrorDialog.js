@@ -9,7 +9,8 @@ const ErrorDialog = ({ error, onClose }) => {
                 <Dialog.Title>Error</Dialog.Title>
                 <Dialog.Content>
                     <Text>
-                        An error occurred: {error}. Please try again later.
+                        An error occurred: {error}
+                        {'\n\n'}Please try again later.
                     </Text>
                 </Dialog.Content>
                 <Dialog.Actions>

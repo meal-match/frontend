@@ -48,7 +48,7 @@ export const createPayoutAccount = async (dispatch, getState) => {
 
 export const createPayoutAccountSetupLink = async (dispatch, getState) => {
     const { payout } = getState()
-    if (payout.loading || payout.accountSetupLink) {
+    if (payout.loading) {
         return
     }
 

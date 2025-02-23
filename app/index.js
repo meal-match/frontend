@@ -43,30 +43,16 @@ const Index = () => {
     }, [])
 
     const name = profileData.firstName
-    const openOrders = profileData.openOrders
-
-    // TODO: open orders need to get updated whenever someone claims/unclaims/places/cancels an order
-    const hasOpenOrders = openOrders && openOrders.length > 0
-    const buttonHeight = hasOpenOrders ? '15%' : '20%'
-    const openOrdersContent = (
-        <>
-            <Divider />
-            <Button
-                url="/openOrders"
-                text="Open Orders"
-                height={buttonHeight}
-            />
-        </>
-    )
 
     return (
         <Page header={name ? `Hello, ${name}!` : 'Hello!'} style={styles.page}>
             <View style={styles.buttonContainer}>
                 <Text style={styles.question}>Would you like to...</Text>
-                <Button url="buy/" text="Buy" height={buttonHeight} />
+                <Button url="buy/" text="Buy" height={'20%'} />
                 <Divider width={'40%'} />
-                <Button url="sell/" text="Sell" height={buttonHeight} />
-                {openOrdersContent}
+                <Button url="sell/" text="Sell" height={'20%'} />
+                <Divider />
+                <Button url="/openOrders" text="Open Orders" height={'20%'} />
             </View>
         </Page>
     )

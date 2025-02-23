@@ -1,8 +1,8 @@
 import {
-    SET_OPEN_ORDERS,
     OPEN_ORDERS_ERROR,
     OPEN_ORDERS_LOADING,
-    SET_ACTIVE_OPEN_ORDER
+    SET_ACTIVE_OPEN_ORDER,
+    SET_OPEN_ORDERS
 } from '@constants'
 
 export const getOpenOrders = async (dispatch, getState) => {
@@ -16,7 +16,7 @@ export const getOpenOrders = async (dispatch, getState) => {
             type: OPEN_ORDERS_LOADING
         })
         const request = await fetch(
-            process.env.EXPO_PUBLIC_API_URL + '/orders/open',
+            `${process.env.EXPO_PUBLIC_API_URL}/orders/open`,
             {
                 method: 'GET',
                 headers: {

@@ -1,13 +1,19 @@
-import React, { useState, useEffect, useCallback } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { Text, ScrollView, Image, RefreshControl } from 'react-native'
-import { List } from 'react-native-paper'
 import Ionicons from '@expo/vector-icons/Ionicons'
-import { useRouter, useFocusEffect } from 'expo-router'
+import { useFocusEffect, useRouter } from 'expo-router'
+import React, { useState, useEffect, useCallback } from 'react'
+import {
+    Image,
+    RefreshControl,
+    ScrollView,
+    StyleSheet,
+    Text
+} from 'react-native'
+import { List } from 'react-native-paper'
+import { useDispatch, useSelector } from 'react-redux'
 
-import Page from '@components/Page'
 import LoadingSpinner from '@components/LoadingSpinner'
-import { setActiveOpenOrder, selectOpenOrders, getOpenOrders } from '@store'
+import Page from '@components/Page'
+import { getOpenOrders, selectOpenOrders, setActiveOpenOrder } from '@store'
 
 const OpenOrders = () => {
     const dispatch = useDispatch()
@@ -15,7 +21,7 @@ const OpenOrders = () => {
     const [expandedId, setExpandedId] = useState(null)
     const [refreshing, setRefreshing] = useState(false)
     const [timeInterval, setTimeInterval] = useState(null)
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(false)
 
     const resetRefreshTimer = () => {
         // Refresh orders every 60 seconds
@@ -171,7 +177,11 @@ const OpenOrders = () => {
         </List.AccordionGroup>
     )
 
-    const emptyOrders = <Text>You have no open orders</Text>
+    const emptyOrders = (
+        <Text style={styles.noOrdersText}>You have no open orders.</Text>
+    )
+
+    const hasOrders = orders && orders.length > 0
 
     return (
         <Page header="Open Orders">
@@ -187,12 +197,26 @@ const OpenOrders = () => {
                             colors={['black']}
                         />
                     }
+                    contentContainerStyle={hasOrders ? {} : styles.noOrders}
                 >
-                    {orders && orders.length > 0 ? orderList : emptyOrders}
+                    {hasOrders ? orderList : emptyOrders}
                 </ScrollView>
             )}
         </Page>
     )
 }
+
+const styles = StyleSheet.create({
+    noOrders: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flex: 1
+    },
+    noOrdersText: {
+        fontSize: 24
+    }
+})
 
 export default OpenOrders

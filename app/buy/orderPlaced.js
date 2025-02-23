@@ -1,6 +1,6 @@
 import { useNavigation } from 'expo-router'
 import React, { useEffect } from 'react'
-import { StyleSheet, Text, View, Alert } from 'react-native'
+import { Alert, StyleSheet, Text, View } from 'react-native'
 import { Button, HelperText } from 'react-native-paper'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -80,7 +80,7 @@ const OrderPlaced = () => {
             <View style={styles.buttonContainer}>
                 <Button
                     onPress={cancel}
-                    mode="contained"
+                    mode="outlined"
                     style={styles.footerButton}
                 >
                     Cancel Order
