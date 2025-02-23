@@ -10,7 +10,10 @@ import {
     UNCLAIM_ORDER,
     SET_WAIT_TIME,
     SET_RECEIPT_URI,
-    UNCONFIRM_ORDER
+    UNCONFIRM_ORDER,
+    SET_TARGET_TIME,
+    SET_ORDER_EXPIRED,
+    SET_CAN_CLAIM_ORDER
 } from '@constants'
 
 export const getOrders = async (dispatch, getState) => {
@@ -43,6 +46,10 @@ export const getOrders = async (dispatch, getState) => {
             dispatch({
                 type: SET_ORDERS,
                 payload: response.orders
+            })
+            dispatch({
+                type: SET_CAN_CLAIM_ORDER,
+                payload: response.canClaimOrder
             })
         } else {
             dispatch({
@@ -228,5 +235,26 @@ export const unconfirmOrder = async (dispatch) => {
     await dispatch({
         type: UNCONFIRM_ORDER,
         payload: null
+    })
+}
+
+export const setTargetTime = (time) => async (dispatch) => {
+    await dispatch({
+        type: SET_TARGET_TIME,
+        payload: time
+    })
+}
+
+export const resetTargetTime = async (dispatch) => {
+    await dispatch({
+        type: SET_TARGET_TIME,
+        payload: null
+    })
+}
+
+export const setOrderExpired = (orderExpired) => async (dispatch) => {
+    await dispatch({
+        type: SET_ORDER_EXPIRED,
+        payload: orderExpired
     })
 }

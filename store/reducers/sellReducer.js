@@ -10,7 +10,10 @@ import {
     UNCLAIM_ORDER,
     SET_WAIT_TIME,
     SET_RECEIPT_URI,
-    UNCONFIRM_ORDER
+    UNCONFIRM_ORDER,
+    SET_ORDER_EXPIRED,
+    SET_TARGET_TIME,
+    SET_CAN_CLAIM_ORDER
 } from '@constants'
 
 const initialState = {
@@ -21,7 +24,10 @@ const initialState = {
     claimedOrder: null,
     claimedOrderLoading: false,
     claimedOrderError: null,
-    orderConfirmed: false
+    orderConfirmed: false,
+    targetTime: null,
+    orderExpired: false,
+    canClaimOrder: false
 }
 
 const sellReducer = (state = initialState, action) => {
@@ -58,7 +64,8 @@ const sellReducer = (state = initialState, action) => {
                 ...state,
                 claimedOrder: action.payload,
                 claimedOrderLoading: false,
-                claimedOrderError: null
+                claimedOrderError: null,
+                canClaimOrder: false
             }
         case CLAIM_ORDER_LOADING:
             return {
@@ -112,6 +119,22 @@ const sellReducer = (state = initialState, action) => {
                     receiptUri: action.payload
                 }
             }
+        case SET_TARGET_TIME:
+            return {
+                ...state,
+                targetTime: action.payload
+            }
+        case SET_ORDER_EXPIRED:
+            return {
+                ...state,
+                orderExpired: action.payload
+            }
+        case SET_CAN_CLAIM_ORDER:
+            return {
+                ...state,
+                canClaimOrder: action.payload
+            }
+
         default:
             return state
     }
