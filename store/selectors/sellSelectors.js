@@ -5,3 +5,6 @@ export const selectClaimedOrder = ({ sell }) => sell.claimedOrder
 export const selectClaimedOrderLoading = ({ sell }) => sell.claimedOrderLoading
 export const selectClaimedOrderError = ({ sell }) => sell.claimedOrderError
 export const selectOrderConfirmed = ({ sell }) => sell.orderConfirmed
+export const selectTargetTime = ({ sell }) => sell.targetTime
+export const selectOrderExpired = ({ sell }) => sell.orderExpired
+export const selectCanClaimOrder = ({ sell }) => sell.canClaimOrder

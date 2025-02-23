@@ -1,6 +1,7 @@
 import Ionicons from '@expo/vector-icons/Ionicons'
 import React, { useEffect, useState, useCallback } from 'react'
 import {
+    Alert,
     Dimensions,
     Image,
     RefreshControl,
@@ -27,7 +28,10 @@ import {
     selectOrders,
     selectOrdersError,
     selectOrdersLoading,
-    selectPayoutSetupIsComplete
+    selectPayoutSetupIsComplete,
+    selectOrderExpired,
+    setOrderExpired,
+    selectCanClaimOrder
 } from '@store'
 import { clearRouterStack, formatTimeWithIntl, isWithin15Minutes } from '@utils'
 import { useNavigation } from 'expo-router'
@@ -45,8 +49,11 @@ const Sell = () => {
     const claimedOrder = useSelector(selectClaimedOrder)
     const claimedOrderLoading = useSelector(selectClaimedOrderLoading)
     const claimedOrderError = useSelector(selectClaimedOrderError)
+    const canClaimOrder = useSelector(selectCanClaimOrder)
 
     const payoutSetupIsComplete = useSelector(selectPayoutSetupIsComplete)
+
+    const orderExpired = useSelector(selectOrderExpired)
 
     const [refreshing, setRefreshing] = useState(false)
     const [timeInterval, setTimeInterval] = useState(null)
@@ -78,10 +85,21 @@ const Sell = () => {
     }
 
     useEffect(() => {
-        if (claimedOrder) {
+        if (!canClaimOrder && orderExpired) {
+            Alert.alert(
+                'Please Wait',
+                'Your order is being unclaimed. Try again in a short time.'
+            )
+            clearRouterStack('/', navigation)
+        } else if (canClaimOrder && orderExpired) {
+            dispatch(setOrderExpired(false))
+        } else if (claimedOrder && !canClaimOrder && !orderExpired) {
             clearRouterStack('/sell/orderDetails', navigation)
+        } else if (!claimedOrder && !canClaimOrder && !orderExpired) {
+            Alert.alert('Error', 'User already has an open order.')
+            clearRouterStack('/', navigation)
         }
-    }, [claimedOrder])
+    }, [canClaimOrder, orderExpired, claimedOrder])
 
     useEffect(() => {
         dispatch(getOrders)
