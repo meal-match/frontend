@@ -12,9 +12,7 @@ import {
     View
 } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
-
 import Divider from '@components/Divider'
-import ErrorDialog from '@components/ErrorDialog'
 import LoadingSpinner from '@components/LoadingSpinner'
 import Page from '@components/Page'
 import PaymentSetupRedirect from '@components/PaymentSetupRedirect'
@@ -33,7 +31,12 @@ import {
     setOrderExpired,
     selectCanClaimOrder
 } from '@store'
-import { clearRouterStack, formatTimeWithIntl, isWithin15Minutes } from '@utils'
+import {
+    clearRouterStack,
+    formatTimeWithIntl,
+    isWithin15Minutes,
+    displayError
+} from '@utils'
 import { useNavigation } from 'expo-router'
 
 const { width: screenWidth } = Dimensions.get('window')
@@ -107,6 +110,14 @@ const Sell = () => {
         return () => clearInterval(timeInterval)
     }, [])
 
+    useEffect(() => {
+        if (claimedOrderError) {
+            displayError(claimedOrderError, () =>
+                dispatch(resetClaimOrderError)
+            )
+        }
+    }, [claimedOrderError])
+
     if (!payoutSetupIsComplete) {
         return <PaymentSetupRedirect type="sell" />
     }
@@ -161,10 +172,6 @@ const Sell = () => {
                 </View>
             </TouchableOpacity>
             {index < orders.length - 1 && <Divider />}
-            <ErrorDialog
-                error={claimedOrderError}
-                onClose={() => dispatch(resetClaimOrderError)}
-            />
         </View>
     ))
 
