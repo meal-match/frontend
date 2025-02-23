@@ -60,7 +60,7 @@ const Home = () => {
     const completeAccountButtonText = 'Update'
 
     const incompleteAccountText =
-        'MealMatch partners with Stripe to help you receive payments securely. You will be redirected to Stripe&apos;s secure portal to complete this process.'
+        "MealMatch partners with Stripe to help you receive payments securely. You will be redirected to Stripe's secure portal to complete this process."
     const incompleteAccountButtonText = 'Add'
 
     const accountContent = (
