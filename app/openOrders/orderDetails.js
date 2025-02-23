@@ -1,13 +1,51 @@
-import React from 'react'
-import { ScrollView, Text, StyleSheet, Image, View } from 'react-native'
+import React, { useEffect } from 'react'
+import { ScrollView, Text, StyleSheet, Image, View, Alert } from 'react-native'
 import Page from '@components/Page'
-import { selectActiveOpenOrder } from '@store'
-import { useSelector } from 'react-redux'
+import {
+    selectActiveOpenOrder,
+    cancelOrderBuy,
+    selectOpenOrdersError
+} from '@store'
+import { useSelector, useDispatch } from 'react-redux'
 import Divider from '@components/Divider'
 import { Button } from 'react-native-paper'
+import { useRouter } from 'expo-router'
 
 const OrderDetails = () => {
     const order = useSelector(selectActiveOpenOrder)
+    const openOrdersError = useSelector(selectOpenOrdersError)
+
+    const dispatch = useDispatch()
+    const router = useRouter()
+
+    const cancelOrder = () => {
+        Alert.alert(
+            'Cancel Order',
+            'Are you sure you want to cancel this order?',
+            [
+                {
+                    text: 'Go back',
+                    style: 'cancel'
+                },
+                {
+                    text: 'Yes',
+                    onPress: () => dispatch(cancelOrderBuy)
+                }
+            ]
+        )
+    }
+
+    useEffect(() => {
+        if (!order) {
+            router.back()
+        }
+    }, [order])
+
+    useEffect(() => {
+        if (openOrdersError) {
+            Alert.alert('Error', JSON.stringify(openOrdersError))
+        }
+    }, [openOrdersError])
 
     const icons = {
         'Chick-Fil-A': require('@assets/images/icons/Chick-Fil-A.png'),
@@ -19,7 +57,7 @@ const OrderDetails = () => {
         "Wendy's": require("@assets/images/icons/Wendy's.png")
     }
 
-    const buyActionsComponent = (
+    const buyActionsComponent = order && (
         <View style={styles.buttonContainer}>
             {order.status === 'Confirmed' && (
                 <Button
@@ -35,15 +73,14 @@ const OrderDetails = () => {
                 <Button
                     mode="contained"
                     style={styles.footerButton}
-                    // TODO: Implement this cancel order functionality
-                    onPress={() => {}}
+                    onPress={cancelOrder}
                 >
                     Cancel Order
                 </Button>
             )}
         </View>
     )
-    const sellActionsComponent = (
+    const sellActionsComponent = order && (
         <View style={styles.buttonContainer}>
             {order.status === 'Confirmed' && (
                 <Button
@@ -58,7 +95,7 @@ const OrderDetails = () => {
         </View>
     )
 
-    const content = (
+    const content = order && (
         <ScrollView style={styles.scrollContainer}>
             <View>
                 <View
@@ -124,8 +161,17 @@ const OrderDetails = () => {
     )
 
     return (
-        <Page header={order.meal.entree} style={styles.page}>
-            {content}
+        <Page
+            header={order ? order.meal.entree : 'Error occurred'}
+            style={styles.page}
+        >
+            {order ? (
+                content
+            ) : (
+                <Text style={styles.errorText}>
+                    An unknown error has occured. Please try again later.
+                </Text>
+            )}
         </Page>
     )
 }
