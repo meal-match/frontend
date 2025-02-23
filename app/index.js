@@ -44,15 +44,21 @@ const Index = () => {
 
     const name = profileData.firstName
 
+    const buttonHeight = '20%'
+
     return (
         <Page header={name ? `Hello, ${name}!` : 'Hello!'} style={styles.page}>
             <View style={styles.buttonContainer}>
                 <Text style={styles.question}>Would you like to...</Text>
-                <Button url="buy/" text="Buy" height={'20%'} />
+                <Button url="buy/" text="Buy" height={buttonHeight} />
                 <Divider width={'40%'} />
-                <Button url="sell/" text="Sell" height={'20%'} />
+                <Button url="sell/" text="Sell" height={buttonHeight} />
                 <Divider />
-                <Button url="/openOrders" text="Open Orders" height={'20%'} />
+                <Button
+                    url="/openOrders"
+                    text="Open Orders"
+                    height={buttonHeight}
+                />
             </View>
         </Page>
     )

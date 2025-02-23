@@ -21,7 +21,7 @@ const OpenOrders = () => {
     const [expandedId, setExpandedId] = useState(null)
     const [refreshing, setRefreshing] = useState(false)
     const [timeInterval, setTimeInterval] = useState(null)
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
 
     const resetRefreshTimer = () => {
         // Refresh orders every 60 seconds

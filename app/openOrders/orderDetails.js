@@ -48,15 +48,21 @@ const OrderDetails = () => {
     }
 
     useEffect(() => {
-        if (!order && params.id && !openOrdersLoading) {
-            const orderFromParam = openOrders.find(
-                (_order) => _order._id === params.id
-            )
-            if (orderFromParam) {
-                dispatch(setActiveOpenOrder(orderFromParam))
+        if (!openOrdersLoading) {
+            if (!order && params.id) {
+                const orderFromParam = openOrders.find(
+                    (_order) => _order._id === params.id
+                )
+                if (orderFromParam) {
+                    dispatch(setActiveOpenOrder(orderFromParam))
+                }
+            }
+
+            if (loading) {
+                setLoading(false)
             }
         }
-    }, [order, openOrdersLoading])
+    }, [order, openOrdersLoading, loading])
 
     useEffect(() => {
         if (openOrdersError) {
@@ -70,12 +76,6 @@ const OrderDetails = () => {
             setLoading(true)
         }
     }, [])
-
-    useEffect(() => {
-        if (loading && !openOrdersLoading) {
-            setLoading(false)
-        }
-    }, [loading, openOrdersLoading])
 
     if (loading) {
         return <LoadingSpinner />
