@@ -12,11 +12,9 @@ import {
     cancelOrderBuy,
     clearDisputeOrder,
     getOpenOrders,
-    selectActiveOpenOrder,
     selectOpenOrders,
     selectOpenOrdersError,
     selectOpenOrdersLoading,
-    setActiveOpenOrder,
     unclaimOrder
 } from '@store'
 import { clearRouterStack } from '@utils'
@@ -26,11 +24,11 @@ const OrderDetails = () => {
     const params = useLocalSearchParams()
     const router = useRouter()
 
-    const order = useSelector(selectActiveOpenOrder)
-
     const openOrdersError = useSelector(selectOpenOrdersError)
     const openOrders = useSelector(selectOpenOrders)
     const openOrdersLoading = useSelector(selectOpenOrdersLoading)
+
+    const order = openOrders.find((order) => order._id === params.id)
 
     const dispatch = useDispatch()
 
@@ -47,7 +45,10 @@ const OrderDetails = () => {
                 },
                 {
                     text: 'Yes',
-                    onPress: () => dispatch(cancelOrderBuy)
+                    onPress: () => {
+                        clearRouterStack('/', navigation)
+                        dispatch(cancelOrderBuy(order._id))
+                    }
                 }
             ]
         )
@@ -79,21 +80,10 @@ const OrderDetails = () => {
     }
 
     useEffect(() => {
-        if (!openOrdersLoading) {
-            if (!order && params.id) {
-                const orderFromParam = openOrders.find(
-                    (_order) => _order._id === params.id
-                )
-                if (orderFromParam) {
-                    dispatch(setActiveOpenOrder(orderFromParam))
-                }
-            }
-
-            if (loading) {
-                setLoading(false)
-            }
+        if (!openOrdersLoading && loading) {
+            setLoading(false)
         }
-    }, [order, openOrdersLoading, loading])
+    }, [openOrdersLoading, loading])
 
     useEffect(() => {
         if (openOrdersError) {
