@@ -3,7 +3,7 @@ export const checkPasswordRequirements = (password) => {
     if (password.length < 8) {
         requirements.push('At least 8 characters')
     }
-    if (!/[0-9]/.test(password)) {
+    if (!/\d/.test(password)) {
         requirements.push('One number')
     }
     if (!/[A-Z]/.test(password)) {

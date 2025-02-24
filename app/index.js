@@ -1,50 +1,71 @@
 import React, { useEffect } from 'react'
-import { Text } from 'react-native-paper'
 import { StyleSheet, View } from 'react-native'
+import { Text } from 'react-native-paper'
 import { useDispatch, useSelector } from 'react-redux'
 
-import Divider from '@components/Divider'
-import Page from '@components/Page'
 import Button from '@components/Button'
-import { getProfile, selectProfileData, selectIsLoggedIn } from '@store'
+import Divider from '@components/Divider'
+import LoadingSpinner from '@components/LoadingSpinner'
+import Page from '@components/Page'
+import {
+    fetchPaymentMethods,
+    fetchPayoutAccountSetupStatus,
+    getProfile,
+    selectIsLoggedIn,
+    selectProfileData,
+    selectProfileLoading,
+    selectPushToken,
+    setPushToken
+} from '@store'
+import { registerForPushNotificationsAsync } from '@utils'
 
 const Index = () => {
     const dispatch = useDispatch()
 
     const profileData = useSelector(selectProfileData)
+    const pushToken = useSelector(selectPushToken)
     const isLoggedIn = useSelector(selectIsLoggedIn)
+    const profileDataLoading = useSelector(selectProfileLoading)
 
     useEffect(() => {
         if (isLoggedIn) {
+            dispatch(fetchPaymentMethods)
             dispatch(getProfile)
+            dispatch(fetchPayoutAccountSetupStatus)
+
+            if (!pushToken) {
+                registerForPushNotificationsAsync()
+                    .then((token) => {
+                        if (token) {
+                            dispatch(setPushToken(token))
+                        }
+                    })
+                    .catch(() => {})
+            }
         }
-    })
+    }, [])
+
+    if (profileDataLoading) {
+        return <LoadingSpinner />
+    }
 
     const name = profileData.firstName
-    const openOrders = profileData.openOrders
 
-    // TODO: open orders need to get updated whenever someone claims/unclaims/places/cancels an order
-    const hasOpenOrders = openOrders && openOrders.length > 0
-    const buttonHeight = hasOpenOrders ? '15%' : '20%'
-    const openOrdersContent = (
-        <>
-            <Divider />
-            <Button
-                url="/openOrders"
-                text="Open Orders"
-                height={buttonHeight}
-            />
-        </>
-    )
+    const buttonHeight = '20%'
 
     return (
         <Page header={name ? `Hello, ${name}!` : 'Hello!'} style={styles.page}>
             <View style={styles.buttonContainer}>
                 <Text style={styles.question}>Would you like to...</Text>
-                <Button url="buy/" text="Buy" height={buttonHeight}></Button>
+                <Button url="buy/" text="Buy" height={buttonHeight} />
                 <Divider width={'40%'} />
-                <Button url="sell/" text="Sell" height={buttonHeight}></Button>
-                {openOrders && openOrders.length > 0 && openOrdersContent}
+                <Button url="sell/" text="Sell" height={buttonHeight} />
+                <Divider />
+                <Button
+                    url="/openOrders"
+                    text="Open Orders"
+                    height={buttonHeight}
+                />
             </View>
         </Page>
     )

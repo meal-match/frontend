@@ -1,6 +1,6 @@
-import React from 'react'
-import { View, StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
+import React from 'react'
+import { StyleSheet, View } from 'react-native'
 
 const Divider = ({ width = '100%', color = '#B3B3B3' }) => {
     const styles = StyleSheet.create({
@@ -11,7 +11,7 @@ const Divider = ({ width = '100%', color = '#B3B3B3' }) => {
         }
     })
 
-    return <View style={styles.divider}></View>
+    return <View style={styles.divider} />
 }
 
 Divider.propTypes = {

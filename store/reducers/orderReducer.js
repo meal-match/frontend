@@ -1,18 +1,19 @@
 import {
-    SET_RESTAURANT,
-    SET_ENTREE,
-    SET_ENTREE_CUSTOMIZATIONS,
-    SET_SIDE,
-    SET_SIDE_CUSTOMIZATIONS,
+    CLEAR_ORDER,
+    ORDER_CANCELLED,
+    ORDER_ERROR,
+    ORDER_LOADING,
+    ORDER_PLACED,
     SET_DRINK,
     SET_DRINK_CUSTOMIZATIONS,
-    SET_SAUCE,
+    SET_ENTREE,
+    SET_ENTREE_CUSTOMIZATIONS,
+    SET_ORDER_DISPUTED,
     SET_PICKUP_TIME,
-    ORDER_LOADING,
-    ORDER_ERROR,
-    ORDER_PLACED,
-    ORDER_CANCELLED,
-    CLEAR_ORDER
+    SET_RESTAURANT,
+    SET_SAUCE,
+    SET_SIDE,
+    SET_SIDE_CUSTOMIZATIONS
 } from '@constants'
 
 const initialState = {
@@ -27,7 +28,9 @@ const initialState = {
     pickupTime: new Date(),
     orderLoading: false,
     orderError: null,
-    orderID: null
+    orderID: null,
+    openOrders: [],
+    disputeSuccess: false
 }
 
 const orderReducer = (state = initialState, action) => {
@@ -119,6 +122,13 @@ const orderReducer = (state = initialState, action) => {
             return {
                 ...state,
                 orderID: action.payload,
+                orderLoading: false,
+                orderError: null
+            }
+        case SET_ORDER_DISPUTED:
+            return {
+                ...state,
+                disputeSuccess: action.payload,
                 orderLoading: false,
                 orderError: null
             }

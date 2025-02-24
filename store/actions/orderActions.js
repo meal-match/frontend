@@ -1,18 +1,19 @@
 import {
-    SET_RESTAURANT,
+    CLEAR_ORDER,
+    ORDER_CANCELLED,
     ORDER_ERROR,
+    ORDER_LOADING,
+    ORDER_PLACED,
+    SET_DRINK,
     SET_ENTREE,
     SET_ENTREE_CUSTOMIZATIONS,
-    SET_DRINK,
-    SET_DRINK_CUSTOMIZATIONS,
+    SET_ORDER_DISPUTED,
     SET_PICKUP_TIME,
+    SET_RESTAURANT,
     SET_SAUCE,
     SET_SIDE,
     SET_SIDE_CUSTOMIZATIONS,
-    ORDER_PLACED,
-    ORDER_LOADING,
-    ORDER_CANCELLED,
-    CLEAR_ORDER
+    SET_DRINK_CUSTOMIZATIONS
 } from '@constants'
 
 export const setRestaurant = (restaurant) => (dispatch, getState) => {
@@ -192,7 +193,7 @@ export const placeOrder = async (dispatch, getState) => {
         })
 
         const request = await fetch(
-            process.env.EXPO_PUBLIC_API_URL + '/orders/buy',
+            `${process.env.EXPO_PUBLIC_API_URL}/orders/buy`,
             {
                 method: 'POST',
                 headers: {
@@ -245,10 +246,7 @@ export const cancelOrder = async (dispatch, getState) => {
         })
 
         const request = await fetch(
-            process.env.EXPO_PUBLIC_API_URL +
-                '/orders/' +
-                order.orderID +
-                '/cancel-buy',
+            `${process.env.EXPO_PUBLIC_API_URL}/orders/${order.orderID}/cancel-buy`,
             {
                 method: 'DELETE',
                 headers: {
@@ -262,6 +260,58 @@ export const cancelOrder = async (dispatch, getState) => {
         if (request.status === 200) {
             dispatch({
                 type: ORDER_CANCELLED
+            })
+        } else {
+            dispatch({
+                type: ORDER_ERROR,
+                payload: response.message
+            })
+        }
+    } catch (error) {
+        dispatch({
+            type: ORDER_ERROR,
+            payload: 'An unknown error occured'
+        })
+    }
+}
+
+export const clearDisputeOrder = (dispatch) => {
+    dispatch({
+        type: SET_ORDER_DISPUTED,
+        payload: false
+    })
+}
+
+export const disputeOrder = (orderID, reason) => async (dispatch, getState) => {
+    const { order } = getState()
+    if (!orderID || !reason || order.orderLoading) {
+        return
+    }
+
+    try {
+        dispatch({
+            type: ORDER_LOADING
+        })
+
+        const request = await fetch(
+            `${process.env.EXPO_PUBLIC_API_URL}/orders/${orderID}/dispute`,
+            {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include',
+                body: JSON.stringify({
+                    reason
+                })
+            }
+        )
+        const response = await request.json()
+
+        if (request.status === 200) {
+            dispatch({
+                type: SET_ORDER_DISPUTED,
+                payload: true
             })
         } else {
             dispatch({

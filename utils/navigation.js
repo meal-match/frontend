@@ -7,11 +7,12 @@ export const clearRouterStack = (path, navigation) => {
         return
     }
     // Remove leading slash because this routes based on name and not path
+    let routeName = path
     if (path[0] === '/') {
-        path = path.slice(1)
+        routeName = path.slice(1)
     }
     navigation.reset({
         index: 0,
-        routes: [{ name: path }]
+        routes: [{ name: routeName }]
     })
 }

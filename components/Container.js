@@ -1,5 +1,5 @@
-import React from 'react'
 import { arrayOf, node, object, oneOfType } from 'prop-types'
+import React from 'react'
 import { StyleSheet, View } from 'react-native'
 
 const Container = ({ style, children }) => {

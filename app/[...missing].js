@@ -1,6 +1,6 @@
+import { useRouter } from 'expo-router'
 import React from 'react'
 import { StyleSheet, Text } from 'react-native'
-import { useRouter } from 'expo-router'
 import { Button } from 'react-native-paper'
 
 import Container from '@components/Container'

@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import * as Linking from 'expo-linking'
+import * as Notifications from 'expo-notifications'
 import { Stack, useRouter } from 'expo-router'
+import React, { useEffect, useState } from 'react'
 import { DefaultTheme, PaperProvider } from 'react-native-paper'
 import { Provider } from 'react-redux'
-import * as Linking from 'expo-linking'
 
 import { store } from '@store'
 
@@ -41,6 +42,34 @@ const RootLayout = () => {
         return () => subscription.remove()
     }, [])
 
+    useEffect(() => {
+        Notifications.setNotificationHandler({
+            handleNotification: async () => ({
+                shouldShowAlert: true,
+                shouldPlaySound: false,
+                shouldSetBadge: false
+            })
+        })
+
+        const notificationResponseListener =
+            Notifications.addNotificationResponseReceivedListener(
+                (response) => {
+                    const data = response.notification.request.content.data
+                    if (data?.route) {
+                        router.push({
+                            pathname: data.route
+                        })
+                    }
+                }
+            )
+
+        return () => {
+            Notifications.removeNotificationSubscription(
+                notificationResponseListener
+            )
+        }
+    }, [])
+
     return (
         <Provider store={store}>
             <PaperProvider theme={theme}>
@@ -53,7 +82,7 @@ const RootLayout = () => {
                             fontSize: 24
                         },
                         headerTintColor: theme.colors.accent,
-                        headerBackTitleVisible: false,
+                        headerBackButtonDisplayMode: 'minimal',
                         animation: 'none'
                     }}
                 >
@@ -88,6 +117,10 @@ const RootLayout = () => {
                     />
                     <Stack.Screen
                         name="buy/orderPlaced"
+                        options={{ animation: 'slide_from_right' }}
+                    />
+                    <Stack.Screen
+                        name="sell/success"
                         options={{ animation: 'slide_from_right' }}
                     />
                 </Stack>

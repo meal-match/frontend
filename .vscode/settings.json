@@ -8,5 +8,8 @@
     "vs-code-prettier-eslint.prettierLast": false,
     "files.associations": {
         "array": "cpp"
+    },
+    "editor.codeActionsOnSave": {
+        "source.organizeImports.biome": "explicit"
     }
 }

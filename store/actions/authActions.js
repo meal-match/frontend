@@ -1,13 +1,11 @@
 import {
-    AUTH_LOADING,
     AUTH_ERROR,
-    USER_LOGIN,
+    AUTH_LOADING,
+    CHECK_AUTH_FAIL,
     CREATE_USER,
     RESET_EMAIL_SENT,
-    PASSWORD_RESET,
-    CHECK_AUTH_FAIL,
-    USER_LOGOUT,
-    VERIFY_EMAIL
+    USER_LOGIN,
+    USER_LOGOUT
 } from '@constants'
 
 export const userLogin = (params) => async (dispatch, getState) => {
@@ -22,7 +20,7 @@ export const userLogin = (params) => async (dispatch, getState) => {
         })
 
         const request = await fetch(
-            process.env.EXPO_PUBLIC_API_URL + '/auth/login',
+            `${process.env.EXPO_PUBLIC_API_URL}/auth/login`,
             {
                 method: 'POST',
                 body: JSON.stringify(params),
@@ -70,7 +68,7 @@ export const createUser = (params) => async (dispatch, getState) => {
         })
 
         const request = await fetch(
-            process.env.EXPO_PUBLIC_API_URL + '/auth/signup',
+            `${process.env.EXPO_PUBLIC_API_URL}/auth/signup`,
             {
                 method: 'POST',
                 body: JSON.stringify(params),
@@ -118,7 +116,7 @@ export const sendResetEmail = (email) => async (dispatch, getState) => {
         })
 
         const request = await fetch(
-            process.env.EXPO_PUBLIC_API_URL + '/auth/send-reset',
+            `${process.env.EXPO_PUBLIC_API_URL}/auth/send-reset`,
             {
                 method: 'POST',
                 body: JSON.stringify({ email }),
@@ -154,54 +152,6 @@ export const sendResetEmail = (email) => async (dispatch, getState) => {
     }
 }
 
-export const resetPassword = (params) => async (dispatch, getState) => {
-    const { auth } = getState()
-    if (auth.authLoading) {
-        return
-    }
-
-    try {
-        dispatch({
-            type: AUTH_LOADING
-        })
-
-        const request = await fetch(
-            process.env.EXPO_PUBLIC_API_URL + '/auth/reset-password',
-            {
-                method: 'POST',
-                body: JSON.stringify(params),
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                credentials: 'include'
-            }
-        )
-
-        if (request.status === 200) {
-            dispatch({
-                type: PASSWORD_RESET
-            })
-        } else {
-            const response = await request.json()
-            dispatch({
-                type: AUTH_ERROR,
-                payload: {
-                    type: 'resetPassword',
-                    message: response.message
-                }
-            })
-        }
-    } catch (e) {
-        dispatch({
-            type: AUTH_ERROR,
-            payload: {
-                type: 'resetPassword',
-                message: 'An unknown error occured'
-            }
-        })
-    }
-}
-
 export const checkAuthStatus = async (dispatch, getState) => {
     const { auth } = getState()
     if (auth.authLoading) {
@@ -214,7 +164,7 @@ export const checkAuthStatus = async (dispatch, getState) => {
         })
 
         const request = await fetch(
-            process.env.EXPO_PUBLIC_API_URL + '/auth/status',
+            `${process.env.EXPO_PUBLIC_API_URL}/auth/status`,
             {
                 method: 'GET',
                 headers: {
@@ -252,7 +202,7 @@ export const userLogout = async (dispatch, getState) => {
         })
 
         const request = await fetch(
-            process.env.EXPO_PUBLIC_API_URL + '/auth/logout',
+            `${process.env.EXPO_PUBLIC_API_URL}/auth/logout`,
             {
                 method: 'POST',
                 headers: {
@@ -281,54 +231,6 @@ export const userLogout = async (dispatch, getState) => {
             type: AUTH_ERROR,
             payload: {
                 type: 'userLogout',
-                message: 'An unknown error occured'
-            }
-        })
-    }
-}
-
-export const verifyEmail = (token) => async (dispatch, getState) => {
-    const { auth } = getState()
-    if (auth.authLoading) {
-        return
-    }
-
-    try {
-        dispatch({
-            type: AUTH_LOADING
-        })
-
-        const request = await fetch(
-            process.env.EXPO_PUBLIC_API_URL + '/auth/verify',
-            {
-                method: 'POST',
-                body: JSON.stringify({ token }),
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                credentials: 'include'
-            }
-        )
-
-        if (request.status === 200) {
-            dispatch({
-                type: VERIFY_EMAIL
-            })
-        } else {
-            const response = await request.json()
-            dispatch({
-                type: AUTH_ERROR,
-                payload: {
-                    type: 'verifyEmail',
-                    message: response.message
-                }
-            })
-        }
-    } catch (e) {
-        dispatch({
-            type: AUTH_ERROR,
-            payload: {
-                type: 'verifyEmail',
                 message: 'An unknown error occured'
             }
         })

@@ -1,10 +1,10 @@
+import { useRouter, useLocalSearchParams } from 'expo-router'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { useRouter, useLocalSearchParams } from 'expo-router'
 
 import MultiItemSelector from '@components/MultiItemSelector'
 import Page from '@components/Page'
-import { selectRestaurantData, selectOrder } from '@store'
+import { selectOrder, selectRestaurantData } from '@store'
 
 const DrinkCustomizations = () => {
     //const dispatch = useDispatch()

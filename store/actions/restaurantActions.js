@@ -1,8 +1,8 @@
 import {
     MEAL_ERROR,
+    MEAL_LOADING,
     SET_MEAL_DATA,
-    SET_RESTAURANT_DATA,
-    MEAL_LOADING
+    SET_RESTAURANT_DATA
 } from '@constants'
 
 export const getMeal = async (getState) => {
@@ -24,7 +24,7 @@ export const getMealOptions = async (dispatch, getState) => {
         })
 
         const request = await fetch(
-            process.env.EXPO_PUBLIC_API_URL + '/restaurants',
+            `${process.env.EXPO_PUBLIC_API_URL}/restaurants`,
             {
                 method: 'GET',
                 headers: {

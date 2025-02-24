@@ -1,21 +1,21 @@
+import { useNavigation } from 'expo-router'
 import React, { useEffect } from 'react'
-import { Text, View, StyleSheet } from 'react-native'
+import { Alert, StyleSheet, Text, View } from 'react-native'
 import { Button, HelperText } from 'react-native-paper'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigation } from 'expo-router'
 
-import {
-    cancelOrder,
-    selectOrder,
-    selectOrderLoading,
-    selectOrderError,
-    selectOrderID,
-    clearOrder
-} from '@store'
 import Divider from '@components/Divider'
 import LoadingSpinner from '@components/LoadingSpinner'
 import Page from '@components/Page'
-import { displayPickerTime, clearRouterStack } from '@utils'
+import {
+    cancelOrder,
+    clearOrder,
+    selectOrder,
+    selectOrderError,
+    selectOrderID,
+    selectOrderLoading
+} from '@store'
+import { clearRouterStack, displayPickerTime } from '@utils'
 
 const OrderPlaced = () => {
     const dispatch = useDispatch()
@@ -41,6 +41,26 @@ const OrderPlaced = () => {
         dispatch(clearOrder)
     }
 
+    const cancel = async () => {
+        Alert.alert(
+            'Cancel Order',
+            'Are you sure you want to cancel your order?',
+            [
+                {
+                    text: 'Go back',
+                    style: 'cancel'
+                },
+                {
+                    text: 'Yes',
+                    onPress: () => {
+                        dispatch(cancelOrder)
+                        clearRouterStack('/', navigation)
+                    }
+                }
+            ]
+        )
+    }
+
     return (
         <Page header="Order Placed" style={styles.page}>
             <Text style={styles.text}>
@@ -59,8 +79,8 @@ const OrderPlaced = () => {
             )}
             <View style={styles.buttonContainer}>
                 <Button
-                    onPress={() => dispatch(cancelOrder)}
-                    mode="contained"
+                    onPress={cancel}
+                    mode="outlined"
                     style={styles.footerButton}
                 >
                     Cancel Order
