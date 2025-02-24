@@ -1,5 +1,4 @@
 import {
-    SET_ACTIVE_OPEN_ORDER,
     OPEN_ORDERS_ERROR,
     OPEN_ORDERS_LOADING,
     SET_OPEN_ORDERS
@@ -8,19 +7,11 @@ import {
 const initialState = {
     openOrders: [],
     openOrdersLoading: false,
-    openOrdersError: false,
-    activeOpenOrder: null
+    openOrdersError: false
 }
 
 const openOrderReducer = (state = initialState, action) => {
     switch (action.type) {
-        case SET_ACTIVE_OPEN_ORDER:
-            return {
-                ...state,
-                openOrdersLoading: false,
-                openOrdersError: false,
-                activeOpenOrder: action.payload
-            }
         case OPEN_ORDERS_LOADING:
             return {
                 ...state,
