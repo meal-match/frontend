@@ -45,7 +45,11 @@ const CreateAccount = () => {
 
     useEffect(() => {
         const emailRegex = /^[^\s@]+$/
-        if (email.length > 0 && !emailRegex.test(email)) {
+        if (
+            (email.length > 0 && !emailRegex.test(email)) ||
+            (lastName.length > 0 &&
+                !email.toLowerCase().includes(lastName.toLowerCase()))
+        ) {
             setBadEmail(true)
         } else {
             setBadEmail(false)
@@ -129,7 +133,7 @@ const CreateAccount = () => {
                     {badEmail && (
                         <HelperText type="error" visible={badEmail}>
                             Email must be the name of your @crimson.ua.edu email
-                            address!
+                            address and must include your last name!
                         </HelperText>
                     )}
                     <TextInput
