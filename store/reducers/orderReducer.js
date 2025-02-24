@@ -8,6 +8,7 @@ import {
     SET_DRINK_CUSTOMIZATIONS,
     SET_ENTREE,
     SET_ENTREE_CUSTOMIZATIONS,
+    SET_ORDER_DISPUTED,
     SET_PICKUP_TIME,
     SET_RESTAURANT,
     SET_SAUCE,
@@ -28,7 +29,8 @@ const initialState = {
     orderLoading: false,
     orderError: null,
     orderID: null,
-    openOrders: []
+    openOrders: [],
+    disputeSuccess: false
 }
 
 const orderReducer = (state = initialState, action) => {
@@ -120,6 +122,13 @@ const orderReducer = (state = initialState, action) => {
             return {
                 ...state,
                 orderID: action.payload,
+                orderLoading: false,
+                orderError: null
+            }
+        case SET_ORDER_DISPUTED:
+            return {
+                ...state,
+                disputeSuccess: action.payload,
                 orderLoading: false,
                 orderError: null
             }

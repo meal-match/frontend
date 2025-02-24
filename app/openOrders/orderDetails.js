@@ -1,25 +1,30 @@
-import {
-    cancelOrderBuy,
-    getOpenOrders,
-    selectActiveOpenOrder,
-    selectOpenOrders,
-    selectOpenOrdersError,
-    selectOpenOrdersLoading,
-    setActiveOpenOrder
-} from '@store'
-import { useLocalSearchParams } from 'expo-router'
+import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router'
 import React, { useEffect, useState } from 'react'
 import { Alert, Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { Button } from 'react-native-paper'
 import { useDispatch, useSelector } from 'react-redux'
 
 import Divider from '@components/Divider'
+import ImageViewer from '@components/ImageViewer'
 import LoadingSpinner from '@components/LoadingSpinner'
 import Page from '@components/Page'
-import ImageViewer from '../../components/ImageViewer'
+import {
+    cancelOrderBuy,
+    clearDisputeOrder,
+    getOpenOrders,
+    selectActiveOpenOrder,
+    selectOpenOrders,
+    selectOpenOrdersError,
+    selectOpenOrdersLoading,
+    setActiveOpenOrder,
+    unclaimOrder
+} from '@store'
+import { clearRouterStack } from '@utils'
 
 const OrderDetails = () => {
+    const navigation = useNavigation()
     const params = useLocalSearchParams()
+    const router = useRouter()
 
     const order = useSelector(selectActiveOpenOrder)
 
@@ -31,7 +36,7 @@ const OrderDetails = () => {
 
     const [loading, setLoading] = useState(false)
 
-    const cancelOrder = () => {
+    const cancelOrderPress = () => {
         Alert.alert(
             'Cancel Order',
             'Are you sure you want to cancel this order?',
@@ -43,6 +48,31 @@ const OrderDetails = () => {
                 {
                     text: 'Yes',
                     onPress: () => dispatch(cancelOrderBuy)
+                }
+            ]
+        )
+    }
+
+    const reportOrderPress = () => {
+        dispatch(clearDisputeOrder)
+        router.push(`/openOrders/dispute?id=${order._id}`)
+    }
+
+    const unclaimOrderPress = () => {
+        Alert.alert(
+            'Unclaim Order',
+            'Are you sure you want to unclaim this order?',
+            [
+                {
+                    text: 'Go back',
+                    style: 'cancel'
+                },
+                {
+                    text: 'Yes',
+                    onPress: () => {
+                        dispatch(unclaimOrder)
+                        clearRouterStack('/', navigation)
+                    }
                 }
             ]
         )
@@ -92,14 +122,16 @@ const OrderDetails = () => {
         "Wendy's": require("@assets/images/icons/Wendy's.png")
     }
 
+    const isConfirmed = order && order.status === 'Confirmed'
+    const isDisputed = order && order.status === 'Disputed'
+
     const buyActionsComponent = order && (
         <View style={styles.buttonContainer}>
-            {order.status === 'Confirmed' && (
+            {isConfirmed && (
                 <Button
                     mode="contained"
                     style={styles.footerButton}
-                    // TODO: Implement this report issue functionality
-                    onPress={() => {}}
+                    onPress={reportOrderPress}
                 >
                     Report Issue
                 </Button>
@@ -108,24 +140,41 @@ const OrderDetails = () => {
                 <Button
                     mode="contained"
                     style={styles.footerButton}
-                    onPress={cancelOrder}
+                    onPress={cancelOrderPress}
                 >
                     Cancel Order
                 </Button>
+            )}
+            {isDisputed && (
+                <Text style={styles.bottomText}>
+                    You have disputed this order. We will review the dispute and
+                    get back to you as soon as possible.
+                </Text>
             )}
         </View>
     )
     const sellActionsComponent = order && (
         <View style={styles.buttonContainer}>
-            {order.status === 'Confirmed' && (
+            {isConfirmed && (
+                <Text style={styles.bottomText}>
+                    If the buyer does not report any issues, you will get paid
+                    within a few hours. Hang tight!
+                </Text>
+            )}
+            {order.status === 'Claimed' && (
                 <Button
                     mode="contained"
                     style={styles.footerButton}
-                    // TODO: Implement this report issue functionality
-                    onPress={() => {}}
+                    onPress={unclaimOrderPress}
                 >
-                    Report Issue
+                    Unclaim Order
                 </Button>
+            )}
+            {isDisputed && (
+                <Text style={styles.bottomText}>
+                    The buyer has disputed this order. We will review the
+                    dispute and get back to you as soon as possible.
+                </Text>
             )}
         </View>
     )
@@ -161,9 +210,9 @@ const OrderDetails = () => {
                     <Text style={styles.bold}>Drink:</Text> {order.meal.drink}
                     {'\n\n'}
                     <Text style={styles.bold}>Status: </Text>
-                    {order.status === 'Confirmed' ? 'Confirmed' : 'Pending'}
+                    {order.status}
                 </Text>
-                {order.status === 'Confirmed' ? (
+                {isDisputed || isConfirmed ? (
                     <>
                         <Text style={styles.text}>
                             <Text
@@ -192,8 +241,13 @@ const OrderDetails = () => {
                         />
                     </>
                 ) : null}
+                {isDisputed && (
+                    <Text style={styles.text}>
+                        <Text style={styles.bold}>Dispute Reason: </Text>
+                        {order.disputeReason}
+                    </Text>
+                )}
                 <Divider />
-                {/* Even though they are very similar, I left them separate because down the road we should make more */}
                 {order.type === 'buy'
                     ? buyActionsComponent
                     : sellActionsComponent}
@@ -258,6 +312,12 @@ const styles = StyleSheet.create({
     receiptImage: {
         width: '100%',
         height: 400,
+        marginBottom: 10
+    },
+    bottomText: {
+        fontSize: 18,
+        textAlign: 'center',
+        marginTop: 10,
         marginBottom: 10
     }
 })
