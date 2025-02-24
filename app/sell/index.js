@@ -1,6 +1,7 @@
 import Ionicons from '@expo/vector-icons/Ionicons'
 import React, { useEffect, useState, useCallback } from 'react'
 import {
+    Alert,
     Dimensions,
     Image,
     RefreshControl,
@@ -11,9 +12,7 @@ import {
     View
 } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
-
 import Divider from '@components/Divider'
-import ErrorDialog from '@components/ErrorDialog'
 import LoadingSpinner from '@components/LoadingSpinner'
 import Page from '@components/Page'
 import PaymentSetupRedirect from '@components/PaymentSetupRedirect'
@@ -27,9 +26,17 @@ import {
     selectOrders,
     selectOrdersError,
     selectOrdersLoading,
-    selectPayoutSetupIsComplete
+    selectPayoutSetupIsComplete,
+    selectOrderExpired,
+    setOrderExpired,
+    selectCanClaimOrder
 } from '@store'
-import { clearRouterStack, formatTimeWithIntl, isWithin15Minutes } from '@utils'
+import {
+    clearRouterStack,
+    formatTimeWithIntl,
+    isWithin15Minutes,
+    displayError
+} from '@utils'
 import { useNavigation } from 'expo-router'
 
 const { width: screenWidth } = Dimensions.get('window')
@@ -45,8 +52,11 @@ const Sell = () => {
     const claimedOrder = useSelector(selectClaimedOrder)
     const claimedOrderLoading = useSelector(selectClaimedOrderLoading)
     const claimedOrderError = useSelector(selectClaimedOrderError)
+    const canClaimOrder = useSelector(selectCanClaimOrder)
 
     const payoutSetupIsComplete = useSelector(selectPayoutSetupIsComplete)
+
+    const orderExpired = useSelector(selectOrderExpired)
 
     const [refreshing, setRefreshing] = useState(false)
     const [timeInterval, setTimeInterval] = useState(null)
@@ -78,16 +88,35 @@ const Sell = () => {
     }
 
     useEffect(() => {
-        if (claimedOrder) {
+        if (!canClaimOrder && orderExpired) {
+            Alert.alert(
+                'Please Wait',
+                'Your order is being unclaimed. Try again in a short time.'
+            )
+            clearRouterStack('/', navigation)
+        } else if (canClaimOrder && orderExpired) {
+            dispatch(setOrderExpired(false))
+        } else if (claimedOrder && !canClaimOrder && !orderExpired) {
             clearRouterStack('/sell/orderDetails', navigation)
+        } else if (!claimedOrder && !canClaimOrder && !orderExpired) {
+            Alert.alert('Error', 'User already has an open order.')
+            clearRouterStack('/', navigation)
         }
-    }, [claimedOrder])
+    }, [canClaimOrder, orderExpired, claimedOrder])
 
     useEffect(() => {
         dispatch(getOrders)
         resetRefreshTimer()
         return () => clearInterval(timeInterval)
     }, [])
+
+    useEffect(() => {
+        if (claimedOrderError) {
+            displayError(claimedOrderError, () =>
+                dispatch(resetClaimOrderError)
+            )
+        }
+    }, [claimedOrderError])
 
     if (!payoutSetupIsComplete) {
         return <PaymentSetupRedirect type="sell" />
@@ -143,10 +172,6 @@ const Sell = () => {
                 </View>
             </TouchableOpacity>
             {index < orders.length - 1 && <Divider />}
-            <ErrorDialog
-                error={claimedOrderError}
-                onClose={() => dispatch(resetClaimOrderError)}
-            />
         </View>
     ))
 

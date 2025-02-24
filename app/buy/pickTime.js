@@ -125,6 +125,11 @@ const PickTime = () => {
                             {'\n'}
                             {order.sauce?.length > 0 &&
                                 `Sauce: ${order.sauce.join(', ')}`}
+                            {'\n'}
+                            <Text style={styles.bold}>
+                                You will be charged $6 for this order after a
+                                seller confirms this order.
+                            </Text>
                         </Text>
                     </Dialog.Content>
                     <Dialog.Actions>
@@ -164,6 +169,9 @@ const styles = StyleSheet.create({
         marginTop: 10,
         marginBottom: 10,
         color: 'red'
+    },
+    bold: {
+        fontWeight: 'bold'
     }
 })
 

@@ -5,6 +5,7 @@ import { Button } from 'react-native-paper'
 import { useDispatch, useSelector } from 'react-redux'
 
 import Divider from '@components/Divider'
+import ImageViewer from '@components/ImageViewer'
 import LoadingSpinner from '@components/LoadingSpinner'
 import Page from '@components/Page'
 import { SET_ORDER_DISPUTED } from '@constants'
@@ -237,10 +238,9 @@ const OrderDetails = () => {
                             </Text>
                             {order.sellerName}
                         </Text>
-                        <Image
-                            source={{ uri: order.receiptImage }}
+                        <ImageViewer
+                            imageUri={order.receiptImage}
                             style={styles.receiptImage}
-                            resizeMode="contain"
                         />
                     </>
                 ) : null}
