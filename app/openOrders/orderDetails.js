@@ -8,9 +8,9 @@ import Divider from '@components/Divider'
 import ImageViewer from '@components/ImageViewer'
 import LoadingSpinner from '@components/LoadingSpinner'
 import Page from '@components/Page'
-import { SET_ORDER_DISPUTED } from '@constants'
 import {
     cancelOrderBuy,
+    clearDisputeOrder,
     getOpenOrders,
     selectActiveOpenOrder,
     selectOpenOrders,
@@ -54,10 +54,7 @@ const OrderDetails = () => {
     }
 
     const reportOrderPress = () => {
-        dispatch({
-            type: SET_ORDER_DISPUTED,
-            payload: false
-        })
+        dispatch(clearDisputeOrder)
         router.push(`/openOrders/dispute?id=${order._id}`)
     }
 

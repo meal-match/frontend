@@ -255,6 +255,13 @@ export const cancelOrder = async (dispatch, getState) => {
     }
 }
 
+export const clearDisputeOrder = (dispatch) => {
+    dispatch({
+        type: SET_ORDER_DISPUTED,
+        payload: false
+    })
+}
+
 export const disputeOrder = (orderID, reason) => async (dispatch, getState) => {
     const { order } = getState()
     if (!orderID || !reason || order.orderLoading) {
