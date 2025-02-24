@@ -7,6 +7,7 @@ import {
     SET_DRINK,
     SET_ENTREE,
     SET_ENTREE_CUSTOMIZATIONS,
+    SET_ORDER_DISPUTED,
     SET_PICKUP_TIME,
     SET_RESTAURANT,
     SET_SAUCE,
@@ -239,6 +240,51 @@ export const cancelOrder = async (dispatch, getState) => {
         if (request.status === 200) {
             dispatch({
                 type: ORDER_CANCELLED
+            })
+        } else {
+            dispatch({
+                type: ORDER_ERROR,
+                payload: response.message
+            })
+        }
+    } catch (error) {
+        dispatch({
+            type: ORDER_ERROR,
+            payload: 'An unknown error occured'
+        })
+    }
+}
+
+export const disputeOrder = (orderID, reason) => async (dispatch, getState) => {
+    const { order } = getState()
+    if (!orderID || !reason || order.orderLoading) {
+        return
+    }
+
+    try {
+        dispatch({
+            type: ORDER_LOADING
+        })
+
+        const request = await fetch(
+            `${process.env.EXPO_PUBLIC_API_URL}/orders/${orderID}/dispute`,
+            {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include',
+                body: JSON.stringify({
+                    reason
+                })
+            }
+        )
+        const response = await request.json()
+
+        if (request.status === 200) {
+            dispatch({
+                type: SET_ORDER_DISPUTED,
+                payload: true
             })
         } else {
             dispatch({

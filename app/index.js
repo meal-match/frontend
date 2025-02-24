@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import Button from '@components/Button'
 import Divider from '@components/Divider'
+import LoadingSpinner from '@components/LoadingSpinner'
 import Page from '@components/Page'
 import {
     fetchPaymentMethods,
@@ -12,6 +13,7 @@ import {
     getProfile,
     selectIsLoggedIn,
     selectProfileData,
+    selectProfileLoading,
     selectPushToken,
     setPushToken
 } from '@store'
@@ -23,6 +25,7 @@ const Index = () => {
     const profileData = useSelector(selectProfileData)
     const pushToken = useSelector(selectPushToken)
     const isLoggedIn = useSelector(selectIsLoggedIn)
+    const profileDataLoading = useSelector(selectProfileLoading)
 
     useEffect(() => {
         if (isLoggedIn) {
@@ -41,6 +44,10 @@ const Index = () => {
             }
         }
     }, [])
+
+    if (profileDataLoading) {
+        return <LoadingSpinner />
+    }
 
     const name = profileData.firstName
 
