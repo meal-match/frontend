@@ -17,7 +17,7 @@ import {
     selectOpenOrdersLoading,
     unclaimOrder
 } from '@store'
-import { clearRouterStack } from '@utils'
+import { clearRouterStack, formatTimeWithIntl } from '@utils'
 
 const OrderDetails = () => {
     const navigation = useNavigation()
@@ -213,7 +213,7 @@ const OrderDetails = () => {
                             >
                                 Ready at:{' '}
                             </Text>
-                            {order.readyTime}
+                            {formatTimeWithIntl(order.readyTime)}
                             {'\n'}
                             <Text
                                 style={{
