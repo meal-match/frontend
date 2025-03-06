@@ -164,14 +164,7 @@ export const confirmOrder = async (dispatch, getState) => {
     time.setMinutes(time.getMinutes() + sell.claimedOrder.waitTime)
 
     const formData = new FormData()
-    formData.append(
-        'readyTime',
-        time.toLocaleTimeString('en-US', {
-            hour: 'numeric',
-            minute: '2-digit',
-            hour12: true
-        })
-    )
+    formData.append('readyTime', time.toString())
     formData.append('receipt', {
         uri: sell.claimedOrder.receiptUri,
         name: 'receipt.png',
