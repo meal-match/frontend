@@ -5,13 +5,13 @@ import {
     ORDER_LOADING,
     ORDER_PLACED,
     SET_DRINK,
-    SET_DRINK_CUSTOMIZATIONS,
+    ADD_DRINK_CUSTOMIZATIONS,
     SET_ENTREE,
     SET_ENTREE_CUSTOMIZATIONS,
     SET_ORDER_DISPUTED,
     SET_PICKUP_TIME,
     SET_RESTAURANT,
-    SET_SAUCE,
+    SET_sauces,
     SET_SIDE,
     SET_SIDE_CUSTOMIZATIONS
 } from '@constants'
@@ -23,8 +23,8 @@ const initialState = {
     side: null,
     sideCustomizations: [],
     drink: null,
-    drinkCustomizations: [],
-    sauce: [],
+    drinkCustomizations: {},
+    sauces: [],
     pickupTime: new Date(),
     orderLoading: false,
     orderError: null,
@@ -51,7 +51,7 @@ const orderReducer = (state = initialState, action) => {
                 sideCustomizations: [],
                 drink: null,
                 drinkCustomizations: [],
-                sauce: [],
+                sauces: [],
                 orderLoading: false,
                 orderError: null
             }
@@ -85,17 +85,20 @@ const orderReducer = (state = initialState, action) => {
                 orderLoading: false,
                 orderError: null
             }
-        case SET_DRINK_CUSTOMIZATIONS:
+        case ADD_DRINK_CUSTOMIZATIONS:
             return {
                 ...state,
-                drinkCustomizations: action.payload,
+                drinkCustomizations: {
+                    ...state.drinkCustomizations,
+                    [action.payload.key]: action.payload.value
+                },
                 orderLoading: false,
                 orderError: null
             }
-        case SET_SAUCE:
+        case SET_sauces:
             return {
                 ...state,
-                sauce: action.payload,
+                sauces: action.payload,
                 orderLoading: false,
                 orderError: null
             }

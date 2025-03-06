@@ -18,11 +18,8 @@ const DrinkChoice = () => {
     )[0]
     const drinkOptions = meal?.drinks || []
 
-    //console.log(drinkOptions)
-
     const moveForward = (drink) => {
         dispatch(setDrink(drink.drink))
-        //console.log(drink)
         if (drink.drinkCustomizations.length > 0) {
             router.push('/buy/drinkCustomizations?step=0')
         } else if (meal.sauces.length > 0) {

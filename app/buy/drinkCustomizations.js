@@ -1,42 +1,58 @@
 import { useRouter, useLocalSearchParams } from 'expo-router'
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 
 import MultiItemSelector from '@components/MultiItemSelector'
 import Page from '@components/Page'
-import { selectOrder, selectRestaurantData } from '@store'
+import {
+    selectOrder,
+    selectRestaurantData,
+    addDrinkCustomizations
+} from '@store'
 
 const DrinkCustomizations = () => {
-    //const dispatch = useDispatch()
+    const dispatch = useDispatch()
     const router = useRouter()
     const local = useLocalSearchParams()
 
     const [customizations, setCustomizations] = useState([])
-    const [step, setStep] = useState(local.step ?? 0)
+    const [step] = useState(Number(local.step) || 0)
 
     const restaurantData = useSelector(selectRestaurantData)
-    const order = selectOrder()
+    const order = useSelector(selectOrder)
 
-    const drinkCustomizationOptions = restaurantData.defaultDrinks.filter(
-        (item) => item.drink === order.drink
-    )[0].drinkCustomizations
+    const meal = restaurantData.meals.filter(
+        (item) => item.entree === order.entree
+    )[0]
 
-    const maxDrinkCustomizations = restaurantData.defaultDrinks.filter(
+    const drinkObject = meal.drinks.filter(
         (item) => item.drink === order.drink
-    )[0].maxDrinkCustomizations
+    )[0]
+    const drinkCustomizationOptions = drinkObject
+        ? drinkObject.drinkCustomizations
+        : []
+    const maxDrinkCustomizations =
+        drinkObject.maxDrinkCustomizations === 0
+            ? drinkCustomizationOptions.length
+            : drinkObject.maxDrinkCustomizations
 
     const moveForward = () => {
+        dispatch(
+            addDrinkCustomizations({
+                key: drinkCustomizationOptions[step].title,
+                value: customizations
+            })
+        )
+
         if (drinkCustomizationOptions.length > step + 1) {
-            setStep(step + 1)
-            router.push(`/buy/drinkCustomizations?step=${step}`)
+            router.push(`/buy/drinkCustomizations?step=${step + 1}`)
         } else {
-            //dispatch(setDrinkCustomizations(customizations))
             router.push('/buy/pickTime')
         }
     }
 
     return (
-        <Page header={drinkCustomizationOptions[step].title}>
+        <Page header={`Select ${drinkCustomizationOptions[step].title}`}>
             <MultiItemSelector
                 items={drinkCustomizationOptions[step].data}
                 maxSelections={maxDrinkCustomizations}
