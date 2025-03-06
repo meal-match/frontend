@@ -1,7 +1,6 @@
 import {
     OPEN_ORDERS_ERROR,
     OPEN_ORDERS_LOADING,
-    SET_ACTIVE_OPEN_ORDER,
     SET_OPEN_ORDERS
 } from '@constants'
 
@@ -30,7 +29,7 @@ export const getOpenOrders = async (dispatch, getState) => {
         if (request.status === 200) {
             dispatch({
                 type: SET_OPEN_ORDERS,
-                payload: response.orders
+                payload: response.openOrders
             })
         } else {
             dispatch({
@@ -46,16 +45,9 @@ export const getOpenOrders = async (dispatch, getState) => {
     }
 }
 
-export const setActiveOpenOrder = (order) => async (dispatch) => {
-    dispatch({
-        type: SET_ACTIVE_OPEN_ORDER,
-        payload: order
-    })
-}
-
-export const cancelOrderBuy = async (dispatch, getState) => {
+export const cancelOrderBuy = (orderID) => async (dispatch, getState) => {
     const { openOrders } = getState()
-    if (openOrders.openOrdersLoading || !openOrders.activeOpenOrder) {
+    if (!orderID || openOrders.openOrdersLoading) {
         return
     }
 
@@ -65,7 +57,7 @@ export const cancelOrderBuy = async (dispatch, getState) => {
         })
 
         const request = await fetch(
-            `${process.env.EXPO_PUBLIC_API_URL}/orders/${openOrders.activeOpenOrder._id}/cancel-buy`,
+            `${process.env.EXPO_PUBLIC_API_URL}/orders/${orderID}/cancel-buy`,
             {
                 method: 'DELETE',
                 headers: {
@@ -78,10 +70,9 @@ export const cancelOrderBuy = async (dispatch, getState) => {
 
         if (request.status === 200) {
             dispatch({
-                type: SET_ACTIVE_OPEN_ORDER,
-                payload: null
+                type: SET_OPEN_ORDERS,
+                payload: response.openOrders
             })
-            dispatch(getOpenOrders)
         } else {
             dispatch({
                 type: OPEN_ORDERS_ERROR,

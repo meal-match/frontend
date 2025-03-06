@@ -7,6 +7,7 @@ import {
     SET_DRINK,
     SET_ENTREE,
     SET_ENTREE_CUSTOMIZATIONS,
+    SET_OPEN_ORDERS,
     SET_ORDER_DISPUTED,
     SET_PICKUP_TIME,
     SET_RESTAURANT,
@@ -223,6 +224,10 @@ export const placeOrder = async (dispatch, getState) => {
                 type: ORDER_PLACED,
                 payload: response.orderID
             })
+            dispatch({
+                type: SET_OPEN_ORDERS,
+                payload: response.openOrders
+            })
         } else {
             dispatch({
                 type: ORDER_ERROR,
@@ -263,6 +268,10 @@ export const cancelOrder = async (dispatch, getState) => {
         if (request.status === 200) {
             dispatch({
                 type: ORDER_CANCELLED
+            })
+            dispatch({
+                type: SET_OPEN_ORDERS,
+                payload: response.openOrders
             })
         } else {
             dispatch({
@@ -315,6 +324,10 @@ export const disputeOrder = (orderID, reason) => async (dispatch, getState) => {
             dispatch({
                 type: SET_ORDER_DISPUTED,
                 payload: true
+            })
+            dispatch({
+                type: SET_OPEN_ORDERS,
+                payload: response.openOrders
             })
         } else {
             dispatch({

@@ -6,14 +6,15 @@ import {
     GET_ORDERS_ERROR,
     ORDERS_INITIAL_LOADING,
     ORDERS_LOADING,
+    SET_CAN_CLAIM_ORDER,
+    SET_OPEN_ORDERS,
     SET_ORDERS,
-    UNCLAIM_ORDER,
-    SET_WAIT_TIME,
-    SET_RECEIPT_URI,
-    UNCONFIRM_ORDER,
-    SET_TARGET_TIME,
     SET_ORDER_EXPIRED,
-    SET_CAN_CLAIM_ORDER
+    SET_RECEIPT_URI,
+    SET_TARGET_TIME,
+    SET_WAIT_TIME,
+    UNCLAIM_ORDER,
+    UNCONFIRM_ORDER
 } from '@constants'
 
 export const getOrders = async (dispatch, getState) => {
@@ -93,6 +94,10 @@ export const claimOrder = (order) => async (dispatch, getState) => {
                 type: CLAIM_ORDER,
                 payload: order
             })
+            dispatch({
+                type: SET_OPEN_ORDERS,
+                payload: response.openOrders
+            })
         } else {
             dispatch({
                 type: CLAIM_ORDER_ERROR,
@@ -141,6 +146,10 @@ export const unclaimOrder = async (dispatch, getState) => {
             dispatch({
                 type: UNCLAIM_ORDER
             })
+            dispatch({
+                type: SET_OPEN_ORDERS,
+                payload: response.openOrders
+            })
         } else {
             dispatch({
                 type: CLAIM_ORDER_ERROR,
@@ -164,14 +173,7 @@ export const confirmOrder = async (dispatch, getState) => {
     time.setMinutes(time.getMinutes() + sell.claimedOrder.waitTime)
 
     const formData = new FormData()
-    formData.append(
-        'readyTime',
-        time.toLocaleTimeString('en-US', {
-            hour: 'numeric',
-            minute: '2-digit',
-            hour12: true
-        })
-    )
+    formData.append('readyTime', time.toString())
     formData.append('receipt', {
         uri: sell.claimedOrder.receiptUri,
         name: 'receipt.png',
@@ -183,10 +185,7 @@ export const confirmOrder = async (dispatch, getState) => {
             type: CLAIM_ORDER_LOADING
         })
         const request = await fetch(
-            process.env.EXPO_PUBLIC_API_URL +
-                '/orders/' +
-                sell.claimedOrder._id +
-                '/confirm',
+            `${process.env.EXPO_PUBLIC_API_URL}/orders/${sell.claimedOrder._id}/confirm`,
             {
                 method: 'PATCH',
                 headers: {
@@ -202,6 +201,10 @@ export const confirmOrder = async (dispatch, getState) => {
             dispatch({
                 type: CONFIRM_ORDER,
                 payload: sell.claimedOrder
+            })
+            dispatch({
+                type: SET_OPEN_ORDERS,
+                payload: response.openOrders
             })
         } else {
             dispatch({

@@ -12,6 +12,8 @@ import {
     fetchPayoutAccountSetupStatus,
     getProfile,
     selectIsLoggedIn,
+    selectPaymentLoading,
+    selectPayoutLoading,
     selectProfileData,
     selectProfileLoading,
     selectPushToken,
@@ -26,6 +28,10 @@ const Index = () => {
     const pushToken = useSelector(selectPushToken)
     const isLoggedIn = useSelector(selectIsLoggedIn)
     const profileDataLoading = useSelector(selectProfileLoading)
+    const paymentLoading = useSelector(selectPaymentLoading)
+    const payoutLoading = useSelector(selectPayoutLoading)
+
+    const loading = profileDataLoading || paymentLoading || payoutLoading
 
     useEffect(() => {
         if (isLoggedIn) {
@@ -43,15 +49,15 @@ const Index = () => {
                     .catch(() => {})
             }
         }
-    }, [])
-
-    if (profileDataLoading) {
-        return <LoadingSpinner />
-    }
+    }, [isLoggedIn])
 
     const name = profileData.firstName
 
     const buttonHeight = '20%'
+
+    if (loading) {
+        return <LoadingSpinner />
+    }
 
     return (
         <Page header={name ? `Hello, ${name}!` : 'Hello!'} style={styles.page}>

@@ -18,19 +18,19 @@ import Page from '@components/Page'
 import {
     confirmOrder,
     resetClaimOrderError,
+    resetTargetTime,
     selectClaimedOrder,
     selectClaimedOrderError,
     selectClaimedOrderLoading,
     selectOrderConfirmed,
-    setReceiptUri as setReceiptUriAction,
-    setWaitTime,
-    unclaimOrder,
     selectTargetTime,
+    setOrderExpired,
+    setReceiptUri as setReceiptUriAction,
     setTargetTime,
-    resetTargetTime,
-    setOrderExpired
+    setWaitTime,
+    unclaimOrder
 } from '@store'
-import { clearRouterStack, formatTimeWithIntl, displayError } from '@utils'
+import { clearRouterStack, displayError, formatTimeWithIntl } from '@utils'
 import * as ImagePicker from 'expo-image-picker'
 
 const OrderDetails = () => {
@@ -159,7 +159,7 @@ const OrderDetails = () => {
                         <Text style={{ ...styles.text, color: 'red' }}>
                             {Math.floor(seconds / 60)}:
                             {seconds % 60 < 10
-                                ? '0' + (seconds % 60)
+                                ? `0${seconds % 60}`
                                 : seconds % 60}
                         </Text>
                     </View>

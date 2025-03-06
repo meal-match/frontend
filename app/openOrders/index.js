@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import LoadingSpinner from '@components/LoadingSpinner'
 import Page from '@components/Page'
-import { getOpenOrders, selectOpenOrders, setActiveOpenOrder } from '@store'
+import { getOpenOrders, selectOpenOrders } from '@store'
 
 const OpenOrders = () => {
     const dispatch = useDispatch()
@@ -69,8 +69,7 @@ const OpenOrders = () => {
     }
 
     const handleItemPress = (item) => {
-        dispatch(setActiveOpenOrder(item))
-        router.push('/openOrders/orderDetails')
+        router.push(`/openOrders/orderDetails?id=${item._id}`)
     }
 
     const orderList = (
