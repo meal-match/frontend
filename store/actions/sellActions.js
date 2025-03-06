@@ -7,6 +7,7 @@ import {
     ORDERS_INITIAL_LOADING,
     ORDERS_LOADING,
     SET_CAN_CLAIM_ORDER,
+    SET_OPEN_ORDERS,
     SET_ORDERS,
     SET_ORDER_EXPIRED,
     SET_RECEIPT_URI,
@@ -93,6 +94,10 @@ export const claimOrder = (order) => async (dispatch, getState) => {
                 type: CLAIM_ORDER,
                 payload: order
             })
+            dispatch({
+                type: SET_OPEN_ORDERS,
+                payload: response.openOrders
+            })
         } else {
             dispatch({
                 type: CLAIM_ORDER_ERROR,
@@ -140,6 +145,10 @@ export const unclaimOrder = async (dispatch, getState) => {
         if (request.status === 200) {
             dispatch({
                 type: UNCLAIM_ORDER
+            })
+            dispatch({
+                type: SET_OPEN_ORDERS,
+                payload: response.openOrders
             })
         } else {
             dispatch({
@@ -192,6 +201,10 @@ export const confirmOrder = async (dispatch, getState) => {
             dispatch({
                 type: CONFIRM_ORDER,
                 payload: sell.claimedOrder
+            })
+            dispatch({
+                type: SET_OPEN_ORDERS,
+                payload: response.openOrders
             })
         } else {
             dispatch({

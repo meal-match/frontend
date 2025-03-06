@@ -29,7 +29,7 @@ export const getOpenOrders = async (dispatch, getState) => {
         if (request.status === 200) {
             dispatch({
                 type: SET_OPEN_ORDERS,
-                payload: response.orders
+                payload: response.openOrders
             })
         } else {
             dispatch({
@@ -69,7 +69,10 @@ export const cancelOrderBuy = (orderID) => async (dispatch, getState) => {
         const response = await request.json()
 
         if (request.status === 200) {
-            dispatch(getOpenOrders)
+            dispatch({
+                type: SET_OPEN_ORDERS,
+                payload: response.openOrders
+            })
         } else {
             dispatch({
                 type: OPEN_ORDERS_ERROR,
