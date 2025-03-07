@@ -127,27 +127,15 @@ export const setDrink = (drink) => (dispatch, getState) => {
     }
 }
 
-export const addDrinkCustomizations =
-    (customizations) => (dispatch, getState) => {
-        const { order } = getState()
-        if (order.orderLoading) {
-            return
+export const addDrinkCustomizations = (customizations) => (dispatch) => {
+    dispatch({
+        type: ADD_DRINK_CUSTOMIZATIONS,
+        payload: {
+            key: customizations.key,
+            value: customizations.value
         }
-        try {
-            dispatch({
-                type: ADD_DRINK_CUSTOMIZATIONS,
-                payload: {
-                    key: customizations.key,
-                    value: customizations.value
-                }
-            })
-        } catch (error) {
-            dispatch({
-                type: ORDER_ERROR,
-                payload: 'An unknown error occured'
-            })
-        }
-    }
+    })
+}
 
 export const setSauce = (sauce) => (dispatch, getState) => {
     const { order } = getState()
