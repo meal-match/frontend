@@ -13,7 +13,8 @@ import {
     SET_RESTAURANT,
     SET_SAUCE,
     SET_SIDE,
-    SET_SIDE_CUSTOMIZATIONS
+    SET_SIDE_CUSTOMIZATIONS,
+    ADD_DRINK_CUSTOMIZATIONS
 } from '@constants'
 
 export const setRestaurant = (restaurant) => (dispatch, getState) => {
@@ -124,6 +125,16 @@ export const setDrink = (drink) => (dispatch, getState) => {
             payload: 'An unknown error occured'
         })
     }
+}
+
+export const addDrinkCustomizations = (customizations) => (dispatch) => {
+    dispatch({
+        type: ADD_DRINK_CUSTOMIZATIONS,
+        payload: {
+            key: customizations.key,
+            value: customizations.value
+        }
+    })
 }
 
 export const setSauce = (sauce) => (dispatch, getState) => {

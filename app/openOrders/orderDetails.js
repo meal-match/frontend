@@ -17,7 +17,7 @@ import {
     selectOpenOrdersLoading,
     unclaimOrder
 } from '@store'
-import { clearRouterStack, formatTimeWithIntl } from '@utils'
+import { clearRouterStack, formatTimeWithIntl, formatOrderFull } from '@utils'
 
 const OrderDetails = () => {
     const navigation = useNavigation()
@@ -186,19 +186,8 @@ const OrderDetails = () => {
                     <Text style={styles.text}>{order.restaurant}</Text>
                 </View>
                 <Text style={styles.text}>
-                    <Text style={styles.bold}>Entree: </Text>
-                    {order.meal.entree}{' '}
-                    {order.meal.entreeCustomizations.length > 0
-                        ? `(${order.meal.entreeCustomizations.join(',')})`
-                        : ''}
-                    {'\n'}
-                    <Text style={styles.bold}>Side:</Text> {order.meal.side}{' '}
-                    {order.meal.sideCustomizations.length > 0
-                        ? `(${order.meal.sideCustomizations.join(',')})`
-                        : ''}
-                    {'\n'}
-                    <Text style={styles.bold}>Drink:</Text> {order.meal.drink}
-                    {'\n\n'}
+                    {formatOrderFull(order.meal)}
+
                     <Text style={styles.bold}>Status: </Text>
                     {order.status}
                 </Text>

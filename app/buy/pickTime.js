@@ -21,7 +21,8 @@ import {
     convertTimeToDateObject,
     displayPickerTime,
     getCloseTimeFromHoursObject,
-    getOpenTimeFromHoursObject
+    getOpenTimeFromHoursObject,
+    formatOrderFull
 } from '@utils'
 
 const PickTime = () => {
@@ -111,21 +112,7 @@ const PickTime = () => {
                         <Text>
                             Your order will be ready at {displayPickerTime(dt)}.
                             {'\n\n'}
-                            Entree: {order.entree}
-                            {order.entreeCustomizations.length > 0
-                                ? ` (${order.entreeCustomizations.join(', ')})`
-                                : ' '}
-                            {'\n'}
-                            Side: {order.side}
-                            {order.sideCustomizations.length > 0
-                                ? ` (${order.sideCustomizations.join(', ')})`
-                                : ' '}
-                            {'\n'}
-                            Drink: {order.drink}
-                            {'\n'}
-                            {order.sauce?.length > 0 &&
-                                `Sauce: ${order.sauce.join(', ')}`}
-                            {'\n'}
+                            {formatOrderFull(order)}
                             <Text style={styles.bold}>
                                 You will be charged $6 for this order after a
                                 seller confirms this order.
@@ -172,6 +159,11 @@ const styles = StyleSheet.create({
     },
     bold: {
         fontWeight: 'bold'
+    },
+    subText: {
+        marginLeft: 10,
+        marginTop: 5,
+        paddingLeft: 10
     }
 })
 
