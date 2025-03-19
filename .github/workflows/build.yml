@@ -2,7 +2,7 @@ name: CI
 
 on:
     push:
-        branches: ['*'] # Change to main
+        branches: ['*'] # TODO: change to main
     pull_request:
         branches: [main]
 
@@ -50,4 +50,4 @@ jobs:
                   token: ${{ secrets.EXPO_TOKEN }}
 
             - name: Build
-              run: eas build --profile production --non-interactive -p ios
+              run: eas build --profile preview --non-interactive -p ios
