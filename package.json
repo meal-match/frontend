@@ -9,7 +9,7 @@
         "web": "expo start --web",
         "tunnel": "npx expo start --tunnel",
         "test": "jest --watchAll",
-        "lint": "eslint .",
+        "lint": "eslint . && prettier --check .",
         "format": "prettier --log-level silent --write \"**/*.+(js|jsx|json|yml|yaml|css|md|vue|mjs|ts|tsx)\"",
         "prepare": "husky install"
     },
