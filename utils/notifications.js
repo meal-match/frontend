@@ -17,7 +17,7 @@ export const registerForPushNotificationsAsync = async () => {
         Constants?.expoConfig?.extra?.eas?.projectId ??
         Constants?.easConfig?.projectId
     if (!projectId) {
-        throw new Error('Projeet ID not found')
+        throw new Error('Project ID not found')
     }
 
     return (
