@@ -1,4 +1,5 @@
 import Ionicons from '@expo/vector-icons/Ionicons'
+import { useNavigation } from 'expo-router'
 import React, { useEffect, useState, useCallback } from 'react'
 import {
     Alert,
@@ -12,6 +13,7 @@ import {
     View
 } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
+
 import Divider from '@components/Divider'
 import LoadingSpinner from '@components/LoadingSpinner'
 import Page from '@components/Page'
@@ -20,24 +22,23 @@ import {
     claimOrder,
     getOrders,
     resetClaimOrderError,
+    selectCanClaimOrder,
     selectClaimedOrder,
     selectClaimedOrderError,
     selectClaimedOrderLoading,
+    selectOrderExpired,
     selectOrders,
     selectOrdersError,
     selectOrdersLoading,
     selectPayoutSetupIsComplete,
-    selectOrderExpired,
-    setOrderExpired,
-    selectCanClaimOrder
+    setOrderExpired
 } from '@store'
 import {
     clearRouterStack,
+    displayError,
     formatTimeWithIntl,
-    isWithin15Minutes,
-    displayError
+    isWithin15Minutes
 } from '@utils'
-import { useNavigation } from 'expo-router'
 
 const { width: screenWidth } = Dimensions.get('window')
 
@@ -163,6 +164,7 @@ const Sell = () => {
                         </Text>
                     </View>
                     <View style={styles.rowEndContainer}>
+                        <Text style={styles.rowEndText}>$5</Text>
                         <Ionicons
                             name="chevron-forward-outline"
                             size={28}
@@ -247,6 +249,10 @@ const styles = StyleSheet.create({
     },
     rowEndContainer: {
         flexDirection: 'row'
+    },
+    rowEndText: {
+        fontSize: 20,
+        paddingRight: 10
     },
     textColumn: {
         flexDirection: 'column',

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, View, StyleSheet } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 
 export const formatOrderFull = (order) => {
     return (
@@ -12,22 +12,24 @@ export const formatOrderFull = (order) => {
             <Text style={styles.bold}>Side:</Text> {order.side}
             {order.sideCustomizations.length > 0
                 ? ` (${order.sideCustomizations.join(', ')})`
-                : ' '}
+                : ''}
             {'\n'}
             <Text style={styles.bold}>Drink:</Text> {order.drink}
             {'\n'}
             {Object.keys(order.drinkCustomizations).length > 0 && (
-                <View style={styles.subText}>
-                    {Object.keys(order.drinkCustomizations).map((key) => (
-                        <Text key={key}>
-                            <Text style={styles.bold}>{key}: </Text>
-                            {order.drinkCustomizations[key].join(', ')}
-                        </Text>
-                    ))}
-                </View>
+                <>
+                    <View style={styles.subText}>
+                        {Object.keys(order.drinkCustomizations).map((key) => (
+                            <Text key={key}>
+                                <Text style={styles.bold}>{key}: </Text>
+                                {order.drinkCustomizations[key].join(', ')}
+                            </Text>
+                        ))}
+                    </View>
+                    {'\n'}
+                </>
             )}
-            {'\n'}
-            {order.sauces?.length > 0 && `Sauce: ${order.sauces.join(', ')}`}
+            {order.sauces?.length > 0 && `Sauce: ${order.sauces.join(', ')}\n`}
             {'\n'}
         </>
     )

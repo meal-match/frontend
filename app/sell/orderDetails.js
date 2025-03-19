@@ -30,7 +30,12 @@ import {
     setWaitTime,
     unclaimOrder
 } from '@store'
-import { clearRouterStack, displayError, formatTimeWithIntl } from '@utils'
+import {
+    clearRouterStack,
+    displayError,
+    formatOrderFull,
+    formatTimeWithIntl
+} from '@utils'
 import * as ImagePicker from 'expo-image-picker'
 
 const OrderDetails = () => {
@@ -167,33 +172,13 @@ const OrderDetails = () => {
                     <ScrollView>
                         <View style={styles.orderDetails}>
                             <Text style={styles.text}>
-                                Restaurant: {orderData?.restaurant}
-                                {'\n'}
-                            </Text>
-                            {Object.keys(orderData?.meal).map((key) => {
-                                if (
-                                    (Array.isArray(orderData?.meal[key]) &&
-                                        !orderData.meal[key].length) ||
-                                    key === '_id'
-                                ) {
-                                    return <Fragment key={key} />
-                                }
-                                let label = key.replace(/([A-Z])/g, ' $1')
-                                label =
-                                    label.charAt(0).toUpperCase() +
-                                    label.slice(1)
-                                return (
-                                    <Text key={key} style={styles.text}>
-                                        {label}:{' '}
-                                        {Array.isArray(orderData.meal[key])
-                                            ? orderData.meal[key].join(', ')
-                                            : orderData.meal[key]}
-                                    </Text>
-                                )
-                            })}
-                            <Text style={styles.text}>
-                                {'\n'}
-                                Desired Pickup Time:{' '}
+                                <Text style={styles.bold}>Restaurant:</Text>{' '}
+                                {orderData?.restaurant}
+                                {'\n\n'}
+                                {formatOrderFull(orderData?.meal)}
+                                <Text style={styles.bold}>
+                                    Desired Pickup Time:
+                                </Text>{' '}
                                 {formatTimeWithIntl(
                                     orderData.desiredPickupTime
                                 )}
@@ -202,7 +187,7 @@ const OrderDetails = () => {
                         <Divider />
                         <View style={styles.orderDetails}>
                             <View style={styles.estimatedWaitTime}>
-                                <Text style={styles.text}>
+                                <Text style={[styles.bold, styles.text]}>
                                     Estimated Wait Time:{' '}
                                 </Text>
                                 <TextInput
@@ -226,7 +211,8 @@ const OrderDetails = () => {
                             </View>
                             <Text style={styles.text}>
                                 {'\n'}
-                                Upload a screenshot of receipt from Bama Dining
+                                Upload a screenshot of the receipt from Bama
+                                Dining
                             </Text>
                             <View style={styles.inlineButtonContainer}>
                                 <View style={styles.uploadConfirmButtons}>
@@ -393,6 +379,9 @@ const styles = StyleSheet.create({
         fontSize: 14,
         lineHeight: 20,
         fontWeight: '500'
+    },
+    bold: {
+        fontWeight: 'bold'
     }
 })
 
