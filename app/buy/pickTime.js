@@ -20,9 +20,9 @@ import {
     clearRouterStack,
     convertTimeToDateObject,
     displayPickerTime,
+    formatOrderFull,
     getCloseTimeFromHoursObject,
-    getOpenTimeFromHoursObject,
-    formatOrderFull
+    getOpenTimeFromHoursObject
 } from '@utils'
 
 const PickTime = () => {
@@ -96,7 +96,7 @@ const PickTime = () => {
                 display="spinner"
                 mode="time"
                 value={dt}
-                onChange={(event, selectedDate) => setDt(selectedDate)}
+                onChange={(_event, selectedDate) => setDt(selectedDate)}
                 themeVariant="light"
             />
             {warningText.length > 0 && (
@@ -114,8 +114,8 @@ const PickTime = () => {
                             {'\n\n'}
                             {formatOrderFull(order)}
                             <Text style={styles.bold}>
-                                You will be charged $6 for this order after a
-                                seller confirms this order.
+                                You will be charged $6 after a seller fulfills
+                                this order.
                             </Text>
                         </Text>
                     </Dialog.Content>

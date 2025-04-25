@@ -65,11 +65,13 @@ const OrderPlaced = () => {
         <Page header="Order Placed" style={styles.page}>
             <Text style={styles.text}>
                 Thank you for using MealMatch! Once your order is fulfilled, you
-                will receive a notification and pickup details.
+                will be charged and also receive a notification and pickup
+                details.
                 {'\n\n'}
-                Meal: {order.entree}
+                <Text style={styles.bold}>Meal:</Text> {order.entree}
                 {'\n'}
-                Pickup Time: {displayPickerTime(order.pickupTime)}
+                <Text style={styles.bold}>Pickup Time:</Text>{' '}
+                {displayPickerTime(order.pickupTime)}
             </Text>
             <Divider />
             {orderError && (
@@ -119,6 +121,9 @@ const styles = StyleSheet.create({
     page: {
         display: 'flex',
         flexDirection: 'column'
+    },
+    bold: {
+        fontWeight: 'bold'
     }
 })
 
