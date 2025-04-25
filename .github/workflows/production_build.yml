@@ -1,0 +1,50 @@
+name: Production CI/CD
+
+on:
+    push:
+        branches: [release]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        environment: build
+
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v2
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 18
+                  cache: npm
+
+            - name: Install Dependencies
+              run: npm install
+
+            - name: Setup EAS
+              uses: expo/expo-github-action@v8
+              with:
+                  eas-version: latest
+                  token: ${{ secrets.EXPO_TOKEN }}
+
+            - name: Update eas.json with Secrets
+              run: |
+                  # Export secrets as environment variables to avoid direct interpolation in the command
+                  export APPLE_ID="${{ secrets.APPLE_ID }}"
+                  export ASC_APP_ID="${{ secrets.ASC_APP_ID }}"
+                  export APPLE_TEAM_ID="${{ secrets.APPLE_TEAM_ID }}"
+
+                  # Use jq safely with environment variables
+                  jq --arg appleId "$APPLE_ID" --arg ascAppId "$ASC_APP_ID" --arg appleTeamId "$APPLE_TEAM_ID" \
+                  '.submit.production.ios += {
+                    "appleId": $appleId,
+                    "ascAppId": $ascAppId,
+                    "appleTeamId": $appleTeamId
+                  }' eas.json > eas-temp.json
+
+                  mv eas-temp.json eas.json
+              shell: bash
+
+            - name: Build and Submit
+              run: eas build --profile production --non-interactive -p ios --auto-submit

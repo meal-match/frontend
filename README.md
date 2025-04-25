@@ -91,13 +91,18 @@ Review the documentation of the following key libraries:
 
 ## Building
 
-1. Create an `eas.json` file based on [this example](/eas.example.json).
+Building is handled automatically via our [GitHub Actions](https://docs.github.com/en/actions) pipelines defined [here](/.github/workflows/). All pull requests and pushes to the `main` branch will trigger an Expo `development` build. If this build fails, the pull request or push is probably faulty and needs to be adjusted accordingly.
 
-2. Run `eas login` and authenticate with Expo.
+When ready to push a build to the Apple app store, make a pull request to put the `main` branch into the `release` branch. After this pull request is merged, it will automatically trigger a `production` build and upload it to the Apple Developer portal.
 
-3. Run `eas build --platform ios` and authenticate with Apple Developer.
+<details>
+  <summary>Manual Building & Submitting</summary>
 
-4. Fill in the `submit.production` field of your `eas.json` file with the following:
+1. Run `eas login` and authenticate with Expo.
+
+2. Run `eas build --platform ios --profile [production|development]` and authenticate with Apple Developer.
+
+3. In order to submit a `production` build, you must first fill in the `submit.production` field of the [eas.json](/eas.json) file with the following:
 
 ```json
 "ios": {
@@ -107,7 +112,8 @@ Review the documentation of the following key libraries:
 }
 ```
 
-5. Run `eas submit -p ios --latest` to submit the build to the Apple Developer portal.
+4. Run `eas submit -p ios --latest` to submit the build to the Apple Developer portal.
+ </details>
 
 ## Learn More
 
